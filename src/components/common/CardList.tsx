@@ -1,7 +1,11 @@
-import { ChevronRight } from "lucide-react-native"
-import { StyleSheet, Text, View } from "react-native"
+import { ChevronRight } from "lucide-react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-export default function CardList(){
+interface PropsType{
+    title: string;
+}
+
+export default function CardList({title}:PropsType){
     const style = StyleSheet.create({
         main:{
             display: 'flex',
@@ -15,12 +19,12 @@ export default function CardList(){
             fontSize: 16,
             fontWeight: '500'
         }
-    })
+    });
 
     return(
         <View style={style.main}>
-            <Text style={style.text}>Hello</Text>
+            <Text style={style.text}>{title}</Text>
             <ChevronRight size={20} color="#B3B3B3"/>
         </View>
-    )
+    );
 }
