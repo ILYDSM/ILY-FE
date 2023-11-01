@@ -9,8 +9,6 @@ interface PropsType{
 }
 
 export default function CardList({title, onPress, disabled}:PropsType){
-    const [IsPressing, setIsPrssing] = useState<boolean>(false)
-
     const style = StyleSheet.create({
         main:{
             display: "flex",
@@ -33,7 +31,7 @@ export default function CardList({title, onPress, disabled}:PropsType){
     });
 
     return(
-        <Pressable disabled={disabled} onPress={onPress} onPressIn={()=>setIsPrssing(true)} onPressOut={()=>setIsPrssing(false)} style={[style.main ,IsPressing && style.mainPress]}>
+        <Pressable disabled={disabled} style={({pressed})=>[style.main ,pressed && style.mainPress]}>
             <Text style={[style.text, disabled && style.textDisabled]}>{title}</Text>
             <ChevronRight size={20} color={disabled ?  "#CCCCCC" : "#B3B3B3"}/>
         </Pressable>
