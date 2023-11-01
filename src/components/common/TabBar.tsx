@@ -38,7 +38,6 @@ export default () => {
           }
           return icon;
         },
-        tabBarShowLabel: true,
         tabBarLabel: ({ color }) => {
           let label = '';
           switch (route.name) {
