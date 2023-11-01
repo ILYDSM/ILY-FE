@@ -1,6 +1,5 @@
 import { ChevronRight } from "lucide-react-native";
-import { useState } from "react";
-import { StyleSheet, Text, Pressable, View, GestureResponderEvent } from "react-native";
+import { StyleSheet, Text, Pressable, GestureResponderEvent } from "react-native";
 
 interface PropsType{
     title: string;
@@ -21,9 +20,9 @@ export default function CardList({title, onPress, disabled}:PropsType){
             backgroundColor: "#F2F2F2",
         },
         text:{
-            width: "100%",
+            flex: 1,
             fontSize: 16,
-            fontWeight: "500"
+            fontWeight: "500",
         },
         textDisabled:{
             color: "#CCCCCC",
