@@ -38,14 +38,15 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }:Prpos
             fontWeight: '700',
         },
         backdrop:{
+            margin: 8,
             display: "flex",
             alignItems: 'flex-end',
-            flexDirection:'row',
+            flexDirection:'column',
         }
     })
 
     function closeModal(){
-        setIsOpen(false)
+        setIsOpen(false);
     }
 
     return(
@@ -60,6 +61,7 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }:Prpos
             backdropTransitionOutTiming={150}
             style={style.backdrop}
         >
+            <View style={{flex:1}}/>
             <View style={style.modal}>
                 <View style={style.modalHandleContainer}>
                     <View style={style.modalHandle}/>
@@ -69,5 +71,5 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }:Prpos
                 <CustomButton title="닫기" color="Gray" onPress={closeModal}/>
             </View>
         </Modal>
-    )
+    );
 }
