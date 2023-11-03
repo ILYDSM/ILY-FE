@@ -51,7 +51,6 @@ const sizeGenerator = (size: ButtonSizeType) => {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
