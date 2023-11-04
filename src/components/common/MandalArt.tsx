@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ImageSourcePropType, ColorValue, FlatList, Dimensions, SafeAreaView, StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { ColorValue, FlatList, Dimensions, SafeAreaView, StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { platte } from '@/styles/platte';
 
 interface ItemPropsTypes {
