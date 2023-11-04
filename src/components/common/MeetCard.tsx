@@ -20,7 +20,7 @@ const MeetCard = ({ title = '모임이름', explan='모임의 설명', headCount
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.text}>{explan}</Text>
           <View style={styles.bottomBox}>
-            <Users size={24} color='#000000' />
+            <Users size={24} color='#808080' />
             <Text style={[styles.text, styles.Gray]}>
               {headCount}명이 함께하는 중
             </Text>

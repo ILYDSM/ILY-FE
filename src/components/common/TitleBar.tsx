@@ -1,26 +1,29 @@
-import { SafeAreaView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { GestureResponderEvent, Pressable, SafeAreaView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { ChevronLeft } from 'lucide-react-native';
 
 interface PropsTypes {
-  children: React.ReactNode;
-  disabled: boolean;
+  title?: string;
+  disabled?: boolean;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
-const TitleBar = ({ children, disabled }: PropsTypes) => {
+const TitleBar = ({ title, disabled = false, onPress }: PropsTypes) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableHighlight
         style={styles.button}
-        underlayColor="#F2F2F2"
-        onPress={() => { }}
+        underlayColor='#F2F2F2'
+        onPress={onPress}
         disabled={disabled}
       >
-        <ChevronLeft
-          size={28}
-          color={disabled ? '#CCCCCC' : '#000000'}
-        />
+        <View>
+          <ChevronLeft
+            size={28}
+            color={disabled ? '#CCCCCC' : '#000000'}
+          />
+        </View>
       </TouchableHighlight>
-      <Text style={styles.title}>{children}</Text>
+      <Text style={styles.title}>{title}</Text>
     </SafeAreaView>
   );
 }
@@ -29,14 +32,16 @@ export default TitleBar;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 4,
+    flexGrow: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
     gap: 4,
     flexDirection: 'row',
     alignItems: 'center'
   },
   button: {
     borderRadius: 4,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: 'transparent'
   },
   title: {
     fontSize: 28,

@@ -91,7 +91,7 @@ const ItemStyles = ({ data, center, size }: ItemPropsTypes) => StyleSheet.create
     borderColor: data.borderColor ?? 'transparent',
   },
   title: {
-    color: data.color ?? (center ? '#E6E6E6' : '#333333'),
+    color: data.color ?? (center ? '#FFFFFF' : '#333333'),
     fontSize: center ? 20 : 16,
     width: size,
     height: size,
