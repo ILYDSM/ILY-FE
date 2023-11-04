@@ -1,5 +1,6 @@
 import { GestureResponderEvent, Pressable, SafeAreaView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { ChevronLeft } from 'lucide-react-native';
+import { platte } from '@/styles/platte';
 
 interface PropsTypes {
   title?: string;
@@ -12,14 +13,14 @@ const TitleBar = ({ title, disabled = false, onPress }: PropsTypes) => {
     <SafeAreaView style={styles.container}>
       <TouchableHighlight
         style={styles.button}
-        underlayColor='#F2F2F2'
+        underlayColor={platte.gray05}
         onPress={onPress}
         disabled={disabled}
       >
         <View>
           <ChevronLeft
             size={28}
-            color={disabled ? '#CCCCCC' : '#000000'}
+            color={disabled ? platte.gray20 : platte.gray100}
           />
         </View>
       </TouchableHighlight>

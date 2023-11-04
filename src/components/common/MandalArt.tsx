@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ImageSourcePropType, ColorValue, FlatList, Dimensions, SafeAreaView, StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { platte } from '@/styles/platte';
 
 interface ItemPropsTypes {
   data: MandalArtDataTypes;
@@ -82,7 +83,7 @@ export default MandalArt;
 
 const ItemStyles = ({ data, center, size }: ItemPropsTypes) => StyleSheet.create({
   container: {
-    backgroundColor: data.backgroundColor ?? (center ? '#333' : '#E6E6E6'),
+    backgroundColor: data.backgroundColor ?? (center ? platte.gray80 : platte.gray10),
     borderRadius: 4,
     width: size,
     height: size,
@@ -91,7 +92,7 @@ const ItemStyles = ({ data, center, size }: ItemPropsTypes) => StyleSheet.create
     borderColor: data.borderColor ?? 'transparent',
   },
   title: {
-    color: data.color ?? (center ? '#FFFFFF' : '#333333'),
+    color: data.color ?? (center ? platte.gray00 : platte.gray80),
     fontSize: center ? 20 : 16,
     width: size,
     height: size,
