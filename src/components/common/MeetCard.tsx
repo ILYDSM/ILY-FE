@@ -4,12 +4,12 @@ import { platte } from '@/styles/platte';
 
 interface PropsTypes {
   title?: string;
-  explan?: string;
+  description?: string;
   headCount?: number;
   onPress?: (event: GestureResponderEvent) => void;
 }
 
-const MeetCard = ({ title = '모임이름', explan='모임의 설명', headCount = 0, onPress }: PropsTypes) => {
+const MeetCard = ({ title = '모임이름', description='모임의 설명', headCount = 0, onPress }: PropsTypes) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableHighlight
@@ -19,7 +19,7 @@ const MeetCard = ({ title = '모임이름', explan='모임의 설명', headCount
       >
         <View style={styles.contentBox}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.text}>{explan}</Text>
+          <Text style={styles.text}>{description}</Text>
           <View style={styles.bottomBox}>
             <Users size={24} color={platte.gray50} />
             <Text style={[styles.text, styles.Gray]}>
