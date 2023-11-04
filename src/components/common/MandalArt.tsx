@@ -16,7 +16,7 @@ interface MandalArtTypes {
 interface MandalArtDataTypes {
   title?: string;
   backgroundColor?: ColorValue;
-  image?: ImageSourcePropType;
+  imageURI?: string;
   color?: ColorValue;
   borderWidth?: number;
   borderColor?: ColorValue;
@@ -37,8 +37,9 @@ const ImageItem = (props: ItemPropsTypes) => {
   const styles = ItemStyles(props)
   return (
     <ImageBackground
-      source={data.image as ImageSourcePropType}
+      source={{uri: data.imageURI as string}}
       style={styles.container}
+      resizeMode='cover'
     >
       <Text style={styles.title}>{data.title}</Text>
     </ImageBackground>
@@ -62,7 +63,7 @@ const MandalArt = ({ data, size }: MandalArtTypes) => {
             size: (containerWidth - 16) / numColumns
           }
 
-          if(item.image) {
+          if(item.imageURI) {
             return <ImageItem {...Data} />
           } else {
             return <NormalItem {...Data} />
@@ -88,7 +89,7 @@ const ItemStyles = ({ data, center, size }: ItemPropsTypes) => StyleSheet.create
     width: size,
     height: size,
     overflow: 'hidden',
-    borderWidth: data.borderWidth ?? 2,
+    borderWidth: data.borderWidth ?? 0,
     borderColor: data.borderColor ?? 'transparent',
   },
   title: {
