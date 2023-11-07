@@ -11,8 +11,6 @@ export default () => {
   return (
     <>
       <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
-        {/* <CustomButton onPress={() => {}} />
-        <Text style={styles.text}>hihi</Text> */}
         <TabBar />
       </SafeAreaView>
     </>
@@ -23,7 +21,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: '#fff',
   },
   text: {
     fontSize: 30,
