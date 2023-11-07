@@ -8,4 +8,8 @@ export type RootStackParam = {
   NaverLogin: undefined;
   GoogleLogin: undefined;
   ChangePwd: undefined;
+  Group: { screen: 'CreateGroup' | 'GroupCategory' | 'SearchResult' };
+  CreateGroup: undefined;
+  GroupCategory: undefined;
+  SearchResult: undefined;
 };
