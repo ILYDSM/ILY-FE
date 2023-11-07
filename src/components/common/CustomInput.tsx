@@ -18,7 +18,7 @@ export default ({ text, description, icon, isError = false, ...props }: CustomIn
           {...props}
           selectionColor={platte.gray100}
           style={[styles.input, !!icon && { paddingRight: 36 }]}
-          placeholderTextColor={platte.gray100}
+          placeholderTextColor={platte.gray30}
         />
         {icon && <View style={styles.icon}>{icon}</View>}
       </View>
