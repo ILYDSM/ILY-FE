@@ -12,4 +12,7 @@ export type RootStackParam = {
   CreateGroup: undefined;
   GroupCategory: undefined;
   SearchResult: undefined;
+  VerifyEmail: undefined;
+  NewPassword: undefined;
+  ConfirmChangePwd: undefined;
 };

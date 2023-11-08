@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Auth from '@/navigations/Auth';
 import Main from '@/navigations/Main';
 import Group from './Group';
+import ConfirmChangePwd from '@/screens/ConfirmChangePwd';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default () => {
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Auth" component={Auth} />
       <Stack.Screen name="Group" component={Group} />
+      <Stack.Screen name="ConfirmChangePwd" component={ConfirmChangePwd} />
     </Stack.Navigator>
   );
 };
