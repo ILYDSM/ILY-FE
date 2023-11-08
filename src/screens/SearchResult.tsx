@@ -17,7 +17,7 @@ const SearchResult = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TitleBar title="분류별로 보기" onPress={() => navigation.goBack()} />
+      <TitleBar title="검색 결과" onPress={() => navigation.goBack()} />
       <View style={{ flex: 1, width: '100%', paddingHorizontal: 16, gap: 16 }}>
         <CustomInput
           text="검색"
