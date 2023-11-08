@@ -30,7 +30,7 @@ export default function CardList({title, onPress, disabled}:PropsType){
     });
 
     return(
-        <Pressable disabled={disabled} style={({pressed})=>[style.main ,pressed && style.mainPress]}>
+        <Pressable disabled={disabled} style={({pressed})=>[style.main ,pressed && style.mainPress]} onPress={onPress}>
             <Text style={[style.text, disabled && style.textDisabled]}>{title}</Text>
             <ChevronRight size={20} color={disabled ?  "#CCCCCC" : "#B3B3B3"}/>
         </Pressable>
