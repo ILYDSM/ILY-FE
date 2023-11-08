@@ -1,25 +1,25 @@
 import CustomButton from '@/components/common/CustomButton';
+import CustomInput from '@/components/common/CustomInput';
 import TitleBar from '@/components/common/TitleBar';
-import { View, Text } from 'react-native';
+import { platte } from '@/styles/platte';
+import { Controller, useForm } from 'react-hook-form';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParam } from '@/utils/RootStackParam';
-import { useForm, Controller } from 'react-hook-form';
-import CustomInput from '@/components/common/CustomInput';
-import { platte } from '@/styles/platte';
 
 export default () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      email: '',
+      verify_number: '',
     },
   });
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TitleBar title="비밀번호 변경" onPress={() => navigation.goBack()} />
+      <TitleBar onPress={() => navigation.goBack()} title="이메일 인증" />
       <View
         style={{
           flex: 1,
@@ -29,27 +29,44 @@ export default () => {
         }}
       >
         <Text style={{ color: platte.gray100, fontSize: 16, fontWeight: '500' }}>
-          본인 확인을 위해 가입할 때 사용한 이메일 인증이 필요해요
+          mang5jelly@email.com로 인증 번호가 담긴 이메일을 보냈어요. ◾◾◾안에 입력해 주세요
         </Text>
         <View style={{ flexDirection: 'column', gap: 20 }}>
           <Controller
             control={control}
-            name="email"
+            name="verify_number"
             rules={{
               required: true,
             }}
             render={({ field: { onChange, value } }) => (
-              <CustomInput text="이메일" onChangeText={onChange} value={value} autoComplete="email" />
+              <CustomInput text="인증 번호" onChangeText={onChange} value={value} />
             )}
           />
+          <View>
+            <CustomButton title="메일 앱 열기" size="M" />
+          </View>
         </View>
       </View>
       <View style={{ width: '100%', paddingHorizontal: 16 }}>
+        <TouchableOpacity onPress={() => {}}>
+          <Text
+            style={{
+              textAlign: 'center',
+              paddingHorizontal: 20,
+              paddingVertical: 16,
+              color: platte.gray100,
+              fontSize: 16,
+              fontWeight: '400',
+            }}
+          >
+            문제가 생겼나요?
+          </Text>
+        </TouchableOpacity>
         <CustomButton
           title="→ 다음"
           onPress={() => {
             // handleSubmit(onSubmit);
-            navigation.navigate('VerifyEmail');
+            navigation.navigate('NewPassword');
           }}
         />
       </View>
