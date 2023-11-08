@@ -12,4 +12,6 @@ export type RootStackParam = {
   CreateGroup: undefined;
   GroupCategory: undefined;
   SearchResult: undefined;
+  SelectInterest: undefined;
+  ConfirmSignUp: undefined;
 };
