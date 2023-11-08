@@ -14,4 +14,7 @@ export type RootStackParam = {
   SearchResult: undefined;
   SelectInterest: undefined;
   ConfirmSignUp: undefined;
+  VerifyEmail: undefined;
+  NewPassword: undefined;
+  ConfirmChangePwd: undefined;
 };

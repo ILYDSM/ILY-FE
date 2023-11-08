@@ -127,7 +127,7 @@ const Login = () => {
           </View>
         </View>
         <View style={{ width: '90%' }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ChangePwd')}>
             <Text
               style={{
                 textAlign: 'center',
