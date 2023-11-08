@@ -1,9 +1,46 @@
 import { Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
 import { PercentCircle } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParam } from '@/utils/RootStackParam';
 import CustomButton from '@/components/common/CustomButton';
 import CardList from '@/components/common/CardList';
+import { getItem } from '@/utils/AsyncStorage';
+import axios from 'axios';
+import { useState } from 'react';
+
+interface profileDataTypes {
+  nickname: string;
+  email: string;
+  point: string;
+}
 
 const Menu = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [profileData, setProfileData] = useState<profileDataTypes>({
+    nickname: '닉네임',
+    email: 'asdf@gmail.com',
+    point: '100'
+  })
+
+  const getUserProfile = () => {
+    return;
+    const Token = getItem('userAccessToken');
+
+    axios({
+      url: `${process.env.EXPO_PUBLIC_API_URL}/api/user/profile/${'user_id'}`,
+      headers: {
+        "Authorization": `Bearer ${Token}`
+      }
+    })
+    .then((res) => {
+      setProfileData(res.data)
+    })
+    .catch((err) => {
+      console.log('유저 프로필을 가져올 수 없음:\n', err);
+    })
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={styles.container}>
@@ -20,12 +57,12 @@ const Menu = () => {
               }}
               alt='유저 사진'
             />
-            <Text style={styles.subTitle}>대충 이름</Text>
-            <Text style={styles.grayText}>누군가의 이메일</Text>
+            <Text style={styles.subTitle}>{profileData.nickname}</Text>
+            <Text style={styles.grayText}>{profileData.email}</Text>
             <CardList title='관심사 수정' onPress={() => { }} />
           </View>
           <View style={styles.ContentBox}>
-            <Text style={styles.subTitle}>대충 이름</Text>
+            <Text style={styles.subTitle}>목표 달성</Text>
             <FlatList
               data={[true, true, true, true, false, false, false]}
               renderItem={({ item }) => (
@@ -39,20 +76,20 @@ const Menu = () => {
               keyExtractor={(_, index) => `${index}`}
               horizontal={true}
             />
-            <Text style={styles.subTitle}>4일째 어쩌고 기록함</Text>
+            <Text style={styles.subTitle}>4일째 연속으로 기록함</Text>
             <View style={[styles.boxCover, styles.gap8]}>
               <CustomButton title='오늘 달성 기록하기' size='M' color='Gray'/>
-              <CustomButton title='자세히 보기' size='M' color='Transparent'/>
+              <CustomButton title='자세히 보기' size='M' color='Transparent' onPress={() => navigation.navigate('Menu', {screen : 'GoalCalendar'})} />
             </View>
           </View>
           <View style={styles.ContentBox}>
             <Text style={styles.subTitle}>내 포인트</Text>
             <View style={styles.boxCover}>
-              <PercentCircle size={20} color={'#000'} />
-              <Text style={styles.normalText}>내 포인트</Text>
+              <PercentCircle size={20} color='#000000' />
+              <Text style={styles.normalText}>{Number(profileData.point).toLocaleString('ko-KR')}</Text>
             </View>
             <View style={styles.line} />
-            <CardList title='만다라트 테마' onPress={() => { }} />
+            <CardList title='만다라트 테마' onPress={() => navigation.navigate('Menu', {screen : 'MandalArtTheme'})} />
           </View>
           <View style={styles.ContentBox}>
             <CardList title='비밀번호 변경' onPress={() => { }} />

@@ -3,6 +3,7 @@ import Auth from '@/navigations/Auth';
 import Main from '@/navigations/Main';
 import Group from './Group';
 import ConfirmChangePwd from '@/screens/ConfirmChangePwd';
+import Menu from './Menu';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default () => {
       <Stack.Screen name="Auth" component={Auth} />
       <Stack.Screen name="Group" component={Group} />
       <Stack.Screen name="ConfirmChangePwd" component={ConfirmChangePwd} />
+      <Stack.Screen name="Menu" component={Menu} />
     </Stack.Navigator>
   );
 };
