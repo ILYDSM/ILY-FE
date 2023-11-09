@@ -5,9 +5,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParam } from '@/utils/RootStackParam';
 import CustomButton from '@/components/common/CustomButton';
 import CardList from '@/components/common/CardList';
-import { getItem } from '@/utils/AsyncStorage';
+import { getItem, removeItem } from '@/utils/AsyncStorage';
 import axios from 'axios';
 import { useState } from 'react';
+import CustomModal from '@/components/common/CustomModal';
+import GoalCheck from '@/components/common/GoalCheck';
 
 interface profileDataTypes {
   nickname: string;
@@ -17,6 +19,7 @@ interface profileDataTypes {
 
 const Menu = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
   const [profileData, setProfileData] = useState<profileDataTypes>({
     nickname: '닉네임',
     email: 'asdf@gmail.com',
@@ -28,7 +31,7 @@ const Menu = () => {
     const Token = getItem('userAccessToken');
 
     axios({
-      url: `${process.env.EXPO_PUBLIC_API_URL}/api/user/profile/${'user_id'}`,
+      url: `${process.env.EXPO_PUBLIC_API_URL}/user/profile/${'user_id'}`,
       headers: {
         "Authorization": `Bearer ${Token}`
       }
@@ -39,6 +42,11 @@ const Menu = () => {
     .catch((err) => {
       console.log('유저 프로필을 가져올 수 없음:\n', err);
     })
+  }
+
+  const LogOut = () => {
+    removeItem('userAccessToken');
+    navigation.reset({routes: [{name: 'Auth'}]})
   }
 
   return (
@@ -61,27 +69,7 @@ const Menu = () => {
             <Text style={styles.grayText}>{profileData.email}</Text>
             <CardList title='관심사 수정' onPress={() => { }} />
           </View>
-          <View style={styles.ContentBox}>
-            <Text style={styles.subTitle}>목표 달성</Text>
-            <FlatList
-              data={[true, true, true, true, false, false, false]}
-              renderItem={({ item }) => (
-                <View style={[
-                  styles.recordBox,
-                  {
-                    backgroundColor: item ? '#000000' : '#CCCCCC'
-                  }]}
-                />
-              )}
-              keyExtractor={(_, index) => `${index}`}
-              horizontal={true}
-            />
-            <Text style={styles.subTitle}>4일째 연속으로 기록함</Text>
-            <View style={[styles.boxCover, styles.gap8]}>
-              <CustomButton title='오늘 달성 기록하기' size='M' color='Gray'/>
-              <CustomButton title='자세히 보기' size='M' color='Transparent' onPress={() => navigation.navigate('Menu', {screen : 'GoalCalendar'})} />
-            </View>
-          </View>
+          <GoalCheck title/>
           <View style={styles.ContentBox}>
             <Text style={styles.subTitle}>내 포인트</Text>
             <View style={styles.boxCover}>
@@ -92,11 +80,14 @@ const Menu = () => {
             <CardList title='만다라트 테마' onPress={() => navigation.navigate('Menu', {screen : 'MandalArtTheme'})} />
           </View>
           <View style={styles.ContentBox}>
-            <CardList title='비밀번호 변경' onPress={() => { }} />
-            <CardList title='로그아웃' onPress={() => { }} />
+            <CardList title='비밀번호 변경' onPress={() => navigation.navigate('Auth', {screen : 'ChangePwd'})} />
+            <CardList title='로그아웃' onPress={() => setModalOpen(true)} />
             <CardList title='계정 삭제' onPress={() => { }} />
           </View>
         </View>
+        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title='로그아웃할까요?'>
+          <CustomButton title='로그아웃' onPress={LogOut}/>
+        </CustomModal>
       </SafeAreaView>
     </ScrollView>
   );
