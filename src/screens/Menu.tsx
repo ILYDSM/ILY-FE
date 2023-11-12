@@ -80,7 +80,7 @@ const Menu = () => {
             <CardList title='만다라트 테마' onPress={() => navigation.navigate('Menu', {screen : 'MandalArtTheme'})} />
           </View>
           <View style={styles.ContentBox}>
-            <CardList title='비밀번호 변경' onPress={() => navigation.navigate('Auth', {screen : 'ChangePwd'})} />
+            <CardList title='비밀번호 변경' onPress={() => navigation.navigate('Menu', {screen : 'MenuChangePwd'})} />
             <CardList title='로그아웃' onPress={() => setModalOpen(true)} />
             <CardList title='계정 삭제' onPress={() => { }} />
           </View>

@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MandalArtTheme from '@/screens/MandalArtTheme';
 import GoalCalendar from '@/screens/GoalCalendar';
+import MenuChangePwd from '@/screens/MenuChangePwd';
+import DeleteAccount from '@/screens/DeleteAccount ';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +16,9 @@ const Menu = () => {
     >
       <Stack.Screen name="MandalArtTheme" component={MandalArtTheme} />
       <Stack.Screen name="GoalCalendar" component={GoalCalendar} />
-    </Stack.Navigator>
+      <Stack.Screen name="MenuChangePwd" component={MenuChangePwd} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
+    </Stack.Navigator> 
   );
 };
 
