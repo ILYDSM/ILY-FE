@@ -82,7 +82,7 @@ const Menu = () => {
           <View style={styles.ContentBox}>
             <CardList title='비밀번호 변경' onPress={() => navigation.navigate('Menu', {screen : 'MenuChangePwd'})} />
             <CardList title='로그아웃' onPress={() => setModalOpen(true)} />
-            <CardList title='계정 삭제' onPress={() => { }} />
+            <CardList title='계정 삭제' onPress={() => navigation.navigate('Menu', {screen : 'DeleteAccount'})} />
           </View>
         </View>
         <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title='로그아웃할까요?'>

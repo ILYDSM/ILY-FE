@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     gap: 4,
     backgroundColor: 'transparent',
     flexDirection: 'row',
+    alignItems: 'center'
   },
   title: {
     fontSize: 28,
