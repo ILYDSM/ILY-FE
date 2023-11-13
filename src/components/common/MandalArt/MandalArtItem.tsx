@@ -1,5 +1,4 @@
-import { platte } from "@/styles/platte";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 interface MandalaArtItemProps{
   data: string;
@@ -9,11 +8,9 @@ interface MandalaArtItemProps{
 export function MandalaArtItem({data, style}:MandalaArtItemProps){
   return(
     <View style={[Styles.item, style]}>
-      {/* <ImageBackground source={{}}> */}
-        <Text style={[style, Styles.text]}>
-          {data}
-        </Text>
-      {/* </ImageBackground> */}
+      <Text style={[style, Styles.text]}>
+        {data}
+      </Text>
     </View>
   )
 }

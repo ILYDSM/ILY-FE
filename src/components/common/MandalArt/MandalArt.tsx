@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import { Dimensions, SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { MandalaArtItem } from './MandalArtItem';
 import { GrayTheme } from './theme';
 
 interface MandalArtPropsType {
   data: string[];
   title: string;
-  theme?: MandalaArtThemeType;
+  theme: MandalaArtThemeType;
 }
 
 const MandalArt = ({ data, title, theme = GrayTheme }: MandalArtPropsType) => {
