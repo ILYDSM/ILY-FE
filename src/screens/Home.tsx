@@ -25,6 +25,7 @@ const Home = () => {
         <ViewAll title="즐겨찾기한 목표">
           <FlatList
             style={{ width: '100%', gap: 20 }}
+            scrollEnabled={false}
             data={[
               { text: '관광통역안내사 취득', color: '#339988' },
               { text: '관광통역안내사 취득', color: '#339988' },
