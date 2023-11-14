@@ -25,5 +25,6 @@ const Styles = StyleSheet.create({
   },
   text:{
     backgroundColor: undefined,
+    borderWidth: 0,
   }
 })
