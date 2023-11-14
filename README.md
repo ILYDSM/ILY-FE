@@ -17,7 +17,7 @@ release : 버전 릴리즈
 ## 브랜치 명명 규칙
 ```
 feature/(이슈번호)-(스네이크 케이스로 작업명)
-ex) feature/1-login-page
+ex) feature/1-login_page
 ```
 
 ## 파일명

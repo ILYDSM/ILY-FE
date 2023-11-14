@@ -12,4 +12,10 @@ export type RootStackParam = {
   CreateGroup: undefined;
   GroupCategory: undefined;
   SearchResult: undefined;
+  SelectInterest: undefined;
+  ConfirmSignUp: undefined;
+  VerifyEmail: undefined;
+  NewPassword: undefined;
+  ConfirmChangePwd: undefined;
+  Menu: { screen: 'MandalArtTheme' | 'GoalCalendar' };
 };
