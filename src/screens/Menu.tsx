@@ -69,7 +69,7 @@ const Menu = () => {
             <Text style={styles.grayText}>{profileData.email}</Text>
             <CardList title='관심사 수정' onPress={() => { }} />
           </View>
-          <GoalCheck title/>
+          <GoalCheck isTitle/>
           <View style={styles.ContentBox}>
             <Text style={styles.subTitle}>내 포인트</Text>
             <View style={styles.boxCover}>

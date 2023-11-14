@@ -9,10 +9,10 @@ import { getItem } from "@/utils/AsyncStorage";
 import { useEffect } from 'react';
 
 interface PropsType {
-  title?: boolean;
+  isTitle?: boolean;
 }
 
-const GoalCheck = ({ title }: PropsType) => {
+const GoalCheck = ({ isTitle }: PropsType) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
 
   const GetGraphData = () => {
@@ -60,7 +60,7 @@ const GoalCheck = ({ title }: PropsType) => {
 
   return (
     <View style={styles.contentBox}>
-      {title && <Text style={styles.title}>목표 달성</Text>}
+      {isTitle && <Text style={styles.title}>목표 달성</Text>}
       <FlatList
         data={[true, true, true, true, false, false, false]}
         renderItem={({ item }) => {

@@ -48,9 +48,7 @@ const DeleteAccount = () => {
   }
 
   const btnEnabledCheck = useMemo(() => {
-    if (!email.match(emailRule.pattern)) return true;
-    if (!password.match(passwordRule.pattern)) return true;
-    return false;
+    return !email.match(emailRule.pattern) || !password.match(passwordRule.pattern)
   }, [email, password])
 
   const styles = stylesFn(keyboardStatus);
