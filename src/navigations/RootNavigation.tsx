@@ -19,8 +19,6 @@ export default () => {
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Auth" component={Auth} />
       <Stack.Screen name="Group" component={Group} />
-      <Stack.Screen name="ConfirmChangePwd" component={ConfirmChangePwd} />
-      <Stack.Screen name="Menu" component={Menu} />
     </Stack.Navigator>
   );
 };
