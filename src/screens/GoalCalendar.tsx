@@ -37,7 +37,7 @@ const GoalCalendar = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const windowSize = Dimensions.get('window');
   const numColumns = 7;
-  const [CalendarData, setCalendarData] = useState<CalendarType[]>([])
+  const [calendarData, setCalendarData] = useState<CalendarType[]>([])
 
   useEffect(() => {
     DataChecking(Data)
@@ -83,7 +83,7 @@ const GoalCalendar = () => {
             <Text style={styles.checkText}>14일 연속으로 달성 중</Text>
           </View>
           {
-            CalendarData.map((data, index) => (
+            calendarData.map((data, index) => (
               <View style={styles.calendarBox} key={index}>
                 <Text style={styles.recordTitle}>{data.title}</Text>
                 <FlatList
