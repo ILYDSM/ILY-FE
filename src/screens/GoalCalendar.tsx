@@ -36,24 +36,8 @@ interface CheckType {
 const GoalCalendar = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const windowSize = Dimensions.get('window');
-  const [containerWidth, setContainerWidth] = useState(windowSize.width);
   const numColumns = 7;
-  const [CalendarData, setCalendarData] = useState<CalendarType[]>([
-    {
-      title: '6월',
-      dates: [{
-        day: 23,
-        isCheck: true
-      }]
-    },
-    {
-      title: '5월',
-      dates: [{
-        day: 10,
-        isCheck: true
-      }]
-    }
-  ])
+  const [CalendarData, setCalendarData] = useState<CalendarType[]>([])
 
   useEffect(() => {
     DataChecking(Data)
@@ -63,14 +47,14 @@ const GoalCalendar = () => {
     const sortedData = data?.sort((a, b) => {
       return new Date(b).getTime() - new Date(a).getTime()
     }) || []
-    const lastDate = sortedData[0] ? new Date(sortedData[0]) : new Date();
+    const nowDate = new Date();
     const firstDate = sortedData.at(-1) ? new Date(sortedData.at(-1) as string) : new Date();
     let dataSliceTmp = 0;
-    const length = (lastDate.getFullYear() - firstDate.getFullYear()) * 12 + (lastDate.getMonth() - firstDate.getMonth()) + 1
+    const length = (nowDate.getFullYear() - firstDate.getFullYear()) * 12 + (nowDate.getMonth() - firstDate.getMonth()) + 1
 
     setCalendarData(Array.from({ length }, (_, index) => {
-      const date = new Date(lastDate.getFullYear(), lastDate.getMonth() - index + 1, 0)
-      const maxDay = date.getDate();
+      const date = new Date(nowDate.getFullYear(), nowDate.getMonth() - index + 1, 0)
+      const maxDay = index ? date.getDate() : nowDate.getDate();
       const year = date.getFullYear()
       const month = date.getMonth() + 1;
       const twoMonth = `0${month}`.slice(-2)
@@ -78,7 +62,7 @@ const GoalCalendar = () => {
       dataSliceTmp += data.length;
       
       return {
-        title: `${month}월`,
+        title: `${nowDate.getFullYear() !== year ? `${year}년 ` : ''}${month}월`,
         dates: Array.from({ length: maxDay }, (_, index) => {
           const twoDay = `0${maxDay - index}`.slice(-2)
           return {
@@ -105,11 +89,10 @@ const GoalCalendar = () => {
                 <FlatList
                   data={data.dates}
                   renderItem={({ item }) => (
-                    <Item size={(containerWidth - 60) / numColumns} day={item.day} isCheck={item.isCheck} />
+                    <Item size={(windowSize.width - 60) / numColumns} day={item.day} isCheck={item.isCheck} />
                   )}
                   numColumns={7}
                   keyExtractor={(_, index) => `${index}`}
-                  onLayout={e => setContainerWidth(e.nativeEvent.layout.width)}
                   ItemSeparatorComponent={() => <View style={styles.rowGap} />}
                   columnWrapperStyle={styles.cloumnGap}
                   scrollEnabled={false}
@@ -182,8 +165,16 @@ const styles = StyleSheet.create({
 
 const Data = [
   "2023-05-01",
+  "2023-05-05",
+  "2023-05-17",
+  "2023-05-01",
   "2023-05-10",
   "2023-06-23",
+  "2023-09-23",
+  "2023-10-14",
   "2023-11-14",
+  "2023-11-10",
+  "2023-11-01",
   "2023-10-17",
+  "2022-10-17",
 ]
