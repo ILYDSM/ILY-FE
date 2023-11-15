@@ -20,7 +20,7 @@ export default ({ color, text }: GoalCardPropsType) => {
           borderRadius: 4,
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: '700', color: platte.gray00, textAlign: 'auto' }}>{text}</Text>
+        <Text style={{ fontSize: 20, fontWeight: '700', color: platte.gray00, textAlign: 'center' }}>{text}</Text>
       </View>
     </TouchableOpacity>
   );

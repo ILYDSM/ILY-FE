@@ -1,7 +1,47 @@
-import { Text } from 'react-native';
+import GoalCard from '@/components/GoalCard';
+import PageTitle from '@/components/PageTitle';
+import ViewAll from '@/components/ViewAll';
+import GoalCheck from '@/components/common/GoalCheck';
+import MeetCard from '@/components/common/MeetCard';
+import { RootStackParam } from '@/utils/RootStackParam';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { FlatList, ScrollView, Text, View } from 'react-native';
 
 const Home = () => {
-  return <Text>홈</Text>;
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+
+  return (
+    <ScrollView>
+      <PageTitle title="홈" />
+      <View style={{ flexDirection: 'column', gap: 12, paddingHorizontal: 16 }}>
+        <GoalCheck />
+        <ViewAll title="이런 모임도 있어요">
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <MeetCard />
+            <MeetCard />
+          </View>
+        </ViewAll>
+        <ViewAll title="즐겨찾기한 목표">
+          <FlatList
+            style={{ width: '100%', gap: 20 }}
+            scrollEnabled={false}
+            data={[
+              { text: '관광통역안내사 취득', color: '#339988' },
+              { text: '관광통역안내사 취득', color: '#339988' },
+              { text: '관광통역안내사 취득', color: '#339988' },
+            ]}
+            renderItem={({ item }) => (
+              <View style={{ width: '46%', margin: '2%' }}>
+                <GoalCard text={item.text} color={item.color} />
+              </View>
+            )}
+            numColumns={2}
+          />
+        </ViewAll>
+      </View>
+    </ScrollView>
+  );
 };
 
 export default Home;
