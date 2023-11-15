@@ -7,9 +7,9 @@ interface GoalCardPropsType {
   onPress?: (event: GestureResponderEvent) => void;
 }
 
-export default ({ color, text }: GoalCardPropsType) => {
+export default ({ color, text, onPress }: GoalCardPropsType) => {
   return (
-    <TouchableOpacity onPress={() => {}}>
+    <TouchableOpacity onPress={onPress}>
       <View
         style={{
           padding: 8,
