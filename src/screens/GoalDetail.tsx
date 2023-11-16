@@ -55,6 +55,7 @@ export default function GoalDetailScreen(){
           <CustomButton title="모임 관리" color="Gray" onPress={()=>setModalState("ManageGroup")}/>
         </View>
         <ManageGroupModal groupInfo={DemoData.groupInfo} setState={setModalState} state={modalState}/>
+        <ExitGroupModal setState={setModalState} state={modalState}/>
       </SafeAreaView>
     )
   }
@@ -109,7 +110,20 @@ function ManageGroupModal({state, setState, groupInfo}:ManageGroupModalType){
         )}
       </View>
       <CustomButton title="즐겨찾기에 추가"/>
-      <CustomButton title="모임 나가기"/>
+      <CustomButton title="모임 나가기" onPress={()=>setState('ExitGroup')}/>
+    </CustomModal>
+  )
+}
+
+interface ExitGroupModalType{
+  state: string;
+  setState: React.Dispatch<React.SetStateAction<string>>;
+}
+function ExitGroupModal({state, setState}:ExitGroupModalType){
+  return(
+    <CustomModal IsOpen={state==='ExitGroup'} setIsOpen={()=>setState('')}>
+      <Text style={{fontSize: 28, fontWeight: '700'}}>모임에서 나갈까요?</Text>
+      <CustomButton title="나가기"/>
     </CustomModal>
   )
 }
