@@ -46,7 +46,7 @@ export default function GoalDetailScreen(){
             <Users size={20} color={platte.gray80}/>
             <Text style={{color: platte.gray80}}>{DemoData.numberOfPeople}명이 함께하는 중 {DemoData.maxNumberOfPeople<99999 && `(최대 ${DemoData.maxNumberOfPeople}명 중)`}</Text>
           </View>
-          <ViewAll title="게시판">
+          <ViewAll title="게시판" onPress={()=> navigation.navigate('Goal', { screen: 'GoalGroupBoard' })}>
             {DemoData.board.map((d)=>
               <Comment {...d} key={d.nickname+d.content}/>
             )}
