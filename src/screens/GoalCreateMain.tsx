@@ -61,7 +61,7 @@ const GoalCreateMain = () => {
       <ScrollView>
         <TitleBar title='핵심 목표' onPress={onGoBack}/>
         <View style={styles.contentBox}>
-          <MandalArt data={mandalData.slice(1, 10)} title={mandalData[0]} />
+          <MandalArt data={mandalData.slice(1, 9)} title={mandalData[0]} />
           <CustomInput
             text="핵심 목표"
             onChangeText={TitleChange}
