@@ -5,7 +5,7 @@ import { GrayTheme } from './theme';
 interface MandalArtPropsType {
   data: string[];
   title: string;
-  theme: MandalaArtThemeType;
+  theme?: MandalaArtThemeType;
 }
 
 const MandalArt = ({ data, title, theme = GrayTheme }: MandalArtPropsType) => {
