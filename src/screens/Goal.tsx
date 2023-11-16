@@ -1,8 +1,9 @@
 import GoalCard from '@/components/GoalCard';
 import PageTitle from '@/components/PageTitle';
 import CustomButton from '@/components/common/CustomButton';
-import { BlackPinkTheme, HighContrastTheme } from '@/components/common/MandalArt/theme';
+import { BlackPinkTheme, HighContrastTheme, LightPurpleTheme } from '@/components/common/MandalArt/theme';
 import { RootStackParam } from '@/utils/RootStackParam';
+import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
@@ -11,18 +12,22 @@ const DemoData = [
   {
 		"target":"관광통역안내사 취득",
     "isGroup": true,
+    "theme": 'HighContrast'
 	},
   {
 		"target":"adsaf 취득2",
-    "isGroup": false,
+    "isGroup": true,
+    "theme": 'LightPurple'
 	},
   {
 		"target":"sdafgs 취득3",
     "isGroup": false,
+    "theme": 'Gray'
 	},
   {
 		"target":"asd 취득4",
     "isGroup": false,
+    "theme": 'Teal'
 	},
 ]
 
@@ -37,7 +42,8 @@ const Goal = () => {
           <FlatList
             data={DemoData}
             renderItem={(d)=>{
-              return <GoalCard text={d.item.target} theme={HighContrastTheme} key={d.index} onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })}/>
+              const themeObject = ThemeSelector(d.item.theme)
+              return <GoalCard isGroup={d.item.isGroup} text={d.item.target} theme={themeObject} key={d.index} onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })}/>
             }}
             numColumns={2}
             columnWrapperStyle={{gap: 12}}
