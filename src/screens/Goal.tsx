@@ -5,7 +5,26 @@ import { BlackPinkTheme, HighContrastTheme } from '@/components/common/MandalArt
 import { RootStackParam } from '@/utils/RootStackParam';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+
+const DemoData = [
+  {
+		"target":"관광통역안내사 취득",
+    "isGroup": true,
+	},
+  {
+		"target":"adsaf 취득2",
+    "isGroup": false,
+	},
+  {
+		"target":"sdafgs 취득3",
+    "isGroup": false,
+	},
+  {
+		"target":"asd 취득4",
+    "isGroup": false,
+	},
+]
 
 const Goal = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
@@ -15,14 +34,16 @@ const Goal = () => {
       <PageTitle title="모든 목표" />
       <View style={{ paddingHorizontal: 16, gap: 16 }}>
         <CustomButton title="+  새 목표 만들기" size="M" />
-        <View style={{ gap: 12, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ width: '48%' }}>
-            <GoalCard text="관광통역안내사 취득" color="#339988" onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })} theme={BlackPinkTheme}/>
-          </View>
-          <View style={{ width: '48%' }}>
-            <GoalCard text="관광통역안내사 취득" color="#339988" theme={HighContrastTheme}/>
-          </View>
-        </View>
+          <FlatList
+            data={DemoData}
+            renderItem={(d)=>{
+              return <GoalCard text={d.item.target} theme={HighContrastTheme} key={d.index} onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })}/>
+            }}
+            numColumns={2}
+            columnWrapperStyle={{gap: 12}}
+            contentContainerStyle={{gap: 12}}
+            keyExtractor={(d,i)=> `${d.target}${i}`}
+          />
       </View>
     </>
   );

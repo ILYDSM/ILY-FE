@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, GestureResponderEvent, StyleSheet } from 'react-native';
 
 interface GoalCardPropsType {
-  color: string;
   text: string;
   onPress?: (event: GestureResponderEvent) => void;
   theme: MandalaArtThemeType
@@ -9,7 +8,7 @@ interface GoalCardPropsType {
 
 export default ({ text, onPress, theme }: GoalCardPropsType) => {
   return (
-    <TouchableOpacity onPress={onPress} >
+    <TouchableOpacity onPress={onPress} style={Style.to}>
       <View style={[Style.card, theme.title]}>
         <Text style={[theme.title, Style.text]}>{text}</Text>
       </View>
@@ -24,6 +23,9 @@ const Style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+  },
+  to:{
+    flex: 1,
   },
   text:{
     backgroundColor: 'transparent',
