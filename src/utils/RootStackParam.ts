@@ -18,4 +18,6 @@ export type RootStackParam = {
   NewPassword: undefined;
   ConfirmChangePwd: undefined;
   Menu: { screen: 'MandalArtTheme' | 'GoalCalendar' | 'MenuChangePwd' | 'DeleteAccount' };
+  GoalDetail: undefined;
+  Goal: { screen: 'GoalDetail' };
 };
