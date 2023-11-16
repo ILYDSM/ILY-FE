@@ -48,7 +48,7 @@ export default function GoalDetailScreen(){
           </View>
           <ViewAll title="게시판">
             {DemoData.board.map((d)=>
-              <Comment {...d}/>
+              <Comment {...d} key={d.nickname+d.content}/>
             )}
           </ViewAll>
           <CustomButton title="목표 달성 기록"/>
