@@ -26,5 +26,6 @@ const Styles = StyleSheet.create({
   text:{
     backgroundColor: 'transparent',
     borderWidth: 0,
+    textAlign: "center"
   }
 })
