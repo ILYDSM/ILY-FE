@@ -1,13 +1,14 @@
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import GoalCreateDetail from "@/screens/GoalCreateDetail";
+import GoalCreateMain from "@/screens/GoalCreateMain";
+import GoalCreateResult from "@/screens/GoalCreateResult";
+import GoalCreateSub from "@/screens/GoalCreateSub";
+import GoalCreateTheme from "@/screens/GoalCreateTheme";
 import GoalDetailScreen from "@/screens/GoalDetail";
-import { RootStackParam } from "@/utils/RootStackParam";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
 export default function Goal(){
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
-
   return(
     <Stack.Navigator
       screenOptions={{
@@ -15,7 +16,12 @@ export default function Goal(){
         gestureEnabled: true,
       }}
     >
-      <Stack.Screen name="GoalDetail" component={GoalDetailScreen}/> 
+      <Stack.Screen name="GoalDetail" component={GoalDetailScreen}/>
+      <Stack.Screen name="GoalCreateMain" component={GoalCreateMain}/>
+      <Stack.Screen name="GoalCreateSub" component={GoalCreateSub}/>
+      <Stack.Screen name="GoalCreateDetail" component={GoalCreateDetail}/>
+      <Stack.Screen name="GoalCreateResult" component={GoalCreateResult}/>
+      <Stack.Screen name="GoalCreateTheme" component={GoalCreateTheme}/>
     </Stack.Navigator>
   )
 }
