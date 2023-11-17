@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParam } from "@/utils/RootStackParam";
-import { getItem, removeItem, setItem } from "@/utils/AsyncStorage";
+import { getItem, setItem } from "@/utils/AsyncStorage";
 import TitleBar from "@/components/common/TitleBar";
 import MandalArt from "@/components/common/MandalArt/MandalArt";
 import CustomInput from "@/components/common/CustomInput";
@@ -12,64 +12,58 @@ import CustomButton from "@/components/common/CustomButton";
 const GoalCreateMain = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [keyboardStatus, setKeyboardStatus] = useState<boolean>(false);
-  const [mandalData, setMandalData] = useState<string[]>([])
+  const [mandalData, setMandalData] = useState<string[]>([]);
   
-  const TitleChange = (title: string) => {
-    setMandalData([title, ...mandalData.slice(1)]);
+  const titleChange = (title: string) => {
+    const data = [title, ...mandalData.slice(1)];
+    setMandalData(data);
+    setItem('mandalArtCreate', JSON.stringify(data));
   }
 
-  const onGoBack = () => {
-    removeItem('mandalArtCreate')
-    navigation.goBack();
-  }
-
-  const onSubmit = () => {
-    setItem('mandalArtCreate', JSON.stringify(mandalData));
-    navigation.navigate('Goal', { screen: 'GoalCreateSub' })
-  }
-
-  const GetData = async() => {
-    const data = await getItem('mandalArtCreate')
-    setMandalData(JSON.parse(data ?? "[]"))
+  const getData = async() => {
+    const data = await getItem('mandalArtCreate');
+    setMandalData(JSON.parse(data ?? "[]"));
     return;
   }
   
   useEffect(() => {
     const dataFn = navigation.addListener('focus', () => {
-      GetData()
+      getData();
     });
     return dataFn;
   }, [navigation])
 
   useEffect(() => {
+    setItem('mandalArtCreate', JSON.stringify(new Array(73).fill('')));
+    
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardStatus(true)
+      setKeyboardStatus(true);
     });
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardStatus(false)
+      setKeyboardStatus(false);
     });
 
     return () => {
       showSubscription.remove();
       hideSubscription.remove();
     }
-  }, [])
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView style={[styles.container, { paddingBottom: keyboardStatus ? 0 : 16 }]}>
       <ScrollView>
-        <TitleBar title='핵심 목표' onPress={onGoBack}/>
+        <TitleBar title='핵심 목표' onPress={() => navigation.goBack()}/>
         <View style={styles.contentBox}>
           <MandalArt data={mandalData.slice(1, 9)} title={mandalData[0]} />
           <CustomInput
             text="핵심 목표"
-            onChangeText={TitleChange}
+            onChangeText={titleChange}
             value={mandalData[0]}
           />
         </View>
       </ScrollView>
-      <CustomButton title='→ 다음' onPress={onSubmit}/>
+      <CustomButton title='→ 다음' disabled={mandalData[0].trim() === ''} onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateSub' })}/>
     </SafeAreaView>
     </TouchableWithoutFeedback>
   )

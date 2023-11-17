@@ -1,5 +1,5 @@
-import { SafeAreaView, StyleSheet, View, Text, ScrollView, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { useState, useEffect } from "react";
+import { SafeAreaView, StyleSheet, View, Text, ScrollView, Keyboard, TouchableWithoutFeedback, BackHandler } from "react-native";
+import { useState, useEffect, useCallback } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParam } from "@/utils/RootStackParam";
@@ -11,42 +11,46 @@ import CustomButton from "@/components/common/CustomButton";
 const GoalCreateSub = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [keyboardStatus, setKeyboardStatus] = useState<boolean>(false);
-  const [mandalData, setMandalData] = useState<string[]>([])
+  const [mandalData, setMandalData] = useState<string[]>([]);
 
-  const SubTitleChange = (subTitle: string[]) => {
-    setMandalData(mandalData => [mandalData[0], ...subTitle, ...mandalData.slice(9)]);
+  const subTitleChange = (subTitle: string[]) => {
+    const data = [mandalData[0], ...subTitle, ...mandalData.slice(9)];
+    setMandalData(data);
+    setItem('mandalArtCreate', JSON.stringify(data));
   }
 
-  const onGoBack = () => {
-    setItem('mandalArtCreate', JSON.stringify(mandalData));
-    navigation.goBack();
-  }
+  const handlePressBack = useCallback(() => {
+    if(navigation.canGoBack()) {
+      navigation.goBack();
+      return true;
+    }
+    return false;
+  }, [])
 
-  const onSubmit = () => {
-    setItem('mandalArtCreate', JSON.stringify(mandalData));
-    navigation.navigate('Goal', { screen: 'GoalCreateDetail' })
-  }
-
-  const GetData = async () => {
+  const getData = async () => {
     const stringData = await getItem('mandalArtCreate');
-    const arrayData = JSON.parse(stringData ?? "[]");
-    setMandalData(arrayData.length <= 1 ? [arrayData[0], ...new Array(8).fill('')] : arrayData);
+    setMandalData(JSON.parse(stringData ?? "['','','','','','','','','','']"));
     return;
   }
 
   useEffect(() => {
     const dataFn = navigation.addListener('focus', () => {
-      GetData()
+      getData();
     });
     return dataFn;
   }, [navigation])
 
   useEffect(() => {
+    const backHandlerFn = BackHandler.addEventListener('hardwareBackPress', handlePressBack);
+    return () => backHandlerFn.remove();
+  }, [BackHandler])
+
+  useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardStatus(true)
+      setKeyboardStatus(true);
     });
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardStatus(false)
+      setKeyboardStatus(false);
     });
 
     return () => {
@@ -59,17 +63,17 @@ const GoalCreateSub = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={[styles.container, { paddingBottom: keyboardStatus ? 0 : 16 }]}>
         <ScrollView>
-          <TitleBar title='보조 목표' onPress={onGoBack} />
+          <TitleBar title='보조 목표' onPress={() => navigation.goBack()} />
           <View style={styles.contentBox}>
             <MandalArtEdit
               title={mandalData[0]}
               data={mandalData.slice(1, 9)}
-              onChangeData={SubTitleChange}
+              onChangeData={subTitleChange}
             />
             <Text style={styles.text}>보조 목표 칸을 클릭해 입력하세요</Text>
           </View>
         </ScrollView>
-        <CustomButton title='→ 다음' onPress={onSubmit} />
+        <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateDetail' })} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
