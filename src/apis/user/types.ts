@@ -1,9 +1,16 @@
 interface LoginRequest {
   email: string;
-  secret_key: string;
+  password: string;
 }
 
 interface LoginResponse {
   access_token: string;
   refresh_token: string;
+}
+
+interface SignUpRequest {
+  nickname: string;
+  email: string;
+  password: string;
+  interest: string;
 }
