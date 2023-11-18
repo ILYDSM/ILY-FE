@@ -102,6 +102,13 @@ interface ManageGroupModalType{
   isGroupOwner: boolean;
 }
 function ManageGroupModal({state, setState, groupInfo, isGroupOwner}:ManageGroupModalType){
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+
+  function nav(v:"GoalGroupBoard" | "GoalDetail" | "GoalJoinRequest"){
+    navigation.navigate('Goal', { screen: v })
+    setState('')
+  }
+
   if(isGroupOwner){
     return(
       <CustomModal IsOpen={state==='ManageGroup'} setIsOpen={()=>setState('')}>
@@ -112,7 +119,7 @@ function ManageGroupModal({state, setState, groupInfo, isGroupOwner}:ManageGroup
             <Category text={d} key={d+d}/>
           )}
         </View>
-        <CustomButton title="참가 신청 목록"/>
+        <CustomButton title="참가 신청 목록" onPress={()=>nav('GoalJoinRequest')}/>
         <CustomButton title="모임 수정"/>
         <CustomButton title="모임 삭제" onPress={()=>setState('DeleteGroup')}/>
         <CustomButton title="즐겨찾기에 추가"/>

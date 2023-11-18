@@ -20,5 +20,6 @@ export type RootStackParam = {
   Menu: { screen: 'MandalArtTheme' | 'GoalCalendar' | 'MenuChangePwd' | 'DeleteAccount' };
   GoalDetail: undefined;
   GoalGroupBoard: undefined;
-  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' };
+  GoalJoinRequst: undefined;
+  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' | 'GoalJoinRequest'};
 };
