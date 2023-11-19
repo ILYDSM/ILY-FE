@@ -6,13 +6,13 @@ import TitleBar from "@/components/common/TitleBar";
 import { platte } from "@/styles/platte";
 import { PercentCircle } from "lucide-react-native";
 import CustomButton from "@/components/common/CustomButton";
-import { MandalaArtTheme } from "@/types/theme";
 import MandalArtThemeCard from "@/components/common/MandalArt/MandalArtThemeCard";
 import { useState } from "react";
+import ThemeSelector from "@/utils/ThemeSelector";
 
 const GoalCreateTheme = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
-  const [themeColor, setThemeColor] = useState<string>('GrayTheme')
+  const [themeColor, setThemeColor] = useState<string>('Gray')
 
   const onCreate = () => {
     navigation.navigate('Main');
@@ -32,9 +32,9 @@ const GoalCreateTheme = () => {
           <PercentCircle size={20} color={platte.gray100}/>
         </View>
         <FlatList
-          data={Object.keys(MandalaArtTheme)}
+          data={ThemeSelector('All') as MandalaArtThemeType[]}
           renderItem={({ item }) =>
-            <MandalArtThemeCard theme={item} isCheck={themeColor === item} onPress={() => setThemeColor(item)} />
+            <MandalArtThemeCard theme={item} isCheck={themeColor === item.description.name} onPress={() => setThemeColor(item.description.name)} />
           }
           numColumns={2}
           keyExtractor={(_, index) => `${index}`}

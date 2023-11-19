@@ -3,6 +3,7 @@ import Category from "@/components/common/Category";
 import CustomButton from "@/components/common/CustomButton";
 import CustomModal from "@/components/common/CustomModal";
 import MandalArt from "@/components/common/MandalArt/MandalArt";
+import { PurpleTheme } from "@/components/common/MandalArt/theme";
 import TitleBar from "@/components/common/TitleBar";
 import { platte } from "@/styles/platte";
 import { RootStackParam } from "@/utils/RootStackParam";
@@ -40,7 +41,7 @@ export default function GoalDetailScreen(){
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title="관광통역안내사 탈취" onPress={()=>navigation.goBack()}/>
         <View style={Styles.mainContainer}>
-          <MandalArt title={DemoData.title} data={DemoData.data} theme="PurpleTheme"/>
+          <MandalArt title={DemoData.title} data={DemoData.data} theme={PurpleTheme}/>
           <View style={{display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center'}}>
             <Users size={20} color={platte.gray80}/>
             <Text style={{color: platte.gray80}}>{DemoData.numberOfPeople}명이 함께하는 중 {DemoData.maxNumberOfPeople<99999 && `(최대 ${DemoData.maxNumberOfPeople}명 중)`}</Text>
@@ -64,7 +65,7 @@ export default function GoalDetailScreen(){
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title="관광통역안내사 탈취" onPress={()=>navigation.goBack()}/>
         <View style={{display: 'flex', paddingHorizontal: 16, gap: 16}}>
-          <MandalArt title={DemoData.title} data={DemoData.data} theme="PurpleTheme"/>
+          <MandalArt title={DemoData.title} data={DemoData.data} theme={PurpleTheme}/>
           <CustomButton title="목표 달성 기록"/>
           <CustomButton title="목표 편집" color="Transparent"/>
         </View>
@@ -192,6 +193,6 @@ const Styles = StyleSheet.create({
   mainContainer:{
     display: 'flex',
     paddingHorizontal: 16,
-    gap: 16
+    gap: 16,
   },
 })

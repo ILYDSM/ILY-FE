@@ -1,24 +1,21 @@
 import { GestureResponderEvent, StyleSheet, TouchableOpacity, Text, Dimensions } from "react-native"
 import MandalArt from "@/components/common/MandalArt/MandalArt";
-import { MandalaArtThemeKeyofType } from "@/types/theme";
-import { themeDescription } from "@/types/themeDescription";
 import { platte } from "@/styles/platte";
+import { GrayTheme } from './theme';
 
 interface PropsType {
   isCheck?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
-  theme?: MandalaArtThemeKeyofType;
+  theme?: MandalaArtThemeType;
 }
 
-const MandalArtThemeCard = ({ isCheck, onPress, theme = 'GrayTheme' }: PropsType) => {  
-  const description = themeDescription[theme];
-  
+const MandalArtThemeCard = ({ isCheck, onPress, theme = GrayTheme }: PropsType) => {  
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <MandalArt theme={theme}/>
-      <Text style={styles.Title}>{description.title} {isCheck && '✔'}</Text>
-      <Text style={[styles.text, styles.gray]}>{description.text}</Text>
-      <Text style={styles.text}>{description.point} 포인트</Text>
+      <Text style={styles.Title}>{theme.description.title} {isCheck && '✔'}</Text>
+      <Text style={[styles.text, styles.gray]}>{theme.description.text}</Text>
+      <Text style={styles.text}>{theme.description.point} 포인트</Text>
     </TouchableOpacity>
   )
 }
