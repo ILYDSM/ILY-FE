@@ -119,8 +119,8 @@ function ManageGroupModal({state, setState, groupInfo, isGroupOwner}:ManageGroup
             <Category text={d} key={d+d}/>
           )}
         </View>
-        <CustomButton title="참가 신청 목록" onPress={()=>nav('GoalJoinRequest')}/>
-        <CustomButton title="모임 수정"/>
+        <CustomButton title="참가 신청 목록" onPress={()=>{navigation.navigate('Goal', { screen: 'GoalJoinRequest' })}}/>
+        <CustomButton title="모임 수정" onPress={()=>{navigation.navigate('Group', { screen: 'CreateGroup' }); setState('');}}/>
         <CustomButton title="모임 삭제" onPress={()=>setState('DeleteGroup')}/>
         <CustomButton title="즐겨찾기에 추가"/>
       </CustomModal>
