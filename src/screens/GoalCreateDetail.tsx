@@ -109,10 +109,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '700'
   },
-  detailCover: {
-    gap: 12,
-    height: 285
-  },
   gap12: {
     gap: 12
   }

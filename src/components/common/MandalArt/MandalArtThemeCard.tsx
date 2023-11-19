@@ -1,11 +1,11 @@
-import { GestureResponderEvent, StyleSheet, TouchableOpacity, Text } from "react-native"
+import { GestureResponderEvent, StyleSheet, TouchableOpacity, Text, Dimensions } from "react-native"
 import MandalArt from "@/components/common/MandalArt/MandalArt";
 import { MandalaArtThemeKeyofType } from "@/types/theme";
 import { themeDescription } from "@/types/themeDescription";
 import { platte } from "@/styles/platte";
 
 interface PropsType {
-  isCheck: boolean;
+  isCheck?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
   theme?: MandalaArtThemeKeyofType;
 }
@@ -28,7 +28,7 @@ export default MandalArtThemeCard;
 const styles = StyleSheet.create({
   container: {
     gap: 4,
-    width: '100%'
+    width: Dimensions.get('window').width / 2 - 24
   },
   Title: {
     fontSize: 16,

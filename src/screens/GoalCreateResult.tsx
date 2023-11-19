@@ -48,29 +48,29 @@ const GoalCreateResult = () => {
   }, [BackHandler])
 
   return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <TitleBar title='확인' onPress={() => navigation.goBack()} />
-          <View style={styles.contentBox}>
-            <TouchableMandalArt
-              title={mandalData[0]}
-              data={mandalData.slice(1, 9)}
-              onTouchFn={onDetailModal}
-            />
-            <Text style={styles.text}>보조 목표 칸을 눌러 상세 목표를 확인할 수 있어요</Text>
-          </View>
-        </ScrollView>
-        <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateTheme' })} />
-        <CustomModal IsOpen={isOpenModal} setIsOpen={setOpenModal}>
-          <View style={styles.gap12}>
-            <Text style={styles.detailText}>{mandalData[detailNumber + 1]}</Text>
-              <MandalArt
-                title={mandalData[detailNumber + 1]}
-                data={mandalData.slice(9 + detailNumber * 8, 17 + detailNumber * 8)}
-              />
-          </View>
-        </CustomModal>
-      </SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <TitleBar title='확인' onPress={() => navigation.goBack()} />
+        <View style={styles.contentBox}>
+          <TouchableMandalArt
+            title={mandalData[0]}
+            data={mandalData.slice(1, 9)}
+            onTouchFn={onDetailModal}
+          />
+          <Text style={styles.text}>보조 목표 칸을 눌러 상세 목표를 확인할 수 있어요</Text>
+        </View>
+      </ScrollView>
+      <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateTheme' })} />
+      <CustomModal IsOpen={isOpenModal} setIsOpen={setOpenModal}>
+        <View style={styles.gap12}>
+          <Text style={styles.detailText}>{mandalData[detailNumber + 1]}</Text>
+          <MandalArt
+            title={mandalData[detailNumber + 1]}
+            data={mandalData.slice(9 + detailNumber * 8, 17 + detailNumber * 8)}
+          />
+        </View>
+      </CustomModal>
+    </SafeAreaView>
   )
 }
 
@@ -95,10 +95,6 @@ const styles = StyleSheet.create({
   detailText: {
     fontSize: 26,
     fontWeight: '700'
-  },
-  detailCover: {
-    gap: 12,
-    height: 285
   },
   gap12: {
     gap: 12

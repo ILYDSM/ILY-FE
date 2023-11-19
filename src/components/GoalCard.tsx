@@ -1,17 +1,20 @@
+import { MandalaArtTheme, MandalaArtThemeKeyofType } from '@/types/theme';
 import { View, Text, TouchableOpacity, GestureResponderEvent, StyleSheet } from 'react-native';
 
 interface GoalCardPropsType {
   color: string;
   text: string;
   onPress?: (event: GestureResponderEvent) => void;
-  theme: MandalaArtThemeType
+  theme: MandalaArtThemeKeyofType;
 }
 
 export default ({ text, onPress, theme }: GoalCardPropsType) => {
+  const themeColor = MandalaArtTheme[theme];
+
   return (
     <TouchableOpacity onPress={onPress} >
-      <View style={[Style.card, theme.title]}>
-        <Text style={[theme.title, Style.text]}>{text}</Text>
+      <View style={[Style.card, themeColor.title]}>
+        <Text style={[themeColor.title, Style.text]}>{text}</Text>
       </View>
     </TouchableOpacity>
   );

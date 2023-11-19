@@ -63,7 +63,7 @@ const GoalCreateMain = () => {
           />
         </View>
       </ScrollView>
-      <CustomButton title='→ 다음' disabled={mandalData[0].trim() === ''} onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateSub' })}/>
+      <CustomButton title='→ 다음' disabled={mandalData[0]?.trim() === ''} onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateSub' })}/>
     </SafeAreaView>
     </TouchableWithoutFeedback>
   )

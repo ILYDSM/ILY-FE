@@ -1,12 +1,12 @@
 import { platte } from "@/styles/platte";
 
 interface MandalaArtThemeInType{
-  sub: object[];
-  title: object;
+  readonly sub: object[];
+  readonly title: object;
 }
 
 type MandalaArtThemeTypes = {
-  [key: string]: MandalaArtThemeInType;
+  readonly [key: string]: MandalaArtThemeInType;
 }
 
 export const MandalaArtTheme: MandalaArtThemeTypes = {
