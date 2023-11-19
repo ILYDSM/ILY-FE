@@ -52,12 +52,12 @@ export default GoalCreateTheme;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
     paddingTop: 20,
     paddingBottom: 16,
     flex: 1
   },
   contentBox: {
+    paddingHorizontal: 16,
     gap: 20,
     flex: 1
   },

@@ -20,7 +20,7 @@ const GoalCreateSub = () => {
   }
 
   const handlePressBack = useCallback(() => {
-    if(navigation.canGoBack()) {
+    if (navigation.canGoBack()) {
       navigation.goBack();
       return true;
     }
@@ -62,18 +62,20 @@ const GoalCreateSub = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={[styles.container, { paddingBottom: keyboardStatus ? 0 : 16 }]}>
-        <ScrollView>
-          <TitleBar title='보조 목표' onPress={() => navigation.goBack()} />
-          <View style={styles.contentBox}>
-            <MandalArtEdit
-              title={mandalData[0]}
-              data={mandalData.slice(1, 9)}
-              onChangeData={subTitleChange}
-            />
-            <Text style={styles.text}>보조 목표 칸을 클릭해 입력하세요</Text>
-          </View>
-        </ScrollView>
-        <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateDetail' })} />
+        <TitleBar title='보조 목표' onPress={() => navigation.goBack()} />
+        <View style={styles.contentCover}>
+          <ScrollView>
+            <View style={styles.contentBox}>
+              <MandalArtEdit
+                title={mandalData[0]}
+                data={mandalData.slice(1, 9)}
+                onChangeData={subTitleChange}
+              />
+              <Text style={styles.text}>보조 목표 칸을 클릭해 입력하세요</Text>
+            </View>
+          </ScrollView>
+          <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateDetail' })} />
+        </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
@@ -83,8 +85,11 @@ export default GoalCreateSub;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
     paddingTop: 20,
+    flex: 1
+  },
+  contentCover: {
+    paddingHorizontal: 16,
     flex: 1
   },
   contentBox: {

@@ -49,18 +49,20 @@ const GoalCreateResult = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <TitleBar title='확인' onPress={() => navigation.goBack()} />
-        <View style={styles.contentBox}>
-          <TouchableMandalArt
-            title={mandalData[0]}
-            data={mandalData.slice(1, 9)}
-            onTouchFn={onDetailModal}
-          />
-          <Text style={styles.text}>보조 목표 칸을 눌러 상세 목표를 확인할 수 있어요</Text>
-        </View>
-      </ScrollView>
-      <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateTheme' })} />
+      <TitleBar title='확인' onPress={() => navigation.goBack()} />
+      <View style={styles.contentCover}>
+        <ScrollView>
+          <View style={styles.contentBox}>
+            <TouchableMandalArt
+              title={mandalData[0]}
+              data={mandalData.slice(1, 9)}
+              onTouchFn={onDetailModal}
+            />
+            <Text style={styles.text}>보조 목표 칸을 눌러 상세 목표를 확인할 수 있어요</Text>
+          </View>
+        </ScrollView>
+        <CustomButton title='→ 다음' onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateTheme' })} />
+      </View>
       <CustomModal IsOpen={isOpenModal} setIsOpen={setOpenModal}>
         <View style={styles.gap12}>
           <Text style={styles.detailText}>{mandalData[detailNumber + 1]}</Text>
@@ -78,9 +80,12 @@ export default GoalCreateResult;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
     paddingTop: 20,
     paddingBottom: 16,
+    flex: 1
+  },
+  contentCover: {
+    paddingHorizontal: 16,
     flex: 1
   },
   contentBox: {

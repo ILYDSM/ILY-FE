@@ -13,19 +13,19 @@ const GoalCreateMain = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [keyboardStatus, setKeyboardStatus] = useState<boolean>(false);
   const [mandalData, setMandalData] = useState<string[]>([]);
-  
+
   const titleChange = (title: string) => {
     const data = [title, ...mandalData.slice(1)];
     setMandalData(data);
     setItem('mandalArtCreate', JSON.stringify(data));
   }
 
-  const getData = async() => {
+  const getData = async () => {
     const data = await getItem('mandalArtCreate');
     setMandalData(JSON.parse(data ?? "[]"));
     return;
   }
-  
+
   useEffect(() => {
     const dataFn = navigation.addListener('focus', () => {
       getData();
@@ -35,7 +35,7 @@ const GoalCreateMain = () => {
 
   useEffect(() => {
     setItem('mandalArtCreate', JSON.stringify(new Array(73).fill('')));
-    
+
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
       setKeyboardStatus(true);
     });
@@ -51,20 +51,22 @@ const GoalCreateMain = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <SafeAreaView style={[styles.container, { paddingBottom: keyboardStatus ? 0 : 16 }]}>
-      <ScrollView>
-        <TitleBar title='핵심 목표' onPress={() => navigation.goBack()}/>
-        <View style={styles.contentBox}>
-          <MandalArt data={mandalData.slice(1, 9)} title={mandalData[0]} />
-          <CustomInput
-            text="핵심 목표"
-            onChangeText={titleChange}
-            value={mandalData[0]}
-          />
+      <SafeAreaView style={[styles.container, { paddingBottom: keyboardStatus ? 0 : 16 }]}>
+        <TitleBar title='핵심 목표' onPress={() => navigation.goBack()} />
+        <View style={styles.contentCover}>
+          <ScrollView>
+            <View style={styles.contentBox}>
+              <MandalArt data={mandalData.slice(1, 9)} title={mandalData[0]} />
+              <CustomInput
+                text="핵심 목표"
+                onChangeText={titleChange}
+                value={mandalData[0]}
+              />
+            </View>
+          </ScrollView>
+          <CustomButton title='→ 다음' disabled={mandalData[0]?.trim() === ''} onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateSub' })} />
         </View>
-      </ScrollView>
-      <CustomButton title='→ 다음' disabled={mandalData[0]?.trim() === ''} onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateSub' })}/>
-    </SafeAreaView>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   )
 }
@@ -73,8 +75,11 @@ export default GoalCreateMain;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
     paddingTop: 20,
+    flex: 1
+  },
+  contentCover: {
+    paddingHorizontal: 16,
     flex: 1
   },
   contentBox: {
