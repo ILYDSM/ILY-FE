@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import CustomButton from './CustomButton';
+import * as NavigationBar from 'expo-navigation-bar'
 
 interface PrposType {
   IsOpen: boolean;
@@ -18,12 +19,16 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }: Prpo
   }
 
   useEffect(() => {
-    if (IsOpen) {
-      StatusBar.setBarStyle('light-content');
-      StatusBar.setBackgroundColor('#B6B6B6', true);
-    } else {
-      StatusBar.setBarStyle('dark-content');
-      StatusBar.setBackgroundColor('#FFFFFF', true);
+    if(Platform.OS === 'android'){
+      if (IsOpen) {
+        StatusBar.setBarStyle('light-content');
+        StatusBar.setBackgroundColor('#B6B6B6', true);
+        NavigationBar.setBackgroundColorAsync('#B6B6B6');
+      } else {
+        StatusBar.setBarStyle('dark-content');
+        StatusBar.setBackgroundColor('#FFFFFF', true);
+        NavigationBar.setBackgroundColorAsync('#FFFFFF');
+      }
     }
   }, [IsOpen]);
 
