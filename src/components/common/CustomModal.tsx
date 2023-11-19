@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import CustomButton from './CustomButton';
 
@@ -14,16 +14,16 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }: Prpo
   function closeModal() {
     setIsOpen(false);
     StatusBar.setBarStyle('dark-content');
-    StatusBar.setBackgroundColor('#FFFFFF', true);
+    Platform.OS === 'android' && StatusBar.setBackgroundColor('#FFFFFF', true);
   }
 
   useEffect(() => {
     if (IsOpen) {
       StatusBar.setBarStyle('light-content');
-      StatusBar.setBackgroundColor('#B6B6B6', true);
+      Platform.OS === 'android' && StatusBar.setBackgroundColor('#B6B6B6', true);
     } else {
       StatusBar.setBarStyle('dark-content');
-      StatusBar.setBackgroundColor('#FFFFFF', true);
+      Platform.OS === 'android' && StatusBar.setBackgroundColor('#FFFFFF', true);
     }
   }, [IsOpen]);
 
