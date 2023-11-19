@@ -18,13 +18,13 @@ const Home = () => {
       <PageTitle title="홈" />
       <View style={{ flexDirection: 'column', gap: 12, paddingHorizontal: 16 }}>
         <GoalCheck />
-        <ViewAll title="이런 모임도 있어요">
+        <ViewAll title="이런 모임도 있어요" onPress={() => navigation.navigate('모임')}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <MeetCard />
             <MeetCard />
           </View>
         </ViewAll>
-        <ViewAll title="즐겨찾기한 목표">
+        <ViewAll title="즐겨찾기한 목표" onPress={() => navigation.navigate('목표')}>
           <FlatList
             style={{ width: '100%', gap: 20 }}
             scrollEnabled={false}
