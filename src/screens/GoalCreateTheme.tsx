@@ -29,7 +29,7 @@ const GoalCreateTheme = () => {
         <View style={styles.borderBox}>
           <Text style={styles.pointTitle}>내 포인트</Text>
           <Text style={styles.text}>0000</Text>
-          <PercentCircle size={20} />
+          <PercentCircle size={20} color={platte.gray100}/>
         </View>
         <FlatList
           data={Object.keys(MandalaArtTheme)}
