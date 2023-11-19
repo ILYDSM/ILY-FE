@@ -1,12 +1,13 @@
 import CustomButton from "@/components/common/CustomButton";
 import CustomInput from "@/components/common/CustomInput";
+import CustomModal from "@/components/common/CustomModal";
 import TitleBar from "@/components/common/TitleBar";
 import { platte } from "@/styles/platte";
 import { RootStackParam } from "@/utils/RootStackParam";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View, Image } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 const DemoData = [
 	{
@@ -53,15 +54,57 @@ interface ArticleType{
 }
 
 function Article({ content, date, nickname }:ArticleType){
+  const [modalState, setModalState] = useState<string>('');
+
   return(
-    <View style={Style.articleContainer}>
-      <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
-        <Image style={{height: 24, width:24, borderRadius:88}} source={require('@/../assets/ilyLogo.png')}/>
-        <Text style={{fontSize: 14, }}>{nickname}</Text>
-      </View>
-      <Text style={{fontSize: 16}}>{content}</Text>
-      <Text style={{fontSize: 12, color: platte.gray50}}>{date}</Text>
-    </View>
+    <>
+      <ArticleModal setState={setModalState} state={modalState}/>
+      <ArticleDeleteModal setState={setModalState} state={modalState}/>
+      <ArticleEditModal setState={setModalState} state={modalState} content={content}/>
+      <TouchableOpacity onPress={()=>setModalState('menu')} style={Style.articleContainer}>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+          <Image style={{height: 24, width:24, borderRadius:88}} source={require('@/../assets/ilyLogo.png')}/>
+          <Text style={{fontSize: 14, }}>{nickname}</Text>
+        </View>
+        <Text style={{fontSize: 16}}>{content}</Text>
+        <Text style={{fontSize: 12, color: platte.gray50}}>{date}</Text>
+      </TouchableOpacity>
+    </>
+  )
+}
+
+interface ArticleModalType{
+  state: string;
+  setState: React.Dispatch<React.SetStateAction<string>>;
+  content?: string
+}
+
+function ArticleModal({setState, state}:ArticleModalType){
+  return(
+    <CustomModal IsOpen={state==='menu'} setIsOpen={()=>setState('')}>
+      <CustomButton title="수정" onPress={()=>setState('edit')}/>
+      <CustomButton title="삭제" onPress={()=>setState('delete')}/>
+    </CustomModal>
+  )
+}
+
+function ArticleEditModal({ setState, state, content }:ArticleModalType){
+  const [article, setArticle] = useState<string>(content ?? '');
+
+  return(
+    <CustomModal IsOpen={state==='edit'} setIsOpen={()=>setState('')}>
+      <CustomInput text="내용" defaultValue={content} onChangeText={(d)=>setArticle(d)}/>
+      <CustomButton title="수정"/>
+    </CustomModal>
+  )
+}
+
+function ArticleDeleteModal({ setState, state }:ArticleModalType){
+  return(
+    <CustomModal IsOpen={state==='delete'} setIsOpen={()=>setState('')}>
+      <Text style={{fontWeight: '700', fontSize: 28}}>게시물을 삭제할까요?</Text>
+      <CustomButton title="삭제"/>
+    </CustomModal>
   )
 }
 
