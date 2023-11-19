@@ -1,4 +1,8 @@
 export type RootStackParam = {
+  홈: undefined;
+  목표: undefined;
+  모임: undefined;
+  메뉴: undefined;
   Login: undefined;
   SignUp: undefined;
   Rending: undefined;
@@ -8,7 +12,7 @@ export type RootStackParam = {
   NaverLogin: undefined;
   GoogleLogin: undefined;
   ChangePwd: undefined;
-  Group: { screen: 'CreateGroup' | 'GroupCategory' | 'SearchResult' };
+  Group: { screen: 'CreateGroup' | 'GroupCategory' | 'SearchResult'; params?: { keyword: string } };
   CreateGroup: undefined;
   GroupCategory: undefined;
   SearchResult: undefined;
@@ -18,5 +22,18 @@ export type RootStackParam = {
   NewPassword: undefined;
   ConfirmChangePwd: undefined;
   Menu: { screen: 'MandalArtTheme' | 'GoalCalendar' | 'MenuChangePwd' | 'DeleteAccount' };
-  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' | 'GoalJoinRequest' | 'GoalCreateMain' | 'GoalCreateSub' | 'GoalCreateDetail' | 'GoalCreateResult' | 'GoalCreateTheme' };
+  GoalDetail: undefined;
+  GoalGroupBoard: undefined;
+  GoalJoinRequst: undefined;
+  Goal: {
+    screen:
+      | 'GoalDetail'
+      | 'GoalGroupBoard'
+      | 'GoalJoinRequest'
+      | 'GoalCreateMain'
+      | 'GoalCreateSub'
+      | 'GoalCreateDetail'
+      | 'GoalCreateResult'
+      | 'GoalCreateTheme';
+  };
 };
