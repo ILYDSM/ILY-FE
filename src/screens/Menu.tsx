@@ -1,42 +1,27 @@
-import { Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Dimensions, Image, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
 import { PercentCircle } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParam } from '@/utils/RootStackParam';
 import CustomButton from '@/components/common/CustomButton';
 import CardList from '@/components/common/CardList';
-import { getItem, removeItem } from '@/utils/AsyncStorage';
-import axios from 'axios';
-import { useState } from 'react';
+import { removeItem } from '@/utils/AsyncStorage';
+import { useState, useEffect } from 'react';
 import CustomModal from '@/components/common/CustomModal';
 import GoalCheck from '@/components/common/GoalCheck';
-
-interface profileDataTypes {
-  nickname: string;
-  email: string;
-  point: string;
-}
+import { profile } from '@/apis/user';
 
 const Menu = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<profileDataTypes>({
-    nickname: '닉네임',
-    email: 'asdf@gmail.com',
-    point: '100',
+  const [profileData, setProfileData] = useState<ProfileResponse>({
+    nickname: '',
+    email: '',
+    point: '0',
   });
 
   const getUserProfile = () => {
-    return;
-    const Token = getItem('userAccessToken');
-
-    axios({
-      url: `${process.env.EXPO_PUBLIC_API_URL}/user/profile/${'user_id'}`,
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      },
-    })
-      .then((res) => {
+    profile().then((res) => {
         setProfileData(res.data);
       })
       .catch((err) => {
@@ -49,6 +34,11 @@ const Menu = () => {
     navigation.reset({ routes: [{ name: 'Menu' }] });
     navigation.navigate('Rending');
   };
+
+  useEffect(() => {
+    const getFn = navigation.addListener('focus', getUserProfile);
+    return getFn;
+  }, [navigation])
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

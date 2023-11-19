@@ -14,3 +14,9 @@ interface SignUpRequest {
   password: string;
   interest: string;
 }
+
+interface ProfileResponse {
+  nickname: string;
+  email: string;
+  point: string;
+}

@@ -9,3 +9,7 @@ export const login = async (body: LoginRequest) => {
 export const signUp = async (body: SignUpRequest) => {
   return await instance.post(`${router}`, body);
 };
+
+export const profile = async () => {
+  return await instance.get<ProfileResponse>(`${router}/profile`);
+};

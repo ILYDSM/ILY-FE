@@ -1,3 +1,4 @@
+import { graph } from '@/apis/graph';
 import TitleBar from '@/components/common/TitleBar';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
@@ -40,9 +41,17 @@ const GoalCalendar = () => {
   const [calendarData, setCalendarData] = useState<CalendarType[]>([])
 
   useEffect(() => {
-    DataChecking(Data)
+    GetData()
   }, [])
 
+  const GetData = () => {
+    graph().then((res) => {
+      console.log(res.data)
+      const arrayData = res.data.map((data) => data.date);
+      DataChecking(arrayData)
+    })
+  }
+  
   const DataChecking = (data?: string[]) => {
     const sortedData = data?.sort((a, b) => {
       return new Date(b).getTime() - new Date(a).getTime()
