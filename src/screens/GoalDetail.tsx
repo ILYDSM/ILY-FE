@@ -13,6 +13,7 @@ import { Users } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
+
 const DemoData = {
   title: '관광통역안내사 탈환',
   data: ['공부하기', '매일 기록하기', '내일 기록하기', '아 오늘만쉬기'],

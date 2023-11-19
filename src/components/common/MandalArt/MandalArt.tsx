@@ -3,12 +3,12 @@ import { MandalaArtItem } from './MandalArtItem';
 import { GrayTheme } from './theme';
 
 interface MandalArtPropsType {
-  data: string[];
-  title: string;
-  theme: MandalaArtThemeType;
+  data?: string[];
+  title?: string;
+  theme?: MandalaArtThemeType;
 }
 
-const MandalArt = ({ data, title, theme = GrayTheme }: MandalArtPropsType) => {
+const MandalArt = ({ data = [], title = '', theme = GrayTheme }: MandalArtPropsType) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>

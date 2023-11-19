@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import CustomButton from './CustomButton';
+import * as NavigationBar from 'expo-navigation-bar'
 
 interface PrposType {
   IsOpen: boolean;
@@ -21,9 +22,11 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }: Prpo
     if (IsOpen) {
       StatusBar.setBarStyle('light-content');
       Platform.OS === 'android' && StatusBar.setBackgroundColor('#B6B6B6', true);
+      Platform.OS === 'android' && NavigationBar.setBackgroundColorAsync('#B6B6B6');
     } else {
       StatusBar.setBarStyle('dark-content');
       Platform.OS === 'android' && StatusBar.setBackgroundColor('#FFFFFF', true);
+      Platform.OS === 'android' && NavigationBar.setBackgroundColorAsync('#FFFFFF');
     }
   }, [IsOpen]);
 

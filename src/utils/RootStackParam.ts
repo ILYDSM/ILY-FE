@@ -21,5 +21,5 @@ export type RootStackParam = {
   GoalDetail: undefined;
   GoalGroupBoard: undefined;
   GoalJoinRequst: undefined;
-  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' | 'GoalJoinRequest' };
+  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' | 'GoalJoinRequest' | 'GoalCreateMain' | 'GoalCreateSub' | 'GoalCreateDetail' | 'GoalCreateResult' | 'GoalCreateTheme' };
 };

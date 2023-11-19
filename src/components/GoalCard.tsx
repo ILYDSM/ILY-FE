@@ -5,7 +5,7 @@ interface GoalCardPropsType {
   text: string;
   onPress?: (event: GestureResponderEvent) => void;
   theme: MandalaArtThemeType;
-  isGroup: boolean;
+  isGroup?: boolean;
 }
 
 export default ({ text, onPress, theme, isGroup = false }: GoalCardPropsType) => {
