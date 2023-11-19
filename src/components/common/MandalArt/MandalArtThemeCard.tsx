@@ -7,11 +7,12 @@ interface PropsType {
   isCheck?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
   theme?: MandalaArtThemeType;
+  disabled?: boolean;
 }
 
-const MandalArtThemeCard = ({ isCheck, onPress, theme = GrayTheme }: PropsType) => {  
+const MandalArtThemeCard = ({ isCheck, onPress, theme = GrayTheme, disabled }: PropsType) => {  
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={onPress} disabled={disabled}>
       <MandalArt theme={theme}/>
       <Text style={styles.Title}>{theme.description.title} {isCheck && '✔'}</Text>
       <Text style={[styles.text, styles.gray]}>{theme.description.text}</Text>
