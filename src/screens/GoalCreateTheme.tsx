@@ -28,7 +28,7 @@ const GoalCreateTheme = () => {
         </View>
         <View style={styles.borderBox}>
           <Text style={styles.pointTitle}>내 포인트</Text>
-          <Text style={styles.text}>0000</Text>
+          <Text style={styles.text}>{Number(2000).toLocaleString('ko-KR')}</Text>
           <PercentCircle size={20} color={platte.gray100}/>
         </View>
         <FlatList
