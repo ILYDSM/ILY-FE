@@ -13,6 +13,9 @@ import KakaoButton from '@/components/AuthButtons/KakaoButton';
 import GoogleButton from '@/components/AuthButtons/GoogleButton';
 import NaverButton from '@/components/AuthButtons/NaverButton';
 import { useForm, Controller } from 'react-hook-form';
+import { login } from '@/apis/user';
+import { emailRule, passwordRule } from '@/utils/Rules';
+import { setItem } from '@/utils/AsyncStorage';
 
 const Login = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
@@ -30,21 +33,24 @@ const Login = () => {
   } = useForm({
     defaultValues: {
       email: '',
-      secret_key: '',
+      password: '',
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: { email: string; password: string }) => {
+    await login(data).then((res) => {
+      setItem('access_token', res.data.access_token);
+      setItem('refresh_token', res.data.refresh_token);
+    });
     navigation.navigate('Main');
   };
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardStatus(true)
+      setKeyboardStatus(true);
     });
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardStatus(false)
+      setKeyboardStatus(false);
     });
     return () => {
       showSubscription.remove();
@@ -74,13 +80,7 @@ const Login = () => {
             <View style={{ flexDirection: 'column', gap: 20 }}>
               <Controller
                 control={control}
-                rules={{
-                  required: { value: true, message: '이메일은 필수입니다' },
-                  pattern: {
-                    value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                    message: '이메일 형식이 아닙니다.',
-                  },
-                }}
+                rules={emailRule}
                 render={({ field: { onChange, value } }) => (
                   <CustomInput
                     text="이메일"
@@ -94,18 +94,13 @@ const Login = () => {
               />
               <Controller
                 control={control}
-                rules={{
-                  required: true,
-                  minLength: 8,
-                  maxLength: 20,
-                  pattern: /^(?=.*[a-zA-Z])(?=.*\d).+$/,
-                }}
+                rules={passwordRule}
                 render={({ field: { onChange, value } }) => (
                   <CustomInput
                     text="비밀번호"
                     description={
-                      !!errors.secret_key?.message
-                        ? errors.secret_key?.message
+                      !!errors.password?.message
+                        ? errors.password?.message
                         : '8~20자 이내, 알파벳 대소문자, 숫자를 포함해야 해요'
                     }
                     icon={
@@ -120,10 +115,10 @@ const Login = () => {
                     onChangeText={onChange}
                     value={value}
                     secureTextEntry={!isPasswordOpen}
-                    isError={!!errors.secret_key}
+                    isError={!!errors.password}
                   />
                 )}
-                name="secret_key"
+                name="password"
               />
               <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '700' }}>다른 계정으로 시작하기</Text>
               <View
