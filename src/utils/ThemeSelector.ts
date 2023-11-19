@@ -18,6 +18,8 @@ export default function ThemeSelector(value:string){
       return LightPurpleTheme;
     case 'Teal':
       return TealTheme;
+    case 'All':
+      return [GrayTheme, BlackPinkTheme, HighContrastTheme, RainbowTheme, CarrotTheme, LightPurpleTheme, PurpleTheme, TealTheme];
     default:
       return GrayTheme
   }

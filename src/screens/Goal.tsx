@@ -1,12 +1,11 @@
 import GoalCard from '@/components/GoalCard';
 import PageTitle from '@/components/PageTitle';
 import CustomButton from '@/components/common/CustomButton';
-import { BlackPinkTheme, HighContrastTheme, LightPurpleTheme } from '@/components/common/MandalArt/theme';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 const DemoData = [
   {
@@ -38,11 +37,11 @@ const Goal = () => {
     <>
       <PageTitle title="모든 목표" />
       <View style={{ paddingHorizontal: 16, gap: 16 }}>
-        <CustomButton title="+  새 목표 만들기" size="M" />
+        <CustomButton title="+  새 목표 만들기" size="M" onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateMain' })}/>
           <FlatList
             data={DemoData}
             renderItem={(d)=>{
-              const themeObject = ThemeSelector(d.item.theme)
+              const themeObject = ThemeSelector(d.item.theme) as MandalaArtThemeType;
               return <GoalCard isGroup={d.item.isGroup} text={d.item.target} theme={themeObject} key={d.index} onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })}/>
             }}
             numColumns={2}

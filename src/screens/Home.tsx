@@ -2,6 +2,7 @@ import GoalCard from '@/components/GoalCard';
 import PageTitle from '@/components/PageTitle';
 import ViewAll from '@/components/ViewAll';
 import GoalCheck from '@/components/common/GoalCheck';
+import { GrayTheme } from '@/components/common/MandalArt/theme';
 import MeetCard from '@/components/common/MeetCard';
 import { RootStackParam } from '@/utils/RootStackParam';
 import { useNavigation } from '@react-navigation/native';
@@ -27,13 +28,13 @@ const Home = () => {
             style={{ width: '100%', gap: 20 }}
             scrollEnabled={false}
             data={[
-              { text: '관광통역안내사 취득', color: '#339988', theme: "GrayTheme" },
-              { text: '관광통역안내사 취득', color: '#339988', theme: "GrayTheme" },
-              { text: '관광통역안내사 취득', color: '#339988', theme: "GrayTheme" },
+              { text: '관광통역안내사 취득', theme: GrayTheme },
+              { text: '관광통역안내사 취득', theme: GrayTheme },
+              { text: '관광통역안내사 취득', theme: GrayTheme },
             ]}
             renderItem={({ item }) => (
               <View style={{ width: '46%', margin: '2%' }}>
-                <GoalCard text={item.text} color={item.color}  theme={item.theme}/>
+                <GoalCard text={item.text} theme={item.theme}/>
               </View>
             )}
             numColumns={2}

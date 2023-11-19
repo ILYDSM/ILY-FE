@@ -21,7 +21,6 @@ export default function Goal(){
       <Stack.Screen name="GoalDetail" component={GoalDetailScreen}/> 
       <Stack.Screen name="GoalGroupBoard" component={GoalGroupBoard}/> 
       <Stack.Screen name="GoalJoinRequest" component={GoalJoinRequest}/> 
-      <Stack.Screen name="GoalDetail" component={GoalDetailScreen}/>
       <Stack.Screen name="GoalCreateMain" component={GoalCreateMain}/>
       <Stack.Screen name="GoalCreateSub" component={GoalCreateSub}/>
       <Stack.Screen name="GoalCreateDetail" component={GoalCreateDetail}/>
