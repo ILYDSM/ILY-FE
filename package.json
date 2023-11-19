@@ -17,6 +17,7 @@
     "axios": "^1.6.0",
     "expo": "^49.0.13",
     "expo-font": "^11.6.0",
+    "expo-navigation-bar": "^2.5.0",
     "expo-splash-screen": "^0.22.0",
     "expo-status-bar": "~1.6.0",
     "lucide-react": "^0.288.0",
