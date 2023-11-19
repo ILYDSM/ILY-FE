@@ -1,3 +1,4 @@
+import { viewAllGroup } from '@/apis/meet';
 import PageTitle from '@/components/PageTitle';
 import CustomButton from '@/components/common/CustomButton';
 import CustomInput from '@/components/common/CustomInput';
@@ -9,24 +10,53 @@ import { RootStackParam } from '@/utils/RootStackParam';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Search } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 const Group = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [result, setResult] = useState<ViewAllResponse[]>([]);
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      keyword: '',
+    },
+  });
+
+  useEffect(() => {
+    viewAllGroup()
+      .then((res) => {
+        setResult(res.data);
+      })
+      .catch(() => {});
+  }, []);
+
+  const onSubmit = (data: any) => {
+    navigation.navigate('Group', { screen: 'SearchResult', params: { keyword: data.keyword } });
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
         <PageTitle title="모임" />
         <View style={{ flex: 1, width: '100%', paddingHorizontal: 16, gap: 16 }}>
-          <CustomInput
-            text="검색"
-            placeholder="모임찾기"
-            icon={
-              <TouchableOpacity onPress={() => navigation.navigate('Group', { screen: 'SearchResult' })}>
-                <Search size={20} color={platte.gray50} />
-              </TouchableOpacity>
-            }
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <CustomInput
+                text="검색"
+                placeholder="모임찾기"
+                icon={
+                  <TouchableOpacity onPress={handleSubmit(onSubmit)}>
+                    <Search size={20} color={platte.gray50} />
+                  </TouchableOpacity>
+                }
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="keyword"
           />
           <CustomButton
             title="관심사별 보기"
@@ -42,14 +72,14 @@ const Group = () => {
           />
           <Text style={styles.recommendText}>추천 모임</Text>
           <FlatList
-            data={DATA}
+            data={result}
             renderItem={({ item }) => (
               <>
-                <MeetCard title={item.title} description={item.description} headCount={item.headCount} />
+                <MeetCard title={item.title} description={item.content} headCount={item.participant} />
                 <Margin height={16} />
               </>
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, idx) => item.title + idx}
           />
         </View>
       </View>
