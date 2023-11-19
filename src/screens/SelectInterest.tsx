@@ -7,9 +7,13 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { platte } from '@/styles/platte';
 import Category from '@/components/common/Category';
 import CustomButton from '@/components/common/CustomButton';
+import { useEffect, useState } from 'react';
+import { signUp } from '@/apis/user';
+import { interestType } from '@/utils/Translates';
 
-export default () => {
+export default ({ route }: { route: any }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [categories, setCategories] = useState<InterestEnglishType[]>([]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -19,18 +23,22 @@ export default () => {
           관심사를 선택하면 주제에 맞는 모임을 추천받을 수 있어요
         </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-          <Category text="스포츠" />
-          <Category text="스포츠" />
-          <Category text="스포츠" />
-          <Category text="스포츠" />
-          <Category text="스포" />
-          <Category text="스포츠" />
-          <Category text="스츠" />
-          <Category text="스포츠" />
-          <Category text="스포" />
-          <Category text="스포" />
-          <Category text="스포" />
-          <Category text="스포츠" />
+          {Object.entries(interestType).map((interest, idx) => {
+            return (
+              <Category
+                key={idx}
+                clicked={categories.includes(interest[1])}
+                text={interest[0]}
+                onPress={() =>
+                  setCategories(
+                    categories.includes(interest[1])
+                      ? categories.filter((category) => category !== interest[1])
+                      : [...categories, interest[1]],
+                  )
+                }
+              />
+            );
+          })}
         </View>
       </View>
       <View style={{ paddingHorizontal: 16 }}>
@@ -47,7 +55,13 @@ export default () => {
             건너뛰기
           </Text>
         </TouchableOpacity>
-        <CustomButton title="→ 다음" onPress={() => navigation.navigate('ConfirmSignUp')} />
+        <CustomButton
+          title="→ 다음"
+          onPress={async () => {
+            await signUp({ ...route.params, interest: categories });
+            navigation.navigate('ConfirmSignUp');
+          }}
+        />
       </View>
     </SafeAreaView>
   );

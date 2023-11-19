@@ -1,20 +1,19 @@
-import { MandalaArtTheme, MandalaArtThemeKeyofType } from '@/types/theme';
+import { Users } from 'lucide-react-native';
 import { View, Text, TouchableOpacity, GestureResponderEvent, StyleSheet } from 'react-native';
 
 interface GoalCardPropsType {
-  color: string;
   text: string;
   onPress?: (event: GestureResponderEvent) => void;
-  theme: MandalaArtThemeKeyofType;
+  theme: MandalaArtThemeType;
+  isGroup: boolean;
 }
 
-export default ({ text, onPress, theme }: GoalCardPropsType) => {
-  const themeColor = MandalaArtTheme[theme];
-
+export default ({ text, onPress, theme, isGroup = false }: GoalCardPropsType) => {
   return (
-    <TouchableOpacity onPress={onPress} >
-      <View style={[Style.card, themeColor.title]}>
-        <Text style={[themeColor.title, Style.text]}>{text}</Text>
+    <TouchableOpacity onPress={onPress} style={Style.to}>
+      <View style={[Style.card, theme.title]}>
+        <Text style={[theme.title, Style.text]}>{text}</Text>
+        {isGroup && <Users size={20} style={{opacity: 0.75}} color={theme.title.color}/>}
       </View>
     </TouchableOpacity>
   );
@@ -27,6 +26,10 @@ const Style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+    gap: 8,
+  },
+  to:{
+    flex: 1,
   },
   text:{
     backgroundColor: 'transparent',

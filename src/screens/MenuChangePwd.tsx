@@ -1,14 +1,15 @@
-import CustomInput from "@/components/common/CustomInput";
-import TitleBar from "@/components/common/TitleBar";
-import { RootStackParam } from "@/utils/RootStackParam";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Eye, EyeOff } from "lucide-react-native";
-import { Controller, useForm } from "react-hook-form";
-import { SafeAreaView, StyleSheet, View, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native"
-import { useState, useEffect, useMemo } from "react";
-import { platte } from "@/styles/platte";
-import CustomButton from "@/components/common/CustomButton";
+import CustomInput from '@/components/common/CustomInput';
+import TitleBar from '@/components/common/TitleBar';
+import { RootStackParam } from '@/utils/RootStackParam';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Eye, EyeOff } from 'lucide-react-native';
+import { Controller, useForm } from 'react-hook-form';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { useState, useEffect, useMemo } from 'react';
+import { platte } from '@/styles/platte';
+import CustomButton from '@/components/common/CustomButton';
+import { passwordRule } from '@/utils/Rules';
 
 type EyeType = { password: boolean; new_password: boolean };
 
@@ -20,7 +21,12 @@ const MenuChangePwd = () => {
     new_password: false,
   });
 
-  const { control, handleSubmit, watch, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       password: '',
       new_password: '',
@@ -35,30 +41,23 @@ const MenuChangePwd = () => {
 
   const onSubmit = (data: any) => {
     console.log(data);
-    navigation.reset({ routes: [{ name: 'Main' }] })
-  }
-
-  const passwordRule = {
-    required: true,
-    minLength: 8,
-    maxLength: 20,
-    pattern: /^(?=.*[a-zA-Z])(?=.*\d).+$/
-  }
+    navigation.reset({ routes: [{ name: 'Main' }] });
+  };
 
   const btnEnabledCheck = useMemo(() => {
     if (!password.match(passwordRule.pattern)) return true;
     if (!new_password.match(passwordRule.pattern)) return true;
     return false;
-  }, [password, new_password])
+  }, [password, new_password]);
 
   const styles = stylesFn(keyboardStatus);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardStatus(true)
+      setKeyboardStatus(true);
     });
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardStatus(false)
+      setKeyboardStatus(false);
     });
 
     return () => {
@@ -125,24 +124,25 @@ const MenuChangePwd = () => {
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
-  )
-}
+  );
+};
 
 export default MenuChangePwd;
 
-const stylesFn = (bool: boolean) => StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    paddingBottom: bool ? 0 : 16,
-    flex: 1
-  },
-  contentBox: {
-    width: '100%',
-    paddingHorizontal: 16,
-    gap: 20,
-    flex: 10
-  },
-  btnBox: {
-    paddingHorizontal: 16
-  }
-})
+const stylesFn = (bool: boolean) =>
+  StyleSheet.create({
+    container: {
+      paddingTop: 20,
+      paddingBottom: bool ? 0 : 16,
+      flex: 1,
+    },
+    contentBox: {
+      width: '100%',
+      paddingHorizontal: 16,
+      gap: 20,
+      flex: 10,
+    },
+    btnBox: {
+      paddingHorizontal: 16,
+    },
+  });

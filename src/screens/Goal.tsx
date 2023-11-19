@@ -1,10 +1,35 @@
 import GoalCard from '@/components/GoalCard';
 import PageTitle from '@/components/PageTitle';
 import CustomButton from '@/components/common/CustomButton';
+import { BlackPinkTheme, HighContrastTheme, LightPurpleTheme } from '@/components/common/MandalArt/theme';
 import { RootStackParam } from '@/utils/RootStackParam';
+import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+
+const DemoData = [
+  {
+		"target":"관광통역안내사 취득",
+    "isGroup": true,
+    "theme": 'HighContrast'
+	},
+  {
+		"target":"adsaf 취득2",
+    "isGroup": true,
+    "theme": 'LightPurple'
+	},
+  {
+		"target":"sdafgs 취득3",
+    "isGroup": false,
+    "theme": 'Gray'
+	},
+  {
+		"target":"asd 취득4",
+    "isGroup": false,
+    "theme": 'Teal'
+	},
+]
 
 const Goal = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
@@ -13,15 +38,18 @@ const Goal = () => {
     <>
       <PageTitle title="모든 목표" />
       <View style={{ paddingHorizontal: 16, gap: 16 }}>
-        <CustomButton title="+  새 목표 만들기" size="M" onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateMain' })}/>
-        <View style={{ gap: 12, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ width: '48%' }}>
-            <GoalCard text="관광통역안내사 취득" color="#339988" onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })} theme="BlackPinkTheme"/>
-          </View>
-          <View style={{ width: '48%' }}>
-            <GoalCard text="관광통역안내사 취득" color="#339988" theme="HighContrastTheme"/>
-          </View>
-        </View>
+        <CustomButton title="+  새 목표 만들기" size="M" />
+          <FlatList
+            data={DemoData}
+            renderItem={(d)=>{
+              const themeObject = ThemeSelector(d.item.theme)
+              return <GoalCard isGroup={d.item.isGroup} text={d.item.target} theme={themeObject} key={d.index} onPress={() => navigation.navigate('Goal', { screen: 'GoalDetail' })}/>
+            }}
+            numColumns={2}
+            columnWrapperStyle={{gap: 12}}
+            contentContainerStyle={{gap: 12}}
+            keyExtractor={(d,i)=> `${d.target}${i}`}
+          />
       </View>
     </>
   );
