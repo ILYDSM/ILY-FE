@@ -18,8 +18,5 @@ export type RootStackParam = {
   NewPassword: undefined;
   ConfirmChangePwd: undefined;
   Menu: { screen: 'MandalArtTheme' | 'GoalCalendar' | 'MenuChangePwd' | 'DeleteAccount' };
-  GoalDetail: undefined;
-  GoalGroupBoard: undefined;
-  GoalJoinRequst: undefined;
-  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' | 'GoalJoinRequest'};
+  Goal: { screen: 'GoalDetail' | 'GoalGroupBoard' | 'GoalJoinRequest' | 'GoalCreateMain' | 'GoalCreateSub' | 'GoalCreateDetail' | 'GoalCreateResult' | 'GoalCreateTheme' };
 };

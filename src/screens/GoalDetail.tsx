@@ -193,6 +193,6 @@ const Styles = StyleSheet.create({
   mainContainer:{
     display: 'flex',
     paddingHorizontal: 16,
-    gap: 16
+    gap: 16,
   },
 })

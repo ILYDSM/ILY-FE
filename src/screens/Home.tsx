@@ -28,13 +28,13 @@ const Home = () => {
             style={{ width: '100%', gap: 20 }}
             scrollEnabled={false}
             data={[
-              { text: '관광통역안내사 취득', color: '#339988', theme: GrayTheme },
-              { text: '관광통역안내사 취득', color: '#339988', theme: GrayTheme },
-              { text: '관광통역안내사 취득', color: '#339988', theme: GrayTheme },
+              { text: '관광통역안내사 취득', theme: GrayTheme },
+              { text: '관광통역안내사 취득', theme: GrayTheme },
+              { text: '관광통역안내사 취득', theme: GrayTheme },
             ]}
             renderItem={({ item }) => (
               <View style={{ width: '46%', margin: '2%' }}>
-                <GoalCard text={item.text} color={item.color}  theme={item.theme}/>
+                <GoalCard text={item.text} theme={item.theme}/>
               </View>
             )}
             numColumns={2}
