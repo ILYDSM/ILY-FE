@@ -137,7 +137,7 @@ const Login = () => {
           </View>
           <View style={{ width: '90%', marginBottom: keyboardStatus ? 0 : 16 }}>
             <TouchableOpacity onPress={() => navigation.navigate('ChangePwd')}>
-              <Text
+              {/* <Text
                 style={{
                   textAlign: 'center',
                   paddingHorizontal: 20,
@@ -147,7 +147,7 @@ const Login = () => {
                 }}
               >
                 비밀번호 바꾸기
-              </Text>
+              </Text> */}
             </TouchableOpacity>
             <CustomButton title="로그인" onPress={handleSubmit(onSubmit)} />
           </View>

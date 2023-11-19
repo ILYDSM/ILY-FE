@@ -1,32 +1,30 @@
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { MandalaArtItem } from './MandalArtItem';
-import { MandalaArtTheme, MandalaArtThemeKeyofType } from "@/types/theme";
+import { GrayTheme } from './theme';
 
 interface MandalArtPropsType {
-  data?: string[];
-  title?: string;
-  theme?: MandalaArtThemeKeyofType;
+  data: string[];
+  title: string;
+  theme: MandalaArtThemeType;
 }
 
-const MandalArt = ({ data = [], title = '', theme = 'GrayTheme' }: MandalArtPropsType) => {
-  const themeColor = MandalaArtTheme[theme];
-
+const MandalArt = ({ data, title, theme = GrayTheme }: MandalArtPropsType) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
-        <MandalaArtItem data={data[0]} style={themeColor?.sub[0] ?? themeColor?.sub[0]}/>
-        <MandalaArtItem data={data[1]} style={themeColor?.sub[1] ?? themeColor?.sub[0]}/>
-        <MandalaArtItem data={data[2]} style={themeColor?.sub[2] ?? themeColor?.sub[0]}/>
+        <MandalaArtItem data={data[0]} style={theme?.sub[0] ?? theme?.sub[0]}/>
+        <MandalaArtItem data={data[1]} style={theme?.sub[1] ?? theme?.sub[0]}/>
+        <MandalaArtItem data={data[2]} style={theme?.sub[2] ?? theme?.sub[0]}/>
       </View>
       <View style={styles.innerContainer}>
-        <MandalaArtItem data={data[3]} style={themeColor?.sub[3] ?? themeColor?.sub[0]}/>
-        <MandalaArtItem data={title} style={themeColor?.title}/>
-        <MandalaArtItem data={data[4]} style={themeColor?.sub[4] ?? themeColor?.sub[0]}/>
+        <MandalaArtItem data={data[3]} style={theme?.sub[3] ?? theme?.sub[0]}/>
+        <MandalaArtItem data={title} style={theme?.title}/>
+        <MandalaArtItem data={data[4]} style={theme?.sub[4] ?? theme?.sub[0]}/>
       </View>
       <View style={styles.innerContainer}>
-        <MandalaArtItem data={data[5]} style={themeColor?.sub[5] ?? themeColor?.sub[0]}/>
-        <MandalaArtItem data={data[6]} style={themeColor?.sub[6] ?? themeColor?.sub[0]}/>
-        <MandalaArtItem data={data[7]} style={themeColor?.sub[7] ?? themeColor?.sub[0]}/>
+        <MandalaArtItem data={data[5]} style={theme?.sub[5] ?? theme?.sub[0]}/>
+        <MandalaArtItem data={data[6]} style={theme?.sub[6] ?? theme?.sub[0]}/>
+        <MandalaArtItem data={data[7]} style={theme?.sub[7] ?? theme?.sub[0]}/>
       </View>
     </SafeAreaView>
   );

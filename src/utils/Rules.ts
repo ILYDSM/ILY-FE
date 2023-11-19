@@ -5,12 +5,13 @@ export const emailRule = {
     message: '이메일 형식이 아닙니다.',
   },
 };
-
 export const passwordRule = {
   required: true,
   minLength: 8,
   maxLength: 20,
   pattern: /^(?=.*[a-zA-Z])(?=.*\d).+$/,
 };
-
-export const nicknameRule = {};
+export const nicknameRule = {
+  required: true,
+  maxLength: 10,
+};

@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { platte } from '@/styles/platte';
 import { Controller, useForm } from 'react-hook-form';
+import { emailRule, nicknameRule, passwordRule } from '@/utils/Rules';
 
 const SignUp = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
@@ -65,13 +66,7 @@ const SignUp = () => {
         <View style={{ flex: 1, paddingHorizontal: 16, gap: 20 }}>
           <Controller
             control={control}
-            rules={{
-              required: { value: true, message: '이메일은 필수입니다' },
-              pattern: {
-                value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                message: '이메일 형식이 아닙니다.',
-              },
-            }}
+            rules={emailRule}
             render={({ field: { onChange, value } }) => (
               <CustomInput
                 text="이메일"
@@ -85,12 +80,7 @@ const SignUp = () => {
           />
           <Controller
             control={control}
-            rules={{
-              required: true,
-              minLength: 8,
-              maxLength: 20,
-              pattern: /^(?=.*[a-zA-Z])(?=.*\d).+$/,
-            }}
+            rules={passwordRule}
             render={({ field: { onChange, value } }) => (
               <CustomInput
                 text="비밀번호"
@@ -118,10 +108,7 @@ const SignUp = () => {
           />
           <Controller
             control={control}
-            rules={{
-              required: true,
-              maxLength: 10,
-            }}
+            rules={nicknameRule}
             render={({ field: { onChange, value } }) => (
               <CustomInput
                 text="닉네임"
