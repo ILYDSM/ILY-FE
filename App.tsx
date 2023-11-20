@@ -6,16 +6,25 @@ import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar'
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
+import { useFonts } from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [isFontLoaded] = useFonts({
+    "Pretendard Variable": require('@/../assets/fonts/PretendardVariable.ttf'),
+  })
+
   useEffect(() => {
     SplashScreen.hideAsync();
     if(Platform.OS === 'android'){
-      NavigationBar.setBackgroundColorAsync('#FFFFFF')
+      NavigationBar.setBackgroundColorAsync('#FFFFFF');
     }
-  }, []);
+  }, [isFontLoaded]);
+
+  if (!isFontLoaded) {
+    return null;
+  }
 
   return (
     <SafeAreaProvider>
