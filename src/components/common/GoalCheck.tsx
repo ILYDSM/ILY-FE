@@ -6,7 +6,8 @@ import CustomButton from "./CustomButton";
 import { Check } from "lucide-react-native";
 import axios from "axios";
 import { getItem } from "@/utils/AsyncStorage";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { graph, weekGraph } from "@/apis/graph";
 
 interface PropsType {
   isTitle?: boolean;
@@ -14,73 +15,87 @@ interface PropsType {
 
 const GoalCheck = ({ isTitle }: PropsType) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [weekData, setWeekData] = useState<boolean[]>([false, false, false, false, false, false, false]);
+  const [continueDays, setContinueDays] = useState<number>(0)
 
-  const GetGraphData = () => {
-    return;
-    const Token = getItem('userAccessToken');
-    
-    axios({
-      // 아직 api 명세가 확실히 나오지 않아 데이터 설정은 안함
-      url: `${process.env.EXPO_PUBLIC_API_URL}/user/graph`,
-      headers: {
-        "Authorization": `Bearer ${Token}`
+  const GetGraphCount = async () => {
+    await graph().then((res) => {
+      const arrayData = res.data.map((data) => data.date);
+      const sortedData = arrayData.sort((a, b) => {
+        return new Date(b).getTime() - new Date(a).getTime()
+      });
+
+      const nowDate = new Date();
+      const dayFn = (i: number) => new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + i)
+      const twoWord = (num: number) => `0${num}`.slice(-2);
+      const searchDataFn = (arr: Array<string>, date: Date) => arr.indexOf(`${date.getFullYear()}-${twoWord(date.getMonth() + 1)}-${twoWord(date.getDate())}`)
+
+      let continueCount = 0
+      for (let i = searchDataFn(sortedData, dayFn(0)); searchDataFn(sortedData, dayFn(i)) !== -1; i--) {
+        continueCount++;
       }
+      setContinueDays(continueCount);
     })
-    .then((res) => {
-      console.log(res)
+
+
+  }
+
+  const GetGraphData = async () => {
+    await weekGraph().then((res) => {
+      const today = new Date().getDay();
+      const response = res.data.days;
+      const data = [
+        response.indexOf('MONDAY') !== -1,
+        response.indexOf('TUESDAY') !== -1,
+        response.indexOf('WEDNESDAY') !== -1,
+        response.indexOf('THURDAY') !== -1,
+        response.indexOf('FRIDAY') !== -1,
+        response.indexOf('SATURDAY') !== -1,
+        response.indexOf('SUNDAY') !== -1
+      ]
+      setWeekData([...data.slice(today, 8 - today), ...data.slice(0, today)]);
     })
-    .catch((err) => {
-      console.log('목표 달성 정보를 가져올 수 없음\n', err)
-    })
- }
+      .catch((err) => {
+        console.log('목표 달성 정보를 가져올 수 없음\n', err)
+      })
+  }
 
- const todayCheck = () => {
-  return;
-  const Token = getItem('userAccessToken');
+  const todayCheck = () => {
+    return;
+  }
 
-  axios({
-    // 아직 api 명세가 확실하지 않아 url은 임시입니다.
-    url: `${process.env.EXPO_PUBLIC_API_URL}`,
-    headers: {
-      "Authorization": `Bearer ${Token}`
-    }
-  })
-  .then((res) => {
-    console.log(res)
-    GetGraphData()
-  })
-  .catch((err) => {
-    console.log('목표 달성 정보를 가져올 수 없음\n', err)
-  })
- }
-
- useEffect(() => {
-  GetGraphData()
- }, [])
+  useEffect(() => {
+    const getFn = navigation.addListener('focus', () => {
+      GetGraphData();
+      GetGraphCount();
+    });
+    return getFn;
+  }, [navigation])
 
   return (
     <View style={styles.contentBox}>
       {isTitle && <Text style={styles.title}>목표 달성</Text>}
       <FlatList
-        data={[true, true, true, true, false, false, false]}
+        data={weekData}
+        extraData={weekData}
         renderItem={({ item }) => {
           if (item) {
             return (
-              <View style={[styles.recordBox,styles.enabled]}>
-                <Check size={20} color="#FFFFFF"/>
+              <View style={[styles.recordBox, styles.enabled]}>
+                <Check size={20} color="#FFFFFF" />
               </View>
             )
           }
           else {
             return (
-              <View style={[styles.recordBox,styles.disabled]}/>
+              <View style={[styles.recordBox, styles.disabled]} />
             )
           }
         }}
         keyExtractor={(_, index) => `${index}`}
         horizontal
       />
-      <Text style={styles.title}>4일째 연속으로 기록함</Text>
+      <Text style={styles.title}>{continueDays}일째 연속으로 기록함</Text>
       <View style={[styles.boxCover]}>
         <CustomButton title='오늘 달성 기록하기' size='M' color='Gray' onPress={() => todayCheck()} />
         <CustomButton title='자세히 보기' size='M' color='Transparent' onPress={() => navigation.navigate('Menu', { screen: 'GoalCalendar' })} />
