@@ -63,11 +63,11 @@ const styles = StyleSheet.create({
   },
   pointTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontFamily: '700',
   },
   text: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   centerText: {
     textAlign: 'center'

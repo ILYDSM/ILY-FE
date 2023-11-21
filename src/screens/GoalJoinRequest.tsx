@@ -79,7 +79,7 @@ interface RequestConfirmType{
 function RequestConfirm({state, setState}:RequestConfirmType){
   return(
     <CustomModal IsOpen={state !== ""} setIsOpen={()=>setState('')}>
-      <Text style={{fontSize: 28, fontWeight: '700'}}>{state === 'decline' ? '참가 신청을 거절할까요?' : '참가 신청을 수락할까요?'}</Text>
+      <Text style={{fontSize: 28, fontFamily: '700'}}>{state === 'decline' ? '참가 신청을 거절할까요?' : '참가 신청을 수락할까요?'}</Text>
       <CustomButton title={state === 'decline' ? '거절' : '수락'}/>
     </CustomModal>
   )

@@ -45,7 +45,7 @@ export default () => {
             gap: 20,
           }}
         >
-          <Text style={{ color: platte.gray100, fontSize: 16, fontWeight: '500' }}>
+          <Text style={{ color: platte.gray100, fontSize: 16, fontFamily: '500' }}>
             mang5jelly@email.com로 인증 번호가 담긴 이메일을 보냈어요. ◾◾◾안에 입력해 주세요
           </Text>
           <View style={{ flexDirection: 'column', gap: 20 }}>
@@ -73,7 +73,7 @@ export default () => {
                 paddingVertical: 16,
                 color: platte.gray100,
                 fontSize: 16,
-                fontWeight: '400',
+                fontFamily: '400',
               }}
             >
               문제가 생겼나요?

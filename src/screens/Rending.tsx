@@ -12,7 +12,7 @@ export default () => {
     <SafeAreaView style={{ flex: 1, width: '100%' }}>
       <View style={{ flex: 9, justifyContent: 'center', alignItems: 'center', width: '100%' }}>
         <Image style={{ width: 64, height: 64 }} source={require('../../assets/ilyLogo.png')} />
-        <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 28, fontWeight: '700' }}>
+        <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 28, fontFamily: '700' }}>
           {'ily 시작하는\n새로운 목표 관리'}
         </Text>
       </View>

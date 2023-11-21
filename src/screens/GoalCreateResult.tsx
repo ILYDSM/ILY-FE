@@ -94,12 +94,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
     textAlign: 'center'
   },
   detailText: {
     fontSize: 26,
-    fontWeight: '700'
+    fontFamily: '700'
   },
   gap12: {
     gap: 12
