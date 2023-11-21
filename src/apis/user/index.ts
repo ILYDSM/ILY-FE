@@ -13,3 +13,7 @@ export const signUp = async (body: SignUpRequest) => {
 export const profile = async () => {
   return await instance.get<ProfileResponse>(`${router}/profile`);
 };
+
+export const interest = async (body: InterestRequest) => {
+  return await instance.post(`${router}/interest`, body);
+}

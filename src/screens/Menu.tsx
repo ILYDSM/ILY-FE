@@ -18,6 +18,7 @@ const Menu = () => {
     nickname: '',
     email: '',
     point: '0',
+    interests: []
   });
 
   const getUserProfile = () => {
@@ -58,7 +59,8 @@ const Menu = () => {
             />
             <Text style={styles.subTitle}>{profileData.nickname}</Text>
             <Text style={styles.grayText}>{profileData.email}</Text>
-            <CardList title="관심사 수정" onPress={() => {}} />
+            <CardList title="관심사 수정" onPress={() => navigation.navigate('Menu', { screen: 'InterestChange' })} />
+            <CardList title="내 정보 수정" onPress={() => {}} />
           </View>
           <GoalCheck isTitle />
           <View style={styles.ContentBox}>

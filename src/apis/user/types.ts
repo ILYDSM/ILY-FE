@@ -19,4 +19,9 @@ interface ProfileResponse {
   nickname: string;
   email: string;
   point: string;
+  interests: InterestEnglishType[];
+}
+
+interface InterestRequest {
+  interests: string[];
 }
