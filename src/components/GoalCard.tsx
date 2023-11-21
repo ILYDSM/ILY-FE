@@ -5,7 +5,7 @@ interface GoalCardPropsType {
   text: string;
   onPress?: (event: GestureResponderEvent) => void;
   theme: MandalaArtThemeType;
-  isGroup: boolean;
+  isGroup?: boolean;
 }
 
 export default ({ text, onPress, theme, isGroup = false }: GoalCardPropsType) => {
@@ -13,14 +13,14 @@ export default ({ text, onPress, theme, isGroup = false }: GoalCardPropsType) =>
     <TouchableOpacity onPress={onPress} style={Style.to}>
       <View style={[Style.card, theme.title]}>
         <Text style={[theme.title, Style.text]}>{text}</Text>
-        {isGroup && <Users size={20} style={{opacity: 0.75}} color={theme.title.color}/>}
+        {isGroup && <Users size={20} style={{ opacity: 0.75 }} color={theme.title.color} />}
       </View>
     </TouchableOpacity>
   );
 };
 
 const Style = StyleSheet.create({
-  card:{
+  card: {
     padding: 8,
     height: 120,
     alignItems: 'center',
@@ -28,12 +28,12 @@ const Style = StyleSheet.create({
     borderRadius: 4,
     gap: 8,
   },
-  to:{
+  to: {
     flex: 1,
   },
-  text:{
+  text: {
     backgroundColor: 'transparent',
     borderWidth: 0,
-    textAlign: 'center'
-  }
-})
+    textAlign: 'center',
+  },
+});

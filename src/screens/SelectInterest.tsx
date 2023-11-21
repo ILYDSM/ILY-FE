@@ -23,10 +23,10 @@ export default ({ route }: { route: any }) => {
           관심사를 선택하면 주제에 맞는 모임을 추천받을 수 있어요
         </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-          {Object.entries(interestType).map((interest, idx) => {
+          {Object.entries(interestType).map((interest, index) => {
             return (
               <Category
-                key={idx}
+                key={index}
                 clicked={categories.includes(interest[1])}
                 text={interest[0]}
                 onPress={() =>

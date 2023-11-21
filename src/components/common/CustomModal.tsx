@@ -15,20 +15,18 @@ export default function CustomModal({ IsOpen, setIsOpen, children, title }: Prpo
   function closeModal() {
     setIsOpen(false);
     StatusBar.setBarStyle('dark-content');
-    StatusBar.setBackgroundColor('#FFFFFF', true);
+    Platform.OS === 'android' && StatusBar.setBackgroundColor('#FFFFFF', true);
   }
 
   useEffect(() => {
-    if(Platform.OS === 'android'){
-      if (IsOpen) {
-        StatusBar.setBarStyle('light-content');
-        StatusBar.setBackgroundColor('#B6B6B6', true);
-        NavigationBar.setBackgroundColorAsync('#B6B6B6');
-      } else {
-        StatusBar.setBarStyle('dark-content');
-        StatusBar.setBackgroundColor('#FFFFFF', true);
-        NavigationBar.setBackgroundColorAsync('#FFFFFF');
-      }
+    if (IsOpen) {
+      StatusBar.setBarStyle('light-content');
+      Platform.OS === 'android' && StatusBar.setBackgroundColor('#B6B6B6', true);
+      Platform.OS === 'android' && NavigationBar.setBackgroundColorAsync('#B6B6B6');
+    } else {
+      StatusBar.setBarStyle('dark-content');
+      Platform.OS === 'android' && StatusBar.setBackgroundColor('#FFFFFF', true);
+      Platform.OS === 'android' && NavigationBar.setBackgroundColorAsync('#FFFFFF');
     }
   }, [IsOpen]);
 

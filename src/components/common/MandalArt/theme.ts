@@ -10,7 +10,13 @@ export const GrayTheme = {
     backgroundColor: platte.gray80,
     color: platte.gray10,
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'Gray',
+    title: '그레이',
+    text: '그레이색이야',
+    point: 0
   }
 } as MandalaArtThemeType;
 
@@ -24,7 +30,13 @@ export const BlackPinkTheme = {
     backgroundColor: platte.gray100,
     color: '#EF7894',
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'BlackPink',
+    title: '블랙핑크',
+    text: '어떤 그룹이 생각나네요',
+    point: 10
   }
 } as MandalaArtThemeType;
 
@@ -44,7 +56,13 @@ export const HighContrastTheme = {
     borderColor: '#00F0FF',
     borderWidth: 2,
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'HighContrast',
+    title: '사이버',
+    text: '조금 이른 미래의 기술',
+    point: 27
   }
 } as MandalaArtThemeType;
 
@@ -58,7 +76,13 @@ export const CarrotTheme = {
     backgroundColor: '#F2610D',
     color: '#FBE0D0',
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'Carrot',
+    title: '당근',
+    text: '토끼들이 좋아하겠네요',
+    point: 15
   }
 } as MandalaArtThemeType;
 
@@ -72,7 +96,13 @@ export const PurpleTheme = {
     backgroundColor: '#553399',
     color: '#E4DFED',
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'Purple',
+    title: '보라',
+    text: '이 색을 보라',
+    point: 12
   }
 } as MandalaArtThemeType;
 
@@ -86,7 +116,13 @@ export const LightPurpleTheme = {
     backgroundColor: '#9A99FF',
     color: '#E6E5FF',
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'LightPurple',
+    title: '밝은 보라',
+    text: '밝은 색을 보라',
+    point: 15
   }
 } as MandalaArtThemeType;
 
@@ -100,7 +136,13 @@ export const TealTheme = {
     backgroundColor: '#339988',
     color: '#E4DFED',
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
+  },
+  description: {
+    name: 'Teal',
+    title: '틸',
+    text: '쇠오리가 생각나네요',
+    point: 15
   }
 } as MandalaArtThemeType;
 
@@ -142,9 +184,15 @@ export const RainbowTheme = {
     backgroundColor: platte.gray10,
     color: platte.gray100,
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: platte.gray30
+  },
+  description: {
+    name: 'Rainbow',
+    title: '무지개',
+    text: '알록달록하네요',
+    point: 30
   }
 } as MandalaArtThemeType;

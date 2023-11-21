@@ -1,17 +1,19 @@
 import { platte } from '@/styles/platte';
 import { Check } from 'lucide-react-native';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { GestureResponderEvent } from 'react-native-modal';
 
 interface CategoryPropsType {
   clicked?: boolean;
   text: string;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
-export default ({ clicked, text }: CategoryPropsType) => {
+export default ({ clicked, text, onPress }: CategoryPropsType) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={[styles.container, clicked && { backgroundColor: platte.gray80 }]}>
-        {clicked && <Check size={20} color={platte.gray00} />}
+        {clicked && <Check size={16} color={platte.gray00} />}
         <Text style={[styles.text, clicked && { color: platte.gray00 }]}>{text}</Text>
       </View>
     </TouchableOpacity>

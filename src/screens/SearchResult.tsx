@@ -11,9 +11,25 @@ import Category from '@/components/common/Category';
 import MeetCard from '@/components/common/MeetCard';
 import { DATA } from '@/constants/mock';
 import Margin from '@/components/common/Margin';
+import { interestType } from '@/utils/Translates';
+import { useEffect, useState } from 'react';
+import { viewCategorySearchGroup } from '@/apis/meet';
 
-const SearchResult = () => {
+const SearchResult = ({ route }: { route: any }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [categories, setCategories] = useState<InterestEnglishType>('Sports');
+  const [keyword, setKeyword] = useState('');
+  const [result, setResult] = useState<ViewAllResponse[]>([]);
+
+  useEffect(() => {
+    setKeyword(route.params.keyword);
+  }, [route]);
+
+  useEffect(() => {
+    viewCategorySearchGroup({ type: categories, keyword })
+      .then((res) => setResult(res.data))
+      .catch((err) => console.log(err));
+  }, [keyword, categories]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -23,8 +39,10 @@ const SearchResult = () => {
           <CustomInput
             text="검색"
             placeholder="모임찾기"
+            onChangeText={(e) => setKeyword(e)}
+            value={keyword}
             icon={
-              <TouchableOpacity onPress={() => { }}>
+              <TouchableOpacity onPress={() => {}}>
                 <Search size={20} color={platte.gray50} />
               </TouchableOpacity>
             }
@@ -38,20 +56,28 @@ const SearchResult = () => {
                   columnGap: 8,
                 }}
               >
-                <Category text="스포츠" />
-                <Category text="스포츠" />
+                {Object.entries(interestType).map((interest, index) => {
+                  return (
+                    <Category
+                      key={index}
+                      clicked={categories.includes(interest[1])}
+                      text={interest[0]}
+                      onPress={() => setCategories(interest[1])}
+                    />
+                  );
+                })}
               </ScrollView>
             </View>
           </View>
           <FlatList
-            data={DATA}
+            data={result}
             renderItem={({ item }) => (
               <>
-                <MeetCard title={item.title} description={item.description} headCount={item.headCount} />
+                <MeetCard title={item.title} description={item.content} headCount={item.participant} />
                 <Margin height={16} />
               </>
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, idx) => item.title + idx}
           />
         </View>
       </SafeAreaView>
