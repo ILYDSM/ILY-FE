@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontWeight: '500'
+    fontFamily: '500'
   },
   contentBox: {
     flexDirection: 'row',

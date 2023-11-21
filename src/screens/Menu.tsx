@@ -9,16 +9,32 @@ import { removeItem } from '@/utils/AsyncStorage';
 import { useState, useEffect } from 'react';
 import CustomModal from '@/components/common/CustomModal';
 import GoalCheck from '@/components/common/GoalCheck';
-import { profile } from '@/apis/user';
+import { profile, profileChange } from '@/apis/user';
+import { Controller, useForm } from 'react-hook-form';
+import { emailRule, nicknameRule } from '@/utils/Rules';
+import CustomInput from '@/components/common/CustomInput';
 
 const Menu = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalStatus, setModalStatus] = useState<string>('logOut');
   const [profileData, setProfileData] = useState<ProfileResponse>({
     nickname: '',
     email: '',
     point: '0',
     interests: []
+  });
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      nickname: profileData.nickname,
+      email: profileData.email,
+    },
   });
 
   const getUserProfile = () => {
@@ -30,7 +46,22 @@ const Menu = () => {
       });
   };
 
-  const LogOut = () => {
+  const openModal = (status: string) => {
+    setModalOpen(true);
+    setModalStatus(status);
+  }
+
+  const onProfileChange = (data: ProfileChangeRequest) => {
+    profileChange(data).then(() => {
+      setModalOpen(false);
+      getUserProfile();
+    })
+    .catch((err) => {
+      console.log('유저 프로필을 변경할 수 없음:\n', err);
+    })
+  }
+
+  const logOut = () => {
     removeItem('userAccessToken');
     navigation.reset({ routes: [{ name: 'Menu' }] });
     navigation.navigate('Rending');
@@ -60,7 +91,7 @@ const Menu = () => {
             <Text style={styles.subTitle}>{profileData.nickname}</Text>
             <Text style={styles.grayText}>{profileData.email}</Text>
             <CardList title="관심사 수정" onPress={() => navigation.navigate('Menu', { screen: 'InterestChange' })} />
-            <CardList title="내 정보 수정" onPress={() => {}} />
+            <CardList title="내 정보 수정" onPress={() => openModal('profileChange')} />
           </View>
           <GoalCheck isTitle />
           <View style={styles.ContentBox}>
@@ -74,12 +105,45 @@ const Menu = () => {
           </View>
           <View style={styles.ContentBox}>
             <CardList title="비밀번호 변경" onPress={() => navigation.navigate('Menu', { screen: 'MenuChangePwd' })} />
-            <CardList title="로그아웃" onPress={() => setModalOpen(true)} />
+            <CardList title="로그아웃" onPress={() => openModal('logOut')} />
             <CardList title="계정 삭제" onPress={() => navigation.navigate('Menu', { screen: 'DeleteAccount' })} />
           </View>
         </View>
-        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title="로그아웃할까요?">
-          <CustomButton title="로그아웃" onPress={LogOut} />
+        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title={ modalStatus === 'logOut' ? "로그아웃할까요?" : "내 정보 수정"}>
+          {
+            modalStatus === 'logOut' ?
+            <CustomButton title="로그아웃" onPress={logOut} />
+            : modalStatus === 'profileChange' &&
+            <View style={styles.gap12}>
+              <Controller 
+                control={control}
+                name='nickname'
+                rules={nicknameRule}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput
+                    text="닉네임"
+                    onChangeText={onChange}
+                    value={value}
+                    isError={!!errors.nickname}
+                  />
+                )}
+              />
+              <Controller 
+                control={control}
+                name='email'
+                rules={emailRule}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput
+                    text="이메일"
+                    onChangeText={onChange}
+                    value={value}
+                    isError={!!errors.email}
+                  />
+                )}
+              />
+              <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} />
+            </View>
+          }
         </CustomModal>
       </SafeAreaView>
     </ScrollView>
@@ -136,6 +200,9 @@ const styles = StyleSheet.create({
   },
   gap8: {
     gap: 8,
+  },
+  gap12: {
+    gap: 12
   },
   boxCover: {
     gap: 4,

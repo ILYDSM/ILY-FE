@@ -25,3 +25,8 @@ interface ProfileResponse {
 interface InterestRequest {
   interests: string[];
 }
+
+interface ProfileChangeRequest {
+  nickname: string;
+  email: string;
+}

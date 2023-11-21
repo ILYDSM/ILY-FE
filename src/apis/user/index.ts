@@ -17,3 +17,7 @@ export const profile = async () => {
 export const interest = async (body: InterestRequest) => {
   return await instance.post(`${router}/interest`, body);
 }
+
+export const profileChange = async (body: ProfileChangeRequest) => {
+  return await instance.patch(`${router}/profile`, body)
+}
