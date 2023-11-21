@@ -33,53 +33,52 @@ const DemoData = [
 
 export default function GoalJoinRequest(){
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
-  const [modalState, setModalState] = useState<string>('')
-  
   return(
-    <>
-      <SafeAreaView style={{ paddingVertical: 16 }}>
-        <TitleBar title="참가 신청 목록" onPress={()=>navigation.goBack()}/>
-        <FlatList 
-          data={DemoData}
-          renderItem={(d)=>
-            <Profile setState={setModalState} data={d.item}/>
-          }
-          keyExtractor={(d)=>`${d.user_id}`}
-          contentContainerStyle={{marginHorizontal: 16, gap: 8}}
+    <SafeAreaView style={{ paddingVertical: 16 }}>
+      <TitleBar title="참가 신청 목록" onPress={()=>navigation.goBack()}/>
+      <FlatList 
+        data={DemoData}
+        renderItem={(d)=>
+          <Profile data={d.item}/>
+        }
+        keyExtractor={(d)=>`${d.user_id}`}
+        contentContainerStyle={{marginHorizontal: 16, gap: 8}}
         />
-      </SafeAreaView>
-      <RequestConfirm setState={setModalState} state={modalState}/>
-    </>
+    </SafeAreaView>
   )
 }
 
 interface ProfilePropsType{
-  setState: React.Dispatch<React.SetStateAction<string>>;
   data:{
     nickname: string;
     user_id: number;
   }
 }
 
-function Profile({ setState, data }:ProfilePropsType){
+function Profile({ data }:ProfilePropsType){
+  const [modalState, setModalState] = useState<string>('');
   return(
-    <View style={Style.profileContainer}>
-      <Image source={require('@/../assets/icon.png')} style={Style.profilePhoto}/>
-      <Text style={{fontSize: 16, flex: 1}}>{data.nickname}</Text>
-      <CustomButton size="S" color="Gray" title="거절" onPress={()=> setState('decline')}/>
-      <CustomButton size="S" title="수락" onPress={()=> setState('accept')}/>
-    </View>
+    <>
+      <View style={Style.profileContainer}>
+        <Image source={require('@/../assets/icon.png')} style={Style.profilePhoto}/>
+        <Text style={{fontSize: 16, flex: 1}}>{data.nickname}</Text>
+        <CustomButton size="S" color="Gray" title="거절" onPress={()=> setModalState('decline')}/>
+        <CustomButton size="S" title="수락" onPress={()=> setModalState('accept')}/>
+      </View>
+      <RequestConfirm setState={setModalState} state={modalState} name={data.nickname}/>
+    </>
   )
 }
 
 interface RequestConfirmType{
   state: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
+  name: string;
 }
-function RequestConfirm({state, setState}:RequestConfirmType){
+function RequestConfirm({state, setState, name}:RequestConfirmType){
   return(
     <CustomModal IsOpen={state !== ""} setIsOpen={()=>setState('')}>
-      <Text style={{fontSize: 28, fontFamily: '700'}}>{state === 'decline' ? '참가 신청을 거절할까요?' : '참가 신청을 수락할까요?'}</Text>
+      <Text style={{fontSize: 28, fontFamily: '700'}}>'{name}'의 참가 신청을 {state === 'decline' ? '거절할까요?' : '수락할까요?'}</Text>
       <CustomButton title={state === 'decline' ? '거절' : '수락'}/>
     </CustomModal>
   )
