@@ -12,14 +12,15 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [isFontLoaded] = useFonts({
-    "Ptd EL": require("@/../assets/fonts/Pretendard-ExtraLight.otf"),
-    "Ptd L": require("@/../assets/fonts/Pretendard-Light.otf"),
-    "Ptd M": require("@/../assets/fonts/Pretendard-Medium.otf"),
-    "Ptd": require("@/../assets/fonts/Pretendard-Regular.otf"),
-    "Ptd SB": require("@/../assets/fonts/Pretendard-SemiBold.otf"),
-    "Ptd B": require("@/../assets/fonts/Pretendard-Bold.otf"),
-    "Ptd EB": require("@/../assets/fonts/Pretendard-ExtraBold.otf"),
-    "Ptd BL": require("@/../assets/fonts/Pretendard-Black.otf"),
+    "100": require("@/../assets/fonts/Pretendard-Thin.otf"),
+    "200": require("@/../assets/fonts/Pretendard-ExtraLight.otf"),
+    "300": require("@/../assets/fonts/Pretendard-Light.otf"),
+    "400": require("@/../assets/fonts/Pretendard-Regular.otf"),
+    "500": require("@/../assets/fonts/Pretendard-Medium.otf"),
+    "600": require("@/../assets/fonts/Pretendard-SemiBold.otf"),
+    "700": require("@/../assets/fonts/Pretendard-Bold.otf"),
+    "800": require("@/../assets/fonts/Pretendard-ExtraBold.otf"),
+    "900": require("@/../assets/fonts/Pretendard-Black.otf"),
   })
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function App() {
   
   setCustomText({
     style:{
-      fontFamily: "Ptd"
+      fontFamily: "500"
     }
   })
   
