@@ -165,6 +165,6 @@ const styles = StyleSheet.create({
   unit: {
     color: platte.gray10,
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
   },
 });

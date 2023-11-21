@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
   },
   Title: {
     fontSize: 16,
-    fontWeight: '700'
+    fontFamily: '700'
   },
   text: {
     fontSize: 16,
-    fontWeight: '500'
+    fontFamily: '500'
   },
   gray: {
     color: platte.gray50

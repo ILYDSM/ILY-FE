@@ -56,7 +56,7 @@ export default () => {
             default:
               return;
           }
-          return <Text style={{ color, fontSize: 12, fontWeight: '500' }}>{label}</Text>;
+          return <Text style={{ color, fontSize: 12, fontFamily: '500' }}>{label}</Text>;
         },
       })}
     >

@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
   switchText: {
     color: '#000000',
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
   },
 });

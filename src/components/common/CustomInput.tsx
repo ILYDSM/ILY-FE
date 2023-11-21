@@ -41,15 +41,15 @@ const styles = StyleSheet.create({
     height: 25,
     padding: 2,
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   text: {
     fontSize: 12,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily: '500',
     color: platte.gray50,
     marginTop: 4,
   },

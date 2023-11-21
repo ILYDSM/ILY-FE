@@ -19,7 +19,7 @@ export default () => {
         <View style={{ padding: 16, backgroundColor: platte.gray80, borderRadius: 80 }}>
           <Check size={48} color={platte.gray00} />
         </View>
-        <Text style={{ fontSize: 20, fontWeight: '700', color: platte.gray100 }}>비밀번호를 바꿨어요</Text>
+        <Text style={{ fontSize: 20, fontFamily: '700', color: platte.gray100 }}>비밀번호를 바꿨어요</Text>
       </View>
       <View style={{ paddingHorizontal: 16 }}>
         <CustomButton

@@ -22,7 +22,7 @@ export default ({ title, children, onPress }: ViewAllProps) => {
       }}
     >
       <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-        <Text style={{ fontSize: 20, fontWeight: '700' }}>{title}</Text>
+        <Text style={{ fontSize: 20, fontFamily: '700' }}>{title}</Text>
         <CustomButton title="모두 보기" size="S" onPress={onPress} />
       </View>
       {children}

@@ -120,7 +120,7 @@ const Login = () => {
                 )}
                 name="password"
               />
-              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '700' }}>다른 계정으로 시작하기</Text>
+              <Text style={{ textAlign: 'center', fontSize: 16, fontFamily: '700' }}>다른 계정으로 시작하기</Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -143,7 +143,7 @@ const Login = () => {
                   paddingHorizontal: 20,
                   paddingVertical: 16,
                   fontSize: 16,
-                  fontWeight: '400',
+                  fontFamily: '400',
                 }}
               >
                 비밀번호 바꾸기

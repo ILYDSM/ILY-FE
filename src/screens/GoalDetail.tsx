@@ -121,7 +121,7 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner }: ManageGr
   if (isGroupOwner) {
     return (
       <CustomModal IsOpen={state === 'ManageGroup'} setIsOpen={() => setState('')}>
-        <Text style={{ fontSize: 28, fontWeight: '700' }}>{groupInfo.title}</Text>
+        <Text style={{ fontSize: 28, fontFamily: '700' }}>{groupInfo.title}</Text>
         <Text style={{ fontSize: 16 }}>{groupInfo.descripton}</Text>
         <View style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
           {groupInfo.tags.map((d) => (
@@ -148,7 +148,7 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner }: ManageGr
   } else {
     return (
       <CustomModal IsOpen={state === 'ManageGroup'} setIsOpen={() => setState('')}>
-        <Text style={{ fontSize: 28, fontWeight: '700' }}>{groupInfo.title}</Text>
+        <Text style={{ fontSize: 28, fontFamily: '700' }}>{groupInfo.title}</Text>
         <Text style={{ fontSize: 16 }}>{groupInfo.descripton}</Text>
         <View style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
           {groupInfo.tags.map((d) => (
@@ -169,7 +169,7 @@ interface ExitGroupModalType {
 function ExitGroupModal({ state, setState }: ExitGroupModalType) {
   return (
     <CustomModal IsOpen={state === 'ExitGroup'} setIsOpen={() => setState('')}>
-      <Text style={{ fontSize: 28, fontWeight: '700' }}>모임에서 나갈까요?</Text>
+      <Text style={{ fontSize: 28, fontFamily: '700' }}>모임에서 나갈까요?</Text>
       <CustomButton title="나가기" />
     </CustomModal>
   );
@@ -182,7 +182,7 @@ interface DeleteGroupType {
 function DeleteGroup({ state, setState }: DeleteGroupType) {
   return (
     <CustomModal IsOpen={state === 'DeleteGroup'} setIsOpen={() => setState('')}>
-      <Text style={{ fontSize: 28, fontWeight: '700' }}>모임을 정말 삭제할까요?</Text>
+      <Text style={{ fontSize: 28, fontFamily: '700' }}>모임을 정말 삭제할까요?</Text>
       <Text style={{ fontSize: 16 }}>참가한 인원, 게시판 글, 만든 목표는 되돌릴 수 없어요</Text>
       <CustomButton title="삭제" />
     </CustomModal>

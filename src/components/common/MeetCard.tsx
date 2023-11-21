@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: '700',
   },
   text: {
     fontSize: 12,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   bottomBox: {
     gap: 4,

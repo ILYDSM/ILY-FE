@@ -11,7 +11,7 @@ export default () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 32, fontWeight: '700' }}>ily 시작하기</Text>
+        <Text style={{ fontSize: 32, fontFamily: '700' }}>ily 시작하기</Text>
       </View>
       <View style={{ paddingHorizontal: 16 }}>
         <CustomButton

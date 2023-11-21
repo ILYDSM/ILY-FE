@@ -22,7 +22,7 @@ export default function CardList({title, onPress, disabled}:PropsType){
         text:{
             flex: 1,
             fontSize: 16,
-            fontWeight: "500",
+            fontFamily: "500",
         },
         textDisabled:{
             color: "#CCCCCC",

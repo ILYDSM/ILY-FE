@@ -102,7 +102,7 @@ function ArticleEditModal({ setState, state, content }:ArticleModalType){
 function ArticleDeleteModal({ setState, state }:ArticleModalType){
   return(
     <CustomModal IsOpen={state==='delete'} setIsOpen={()=>setState('')}>
-      <Text style={{fontWeight: '700', fontSize: 28}}>게시물을 삭제할까요?</Text>
+      <Text style={{fontFamily: '700', fontSize: 28}}>게시물을 삭제할까요?</Text>
       <CustomButton title="삭제"/>
     </CustomModal>
   )
