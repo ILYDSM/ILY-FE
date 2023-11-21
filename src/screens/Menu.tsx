@@ -37,6 +37,8 @@ const Menu = () => {
     },
   });
 
+  const { nickname, email } = watch();
+
   const getUserProfile = () => {
     profile().then((res) => {
         setProfileData(res.data);
@@ -141,7 +143,7 @@ const Menu = () => {
                   />
                 )}
               />
-              <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} />
+              <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} disabled={!email.match(emailRule.pattern.value) || nickname.length === 0 } />
             </View>
           }
         </CustomModal>

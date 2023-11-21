@@ -23,7 +23,7 @@ const InterestChange = () => {
   };
 
   const onInterestChange = () => {
-    interest({ interests: categories }).then((res) => {
+    interest({ interests: categories }).then(() => {
       navigation.navigate('Main');
     })
   }
