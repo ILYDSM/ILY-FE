@@ -48,7 +48,7 @@ const SearchResult = ({ route }: { route: any }) => {
             }
           />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <Text style={{ color: platte.gray50, fontSize: 16, fontWeight: '500' }}>분류</Text>
+            <Text style={{ color: platte.gray50, fontSize: 16, fontFamily: '500' }}>분류</Text>
             <View>
               <ScrollView
                 horizontal

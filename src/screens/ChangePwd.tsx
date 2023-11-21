@@ -44,7 +44,7 @@ export default () => {
             gap: 20,
           }}
         >
-          <Text style={{ color: platte.gray100, fontSize: 16, fontWeight: '500' }}>
+          <Text style={{ color: platte.gray100, fontSize: 16, fontFamily: '500' }}>
             본인 확인을 위해 가입할 때 사용한 이메일 인증이 필요해요
           </Text>
           <View style={{ flexDirection: 'column', gap: 20 }}>

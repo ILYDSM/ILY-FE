@@ -78,7 +78,7 @@ const style = StyleSheet.create({
   title: {
     width: '100%',
     fontSize: 28,
-    fontWeight: '700',
+    fontFamily: '700',
   },
   backdrop: {
     margin: 8,

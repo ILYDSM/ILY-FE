@@ -28,7 +28,7 @@ export default ({ color = 'Black', title = 'button', onPress, size = 'L', disabl
       <Text
         style={[
           styles.title,
-          { color: colorGenerator(color).fontColor, fontWeight: '600' },
+          { color: colorGenerator(color).fontColor, fontFamily: '600' },
           disabled && { color: platte.gray20 },
         ]}
       >

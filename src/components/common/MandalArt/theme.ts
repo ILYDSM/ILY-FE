@@ -10,7 +10,7 @@ export const GrayTheme = {
     backgroundColor: platte.gray80,
     color: platte.gray10,
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'Gray',
@@ -30,7 +30,7 @@ export const BlackPinkTheme = {
     backgroundColor: platte.gray100,
     color: '#EF7894',
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'BlackPink',
@@ -56,7 +56,7 @@ export const HighContrastTheme = {
     borderColor: '#00F0FF',
     borderWidth: 2,
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'HighContrast',
@@ -76,7 +76,7 @@ export const CarrotTheme = {
     backgroundColor: '#F2610D',
     color: '#FBE0D0',
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'Carrot',
@@ -96,7 +96,7 @@ export const PurpleTheme = {
     backgroundColor: '#553399',
     color: '#E4DFED',
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'Purple',
@@ -116,7 +116,7 @@ export const LightPurpleTheme = {
     backgroundColor: '#9A99FF',
     color: '#E6E5FF',
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'LightPurple',
@@ -136,7 +136,7 @@ export const TealTheme = {
     backgroundColor: '#339988',
     color: '#E4DFED',
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   description: {
     name: 'Teal',
@@ -184,7 +184,7 @@ export const RainbowTheme = {
     backgroundColor: platte.gray10,
     color: platte.gray100,
     fontSize: 20,
-    fontWeight: '500',
+    fontFamily: '500',
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: platte.gray30

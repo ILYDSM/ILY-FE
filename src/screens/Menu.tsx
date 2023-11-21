@@ -101,19 +101,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: '700',
+    fontFamily: '700',
   },
   subTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontFamily: '700',
   },
   normalText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily: '500',
   },
   grayText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
     color: '#808080',
   },
   contentCover: {

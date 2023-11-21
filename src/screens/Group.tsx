@@ -93,6 +93,6 @@ const styles = StyleSheet.create({
   recommendText: {
     color: platte.gray100,
     fontSize: 28,
-    fontWeight: '700',
+    fontFamily: '700',
   },
 });

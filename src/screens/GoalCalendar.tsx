@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   checkText: {
     fontSize: 20,
-    fontWeight: '700'
+    fontFamily: '700'
   },
   calendarBox: {
     gap: 4,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   recordTitle: {
     fontSize: 16,
-    fontWeight: '700'
+    fontFamily: '700'
   },
   recordBox: {
     width: 51,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   recordText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: '500',
     color: '#FFFFFF'
   },
   enabled: {
