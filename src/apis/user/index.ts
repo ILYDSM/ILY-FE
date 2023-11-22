@@ -19,5 +19,13 @@ export const interest = async (body: InterestRequest) => {
 }
 
 export const profileChange = async (body: ProfileChangeRequest) => {
-  return await instance.patch(`${router}/profile`, body)
+  return await instance.patch(`${router}/profile`, body);
+}
+
+export const deleteAccount = async () => {
+  return await instance.delete(`${router}`);
+}
+
+export const logout = async () => {
+  return await instance.delete(`${router}/logout`);
 }

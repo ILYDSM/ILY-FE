@@ -9,7 +9,7 @@ import { removeItem } from '@/utils/AsyncStorage';
 import { useState, useEffect } from 'react';
 import CustomModal from '@/components/common/CustomModal';
 import GoalCheck from '@/components/common/GoalCheck';
-import { profile, profileChange } from '@/apis/user';
+import { deleteAccount, logout, profile, profileChange } from '@/apis/user';
 import { Controller, useForm } from 'react-hook-form';
 import { emailRule, nicknameRule } from '@/utils/Rules';
 import CustomInput from '@/components/common/CustomInput';
@@ -64,10 +64,25 @@ const Menu = () => {
   }
 
   const logOut = () => {
-    removeItem('userAccessToken');
-    navigation.reset({ routes: [{ name: 'Menu' }] });
-    navigation.navigate('Rending');
+    logout().then(() => {
+      removeItem('userAccessToken');
+      navigation.reset({ routes: [{ name: 'Auth' }] });
+      navigation.navigate('Rending');
+    })
+    .catch((err) => {
+      console.log('로그아웃 할 수 없음:\n', err);
+    })
   };
+
+  const onDeleteAccount = () => {
+    deleteAccount().then(() => {
+      removeItem('userAccessToken');
+      navigation.reset({ routes: [{ name: 'Auth' }] });
+      navigation.navigate('Rending');
+    }).catch((err) => {
+      console.log('계정을 삭제할 수 없음:\n', err);
+    })
+  }
 
   useEffect(() => {
     const getFn = navigation.addListener('focus', getUserProfile);
@@ -108,14 +123,14 @@ const Menu = () => {
           <View style={styles.ContentBox}>
             <CardList title="비밀번호 변경" onPress={() => navigation.navigate('Menu', { screen: 'MenuChangePwd' })} />
             <CardList title="로그아웃" onPress={() => openModal('logOut')} />
-            <CardList title="계정 삭제" onPress={() => navigation.navigate('Menu', { screen: 'DeleteAccount' })} />
+            <CardList title="계정 삭제" onPress={() => openModal('deleteAccount')} />
           </View>
         </View>
-        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title={ modalStatus === 'logOut' ? "로그아웃할까요?" : "내 정보 수정"}>
+        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title={ modalStatus === 'logOut' ? "로그아웃할까요?" : modalStatus === 'profileChange' ? "내 정보 수정" : "정말 계정을 삭제할까요?"}>
           {
             modalStatus === 'logOut' ?
             <CustomButton title="로그아웃" onPress={logOut} />
-            : modalStatus === 'profileChange' &&
+            : modalStatus === 'profileChange' ?
             <View style={styles.gap12}>
               <Controller 
                 control={control}
@@ -145,6 +160,9 @@ const Menu = () => {
               />
               <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} disabled={!email.match(emailRule.pattern.value) || nickname.length === 0 } />
             </View>
+            :
+            modalStatus === "deleteAccount" &&
+            <CustomButton title="삭제" onPress={onDeleteAccount} />
           }
         </CustomModal>
       </SafeAreaView>
