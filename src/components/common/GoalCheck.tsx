@@ -4,8 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParam } from "@/utils/RootStackParam";
 import CustomButton from "./CustomButton";
 import { Check } from "lucide-react-native";
-import axios from "axios";
-import { getItem } from "@/utils/AsyncStorage";
 import { useEffect, useState } from 'react';
 import { graph, weekGraph } from "@/apis/graph";
 
@@ -36,8 +34,6 @@ const GoalCheck = ({ isTitle }: PropsType) => {
       }
       setContinueDays(continueCount);
     })
-
-
   }
 
   const GetGraphData = async () => {

@@ -29,6 +29,7 @@ const Menu = () => {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -41,8 +42,10 @@ const Menu = () => {
 
   const getUserProfile = () => {
     profile().then((res) => {
-        setProfileData(res.data);
-      })
+      setProfileData(res.data);
+      setValue('nickname', res.data.nickname);
+      setValue('email', res.data.email);
+    })
       .catch((err) => {
         console.log('유저 프로필을 가져올 수 없음:\n', err);
       });
@@ -58,9 +61,9 @@ const Menu = () => {
       setModalOpen(false);
       getUserProfile();
     })
-    .catch((err) => {
-      console.log('유저 프로필을 변경할 수 없음:\n', err);
-    })
+      .catch((err) => {
+        console.log('유저 프로필을 변경할 수 없음:\n', err);
+      })
   }
 
   const logOut = () => {
@@ -69,9 +72,9 @@ const Menu = () => {
       navigation.reset({ routes: [{ name: 'Auth' }] });
       navigation.navigate('Rending');
     })
-    .catch((err) => {
-      console.log('로그아웃 할 수 없음:\n', err);
-    })
+      .catch((err) => {
+        console.log('로그아웃 할 수 없음:\n', err);
+      })
   };
 
   const onDeleteAccount = () => {
@@ -126,43 +129,43 @@ const Menu = () => {
             <CardList title="계정 삭제" onPress={() => openModal('deleteAccount')} />
           </View>
         </View>
-        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title={ modalStatus === 'logOut' ? "로그아웃할까요?" : modalStatus === 'profileChange' ? "내 정보 수정" : "정말 계정을 삭제할까요?"}>
+        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title={modalStatus === 'logOut' ? "로그아웃할까요?" : modalStatus === 'profileChange' ? "내 정보 수정" : "정말 계정을 삭제할까요?"}>
           {
             modalStatus === 'logOut' ?
-            <CustomButton title="로그아웃" onPress={logOut} />
-            : modalStatus === 'profileChange' ?
-            <View style={styles.gap12}>
-              <Controller 
-                control={control}
-                name='nickname'
-                rules={nicknameRule}
-                render={({ field: { onChange, value } }) => (
-                  <CustomInput
-                    text="닉네임"
-                    onChangeText={onChange}
-                    value={value}
-                    isError={!!errors.nickname}
+              <CustomButton title="로그아웃" onPress={logOut} />
+              : modalStatus === 'profileChange' ?
+                <View style={styles.gap12}>
+                  <Controller
+                    control={control}
+                    name='nickname'
+                    rules={nicknameRule}
+                    render={({ field: { onChange, value } }) => (
+                      <CustomInput
+                        text="닉네임"
+                        onChangeText={onChange}
+                        value={value}
+                        isError={!!errors.nickname}
+                      />
+                    )}
                   />
-                )}
-              />
-              <Controller 
-                control={control}
-                name='email'
-                rules={emailRule}
-                render={({ field: { onChange, value } }) => (
-                  <CustomInput
-                    text="이메일"
-                    onChangeText={onChange}
-                    value={value}
-                    isError={!!errors.email}
+                  <Controller
+                    control={control}
+                    name='email'
+                    rules={emailRule}
+                    render={({ field: { onChange, value } }) => (
+                      <CustomInput
+                        text="이메일"
+                        onChangeText={onChange}
+                        value={value}
+                        isError={!!errors.email}
+                      />
+                    )}
                   />
-                )}
-              />
-              <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} disabled={!email.match(emailRule.pattern.value) || nickname.length === 0 } />
-            </View>
-            :
-            modalStatus === "deleteAccount" &&
-            <CustomButton title="삭제" onPress={onDeleteAccount} />
+                  <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} disabled={!email.match(emailRule.pattern.value) || nickname.length === 0} />
+                </View>
+                :
+                modalStatus === "deleteAccount" &&
+                <CustomButton title="삭제" onPress={onDeleteAccount} />
           }
         </CustomModal>
       </SafeAreaView>

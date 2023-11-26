@@ -15,7 +15,7 @@ const InterestChange = () => {
 
   const getUserProfile = () => {
     profile().then((res) => {
-      setCategories(res.data.interests);
+      setCategories(res.data.interests || []);
     })
       .catch((err) => {
         console.log('유저 프로필을 가져올 수 없음:\n', err);

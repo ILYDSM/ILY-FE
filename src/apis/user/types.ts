@@ -15,6 +15,10 @@ interface SignUpRequest {
   interest: string;
 }
 
+interface PasswordChangeRequest {
+  new_password: string;
+}
+
 interface ProfileResponse {
   nickname: string;
   email: string;

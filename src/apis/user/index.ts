@@ -18,6 +18,10 @@ export const interest = async (body: InterestRequest) => {
   return await instance.post(`${router}/interest`, body);
 }
 
+export const passwordChange = async (body: PasswordChangeRequest) => {
+  return await instance.patch(`${router}/password`, body);
+}
+
 export const profileChange = async (body: ProfileChangeRequest) => {
   return await instance.patch(`${router}/profile`, body);
 }
