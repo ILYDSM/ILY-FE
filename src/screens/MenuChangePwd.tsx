@@ -10,6 +10,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { platte } from '@/styles/platte';
 import CustomButton from '@/components/common/CustomButton';
 import { passwordRule } from '@/utils/Rules';
+import { passwordChange } from '@/apis/user';
 
 type EyeType = { password: boolean; new_password: boolean };
 
@@ -40,8 +41,13 @@ const MenuChangePwd = () => {
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    navigation.reset({ routes: [{ name: 'Main' }] });
+    passwordChange({
+      new_password: data.new_password
+    }).then(() => {
+      navigation.reset({ routes: [{ name: 'Main' }] });
+    }).catch((err) => {
+      console.log('비밀번호를 변경할 수 없음\n', err);
+    })
   };
 
   const btnEnabledCheck = useMemo(() => {

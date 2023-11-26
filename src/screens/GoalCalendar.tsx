@@ -1,3 +1,4 @@
+import { graph } from '@/apis/graph';
 import TitleBar from '@/components/common/TitleBar';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
@@ -37,37 +38,53 @@ const GoalCalendar = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const windowSize = Dimensions.get('window');
   const numColumns = 7;
+  const [continueDays, setContinueDays] = useState<number>(0)
   const [calendarData, setCalendarData] = useState<CalendarType[]>([])
 
   useEffect(() => {
-    DataChecking(Data)
+    GetData()
   }, [])
 
+  const GetData = () => {
+    graph().then((res) => {
+      const arrayData = res.data.map((data) => data.date);
+      DataChecking(arrayData)
+    })
+  }
+  
   const DataChecking = (data?: string[]) => {
     const sortedData = data?.sort((a, b) => {
       return new Date(b).getTime() - new Date(a).getTime()
     }) || []
     const nowDate = new Date();
+    const dayFn = (i: number) => new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + i)
+    const twoWord = (num: number) => `0${num}`.slice(-2);
+    const searchDataFn = (arr: Array<string>, date: Date) => arr.indexOf(`${date.getFullYear()}-${twoWord(date.getMonth() + 1)}-${twoWord(date.getDate())}`)
     const firstDate = sortedData.at(-1) ? new Date(sortedData.at(-1) as string) : new Date();
     let dataSliceTmp = 0;
     const length = (nowDate.getFullYear() - firstDate.getFullYear()) * 12 + (nowDate.getMonth() - firstDate.getMonth()) + 1
+    
+    let continueCount = 0
+    for(let i = searchDataFn(sortedData, dayFn(0)); searchDataFn(sortedData, dayFn(i)) !== -1; i--) {
+      continueCount++;
+    }
+    setContinueDays(continueCount);
 
     setCalendarData(Array.from({ length }, (_, index) => {
       const date = new Date(nowDate.getFullYear(), nowDate.getMonth() - index + 1, 0)
       const maxDay = index ? date.getDate() : nowDate.getDate();
-      const year = date.getFullYear()
+      const year = date.getFullYear();
       const month = date.getMonth() + 1;
-      const twoMonth = `0${month}`.slice(-2)
-      const data = sortedData.slice(dataSliceTmp).filter(value => value.match(`${year}-${twoMonth}`));
+      const data = sortedData.slice(dataSliceTmp).filter(value => value.match(`${year}-${twoWord(month)}`));
       dataSliceTmp += data.length;
       
       return {
         title: `${nowDate.getFullYear() !== year ? `${year}년 ` : ''}${month}월`,
         dates: Array.from({ length: maxDay }, (_, index) => {
-          const twoDay = `0${maxDay - index}`.slice(-2)
+          const day = new Date(date.getFullYear(), date.getMonth(), index + 1);
           return {
-            day: maxDay - index,
-            isCheck: data.indexOf(`${year}-${twoMonth}-${twoDay}`) !== -1
+            day: index + 1,
+            isCheck: searchDataFn(data, day) !== -1
           }
         })
       }
@@ -80,7 +97,7 @@ const GoalCalendar = () => {
         <TitleBar title='목표 달성 달력' onPress={() => navigation.goBack()} />
         <View style={styles.contentBox}>
           <View style={styles.borderBox}>
-            <Text style={styles.checkText}>14일 연속으로 달성 중</Text>
+            <Text style={styles.checkText}>{continueDays}일 연속으로 달성 중</Text>
           </View>
           {
             calendarData.map((data, index) => (
