@@ -35,5 +35,6 @@ export type RootStackParam = {
       | 'GoalCreateDetail'
       | 'GoalCreateResult'
       | 'GoalCreateTheme';
+      params?: { id: number, meet_id: number | null }
   };
 };

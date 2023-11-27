@@ -1,3 +1,4 @@
+import { getMandalArt } from '@/apis/target';
 import ViewAll from '@/components/ViewAll';
 import Category from '@/components/common/Category';
 import CustomButton from '@/components/common/CustomButton';
@@ -7,10 +8,11 @@ import { PurpleTheme } from '@/components/common/MandalArt/theme';
 import TitleBar from '@/components/common/TitleBar';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
+import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Users } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 
@@ -33,16 +35,45 @@ const DemoData = {
   },
 };
 
-export default function GoalDetailScreen() {
+export default function GoalDetailScreen({ route }: { route: any }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [mandalData, setMandalData] = useState<GetMandalArtResponse>({
+    id: 0,
+    content: '',
+    cycle_count: 0,
+    cycle_term: 0,
+    cycle_date: '',
+    is_achieved: false,
+    theme: 'Gray',
+    sub_target_response_list: [{
+      id: 0,
+      content: '',
+      is_achieved: false
+    }]
+  })
   const [modalState, setModalState] = useState<string>('');
+  const [idList, setIdList] = useState<number[]>([0, 0]);
 
-  if (DemoData.isGroup) {
+  useEffect(() => {
+    setIdList([route.params.id, route.params.meet_id]);
+  }, [route]);
+
+  useEffect(() => {
+    if(idList[1] === null) {
+      getMandalArt({ targetId: idList[0] })
+        .then((res) => setMandalData(res.data))
+        .catch((err) => console.log(err));
+    } else {
+
+    }
+  }, [idList]);
+
+  if (idList[1] !== null) {
     return (
       <SafeAreaView style={{ paddingVertical: 16 }}>
-        <TitleBar title="관광통역안내사 탈취" onPress={() => navigation.goBack()} />
+        <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={Styles.mainContainer}>
-          <MandalArt title={DemoData.title} data={DemoData.data} theme={PurpleTheme} />
+          <MandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} />
           <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center' }}>
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
@@ -71,9 +102,9 @@ export default function GoalDetailScreen() {
   } else {
     return (
       <SafeAreaView style={{ paddingVertical: 16 }}>
-        <TitleBar title="관광통역안내사 탈취" onPress={() => navigation.goBack()} />
+        <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={{ display: 'flex', paddingHorizontal: 16, gap: 16 }}>
-          <MandalArt title={DemoData.title} data={DemoData.data} theme={PurpleTheme} />
+          <MandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} />
           <CustomButton title="목표 달성 기록" />
           <CustomButton title="목표 편집" color="Transparent" />
         </View>

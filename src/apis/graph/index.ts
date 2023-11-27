@@ -1,11 +1,22 @@
+import { getItem } from '@/utils/AsyncStorage';
 import { instance } from '../axios';
 
 const router = '/graph';
 
 export const weekGraph = async () => {
-  return await instance.get<WeekGraphResponse>(`${router}/week`);
+  const accessToken = await getItem('access_token');
+  return await instance.get<WeekGraphResponse>(`${router}/week`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const graph = async () => {
-  return await instance.get<GraphResponse[]>(`${router}`);
+  const accessToken = await getItem('access_token');
+  return await instance.get<GraphResponse[]>(`${router}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
