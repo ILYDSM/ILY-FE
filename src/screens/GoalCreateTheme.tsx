@@ -7,15 +7,50 @@ import { platte } from "@/styles/platte";
 import { PercentCircle } from "lucide-react-native";
 import CustomButton from "@/components/common/CustomButton";
 import MandalArtThemeCard from "@/components/common/MandalArt/MandalArtThemeCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThemeSelector from "@/utils/ThemeSelector";
+import { createMandalArt } from "@/apis/target";
+import { getItem } from "@/utils/AsyncStorage";
+import { profile } from "@/apis/user";
 
 const GoalCreateTheme = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [themeColor, setThemeColor] = useState<string>('Gray')
+  const [mandalData, setMandalData] = useState<string[]>([]);
+  const [point, setPoint] = useState<number>(0);
+
+  const getData = async () => {
+    const stringData = await getItem('mandalArtCreate');
+    setMandalData(JSON.parse(stringData ?? "[]"));
+
+    await profile().then((res) => {
+      setPoint(Number(res.data.point));
+    })
+    return;
+  }
+
+  useEffect(() => {
+    const dataFn = navigation.addListener('focus', () => {
+      getData();
+    });
+    return dataFn;
+  }, [navigation])
 
   const onCreate = () => {
-    navigation.navigate('Main');
+    createMandalArt({
+      target: mandalData[0],
+      cycle_count: 0,
+      cycle_term: 7,
+      cycle_date: new Date().toLocaleDateString().replace(/[.]/g,'').split(' ').join('-'),
+      sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
+      detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
+      theme: themeColor,
+      theme_price: (ThemeSelector(themeColor) as MandalaArtThemeType).description.point
+    }).then(() => {
+      navigation.reset({ routes: [{ name: 'Main' }]});
+    }).catch((err) => {
+      console.log('만다라트를 생성할 수 없음:\n', err);
+    })
   }
 
   return (
@@ -28,13 +63,13 @@ const GoalCreateTheme = () => {
         </View>
         <View style={styles.borderBox}>
           <Text style={styles.pointTitle}>내 포인트</Text>
-          <Text style={styles.text}>{Number(2000).toLocaleString('ko-KR')}</Text>
+          <Text style={styles.text}>{point.toLocaleString('ko-KR')}</Text>
           <PercentCircle size={20} color={platte.gray100}/>
         </View>
         <FlatList
           data={ThemeSelector('All') as MandalaArtThemeType[]}
           renderItem={({ item }) =>
-            <MandalArtThemeCard theme={item} isCheck={themeColor === item.description.name} onPress={() => setThemeColor(item.description.name)} />
+            <MandalArtThemeCard theme={item} isCheck={themeColor === item.description.name} onPress={() => setThemeColor(item.description.name)} disabled={point < item.description.point}/>
           }
           numColumns={2}
           keyExtractor={(_, index) => `${index}`}

@@ -6,15 +6,15 @@ export const instance = axios.create({
   timeout: 10000,
 });
 
-instance.interceptors.request.use(
-  async (request) => {
-    const accessToken = await getItem('access_token');
-    if (accessToken) {
-      request.headers!['Authorization'] = `Bearer ${accessToken}`;
-    }
-    return request;
-  },
-  (error: AxiosError) => {
-    return Promise.reject(error);
-  },
-);
+// instance.interceptors.request.use(
+//   async (request) => {
+//     const accessToken = await getItem('access_token');
+//     if (accessToken) {
+//       request.headers!['Authorization'] = `Bearer ${accessToken}`;
+//     }
+//     return request;
+//   },
+//   (error: AxiosError) => {
+//     return Promise.reject(error);
+//   },
+// );
