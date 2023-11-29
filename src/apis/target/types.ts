@@ -34,5 +34,16 @@ interface GetMandalArtResponse {
     id: number;
     content: string;
     is_achieved: boolean;
-  }[]
+  }[];
+}
+
+interface GetDetailMandalArtResponse {
+  id: number;
+  content: string;
+  is_achieved: boolean;
+  detail_target_responses: {
+    id: number;
+    content: string;
+    is_achieved: boolean;
+  }[];
 }

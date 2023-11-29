@@ -1,10 +1,10 @@
-import { getMandalArt } from '@/apis/target';
+import { getDetailMandalArt, getMandalArt } from '@/apis/target';
 import ViewAll from '@/components/ViewAll';
 import Category from '@/components/common/Category';
 import CustomButton from '@/components/common/CustomButton';
 import CustomModal from '@/components/common/CustomModal';
 import MandalArt from '@/components/common/MandalArt/MandalArt';
-import { PurpleTheme } from '@/components/common/MandalArt/theme';
+import TouchableMandalArt from '@/components/common/MandalArt/TouchableMandalArt';
 import TitleBar from '@/components/common/TitleBar';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
@@ -37,6 +37,20 @@ const DemoData = {
 
 export default function GoalDetailScreen({ route }: { route: any }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [detailMandalData, setDetailMandalData] = useState<GetDetailMandalArtResponse[]>(Array.from({ length: 8 }, () => {
+    return {
+      id: 0,
+      content: '',
+      is_achieved: false,
+      detail_target_responses: Array.from({ length: 8 }, () => {
+        return {
+          id: 0,
+          content: '',
+          is_achieved: false
+        }
+      })
+    }
+    }))
   const [mandalData, setMandalData] = useState<GetMandalArtResponse>({
     id: 0,
     content: '',
@@ -45,14 +59,17 @@ export default function GoalDetailScreen({ route }: { route: any }) {
     cycle_date: '',
     is_achieved: false,
     theme: 'Gray',
-    sub_target_response_list: [{
-      id: 0,
-      content: '',
-      is_achieved: false
-    }]
+    sub_target_response_list: Array.from({ length: 8 }, () => {
+      return {
+        id: 0,
+        content: '',
+        is_achieved: false
+      }
+    })
   })
   const [modalState, setModalState] = useState<string>('');
   const [idList, setIdList] = useState<number[]>([0, 0]);
+  const [detailMandalNumber, setDetailMandalNumber] = useState<number>(0)
 
   useEffect(() => {
     setIdList([route.params.id, route.params.meet_id]);
@@ -61,7 +78,18 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   useEffect(() => {
     if(idList[1] === null) {
       getMandalArt({ targetId: idList[0] })
-        .then((res) => setMandalData(res.data))
+        .then((res) => {
+          setMandalData(res.data);
+          for(let i = 0; i < 8; i++) {
+            const data = res.data.sub_target_response_list[i];
+            if(data.content) {
+              getDetailMandalArt({ targetId: data.id }).then((res) => {
+                setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
+              })
+              .catch((err) => console.log(err));
+            }
+          }
+        })
         .catch((err) => console.log(err));
     } else {
 
@@ -73,7 +101,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={Styles.mainContainer}>
-          <MandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} />
+          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={(index) => { setModalState('DetailMandal'); setDetailMandalNumber(index)}}/>
           <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center' }}>
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
@@ -97,6 +125,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
         />
         <ExitGroupModal setState={setModalState} state={modalState} />
         <DeleteGroup setState={setModalState} state={modalState} />
+        <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]}/>
       </SafeAreaView>
     );
   } else {
@@ -104,10 +133,11 @@ export default function GoalDetailScreen({ route }: { route: any }) {
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={{ display: 'flex', paddingHorizontal: 16, gap: 16 }}>
-          <MandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} />
+          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={(index) => { setModalState('DetailMandal'); setDetailMandalNumber(index)}}/>
           <CustomButton title="목표 달성 기록" />
-          <CustomButton title="목표 편집" color="Transparent" />
+          <CustomButton title="목표 편집" color="Gray" />
         </View>
+        <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]}/>
       </SafeAreaView>
     );
   }
@@ -130,9 +160,12 @@ function Comment({ nickname, content, date }: commentType) {
   );
 }
 
-interface ManageGroupModalType {
+interface ModalType {
   state: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface ManageGroupModalType extends ModalType {
   groupInfo: {
     title: string;
     descripton: string;
@@ -193,11 +226,8 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner }: ManageGr
   }
 }
 
-interface ExitGroupModalType {
-  state: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
-}
-function ExitGroupModal({ state, setState }: ExitGroupModalType) {
+
+function ExitGroupModal({ state, setState }: ModalType) {
   return (
     <CustomModal IsOpen={state === 'ExitGroup'} setIsOpen={() => setState('')}>
       <Text style={{ fontSize: 28, fontFamily: '700' }}>모임에서 나갈까요?</Text>
@@ -206,16 +236,25 @@ function ExitGroupModal({ state, setState }: ExitGroupModalType) {
   );
 }
 
-interface DeleteGroupType {
-  state: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
-}
-function DeleteGroup({ state, setState }: DeleteGroupType) {
+function DeleteGroup({ state, setState }: ModalType) {
   return (
     <CustomModal IsOpen={state === 'DeleteGroup'} setIsOpen={() => setState('')}>
       <Text style={{ fontSize: 28, fontFamily: '700' }}>모임을 정말 삭제할까요?</Text>
       <Text style={{ fontSize: 16 }}>참가한 인원, 게시판 글, 만든 목표는 되돌릴 수 없어요</Text>
       <CustomButton title="삭제" />
+    </CustomModal>
+  );
+}
+
+interface MandalArtModalType extends ModalType {
+  theme: string;
+  data: GetDetailMandalArtResponse;
+}
+
+const DetailMandalArt = ({ state, setState, theme, data }: MandalArtModalType) => {
+  return (
+    <CustomModal IsOpen={state === 'DetailMandal'} setIsOpen={() => setState('')}>
+      <MandalArt title={data.content} data={data.detail_target_responses.map(value => value.content)} theme={ThemeSelector(theme)} />
     </CustomModal>
   );
 }

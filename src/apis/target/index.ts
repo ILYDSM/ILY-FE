@@ -29,3 +29,12 @@ export const getMandalArt = async (body: GetMandalArtRequest) => {
     }
   });
 }
+
+export const getDetailMandalArt = async (body: GetMandalArtRequest) => {
+  const accessToken = await getItem('access_token');
+  return await instance.get<GetDetailMandalArtResponse>(`${router}/sub/${body.targetId}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+}
