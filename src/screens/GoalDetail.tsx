@@ -7,6 +7,7 @@ import MandalArt from '@/components/common/MandalArt/MandalArt';
 import TouchableMandalArt from '@/components/common/MandalArt/TouchableMandalArt';
 import TitleBar from '@/components/common/TitleBar';
 import { platte } from '@/styles/platte';
+import { setItem } from '@/utils/AsyncStorage';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
@@ -71,6 +72,16 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   const [idList, setIdList] = useState<number[]>([0, 0]);
   const [detailMandalNumber, setDetailMandalNumber] = useState<number>(0)
 
+  const openDetailMandal = (index: number) => {
+    setModalState('DetailMandal');
+    setDetailMandalNumber(index);
+  }
+
+  const completeMandalArt = async () => {
+    await setItem('completeMandalData', JSON.stringify([mandalData, detailMandalData]));
+    navigation.navigate('Goal', { screen: 'GoalCompleteCheck' });
+  }
+
   useEffect(() => {
     setIdList([route.params.id, route.params.meet_id]);
   }, [route]);
@@ -101,7 +112,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={Styles.mainContainer}>
-          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={(index) => { setModalState('DetailMandal'); setDetailMandalNumber(index)}}/>
+          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal}/>
           <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center' }}>
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
@@ -133,8 +144,8 @@ export default function GoalDetailScreen({ route }: { route: any }) {
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={{ display: 'flex', paddingHorizontal: 16, gap: 16 }}>
-          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={(index) => { setModalState('DetailMandal'); setDetailMandalNumber(index)}}/>
-          <CustomButton title="목표 달성 기록" />
+          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal}/>
+          <CustomButton title="목표 달성 기록" onPress={completeMandalArt} />
           <CustomButton title="목표 편집" color="Gray" />
         </View>
         <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]}/>

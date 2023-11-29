@@ -47,3 +47,7 @@ interface GetDetailMandalArtResponse {
     is_achieved: boolean;
   }[];
 }
+
+interface completeMandalArtRequest {
+  detailTargetId: number;
+}

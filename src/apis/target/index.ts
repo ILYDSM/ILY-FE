@@ -38,3 +38,12 @@ export const getDetailMandalArt = async (body: GetMandalArtRequest) => {
     }
   });
 }
+
+export const completeMandalArt = async (body: completeMandalArtRequest) => {
+  const accessToken = await getItem('access_token');
+  return await instance.patch(`${router}/complete/${body.detailTargetId}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+}

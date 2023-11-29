@@ -1,21 +1,20 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParam } from "@/utils/RootStackParam";
-import CustomButton from "./CustomButton";
-import { Check } from "lucide-react-native";
-import { useEffect, useState } from 'react';
 import { graph, weekGraph } from "@/apis/graph";
+import CustomButton from "@/components/common/CustomButton";
+import MandalArt from "@/components/common/MandalArt/MandalArt";
+import TitleBar from "@/components/common/TitleBar";
+import { RootStackParam } from "@/utils/RootStackParam";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Check } from "lucide-react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet, View, FlatList, Text } from "react-native"
 
-interface PropsType {
-  isTitle?: boolean;
-}
 
-const GoalCheck = ({ isTitle }: PropsType) => {
+const GoalCompleteResult = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [weekData, setWeekData] = useState<boolean[]>([false, false, false, false, false, false, false]);
   const [continueDays, setContinueDays] = useState<number>(0)
-
+  
   const GetGraphCount = async () => {
     await graph().then((res) => {
       const arrayData = res.data.map((data) => data.date);
@@ -65,57 +64,72 @@ const GoalCheck = ({ isTitle }: PropsType) => {
   }, [navigation])
 
   return (
-    <View style={styles.contentBox}>
-      {isTitle && <Text style={styles.title}>목표 달성</Text>}
-      <FlatList
-        data={weekData}
-        extraData={weekData}
-        renderItem={({ item }) => {
-          if (item) {
-            return (
-              <View style={[styles.recordBox, styles.enabled]}>
-                <Check size={20} color="#FFFFFF" />
-              </View>
-            )
-          }
-          else {
-            return (
-              <View style={[styles.recordBox, styles.disabled]} />
-            )
-          }
-        }}
-        keyExtractor={(_, index) => `${index}`}
-        horizontal
-      />
-      <Text style={styles.title}>{continueDays}일째 연속으로 기록함</Text>
-      <View style={[styles.boxCover]}>
-        <CustomButton title='오늘 달성 기록하기' size='M' color='Gray' onPress={() => navigation.navigate('목표')} />
-        <CustomButton title='자세히 보기' size='M' color='Transparent' onPress={() => navigation.navigate('Menu', { screen: 'GoalCalendar' })} />
+    <SafeAreaView style={styles.container}>
+      <TitleBar title='목표 달성 기록' onPress={() => navigation.goBack()} />
+      <View style={styles.contentBox}>
+        <View style={styles.centerBox}>
+          <View style={styles.mandalBox}>
+            <MandalArt />
+          </View>
+          <FlatList
+            data={weekData}
+            extraData={weekData}
+            renderItem={({ item }) => {
+              if (item) {
+                return (
+                  <View style={[styles.recordBox, styles.enabled]}>
+                    <Check size={20} color="#FFFFFF" />
+                  </View>
+                )
+              }
+              else {
+                return (
+                  <View style={[styles.recordBox, styles.disabled]} />
+                )
+              }
+            }}
+            keyExtractor={(_, index) => `${index}`}
+            horizontal
+          />
+          <Text style={styles.text}>{continueDays}일째 목표를 기록하고 있어요</Text>
+        </View>
+        <View style={styles.button}>
+          <CustomButton title="완료" onPress={() => navigation.reset({ routes: [{ name: 'Main' }] })}/>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
-export default GoalCheck;
+export default GoalCompleteResult;
 
 const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 16,
+    flex: 1,
+  },
   contentBox: {
-    gap: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E6E6E6',
-    padding: 12,
-    width: 'auto',
+    display: 'flex',
+    paddingHorizontal: 16,
+    gap: 20,
+    flex: 1
   },
-  title: {
+  centerBox: {
+    flex: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  mandalBox: {
+    width: 156,
+    height: 156
+  },
+  text: {
     fontSize: 20,
-    fontFamily: "700"
+    fontFamily: '700',
+    textAlign: 'center'
   },
-  boxCover: {
-    gap: 8,
-    alignItems: 'center',
-    width: 'auto',
-    flexDirection: 'row'
+  button: {
+    flex: 1
   },
   recordBox: {
     width: 32,
@@ -132,3 +146,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCCCCC',
   }
 })
+
+function setContinueDays(continueCount: number) {
+  throw new Error("Function not implemented.");
+}
+
+
+function setWeekData(arg0: boolean[]) {
+  throw new Error("Function not implemented.");
+}
