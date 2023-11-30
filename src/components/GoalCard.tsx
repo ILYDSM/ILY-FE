@@ -1,5 +1,5 @@
 import { Users } from 'lucide-react-native';
-import { View, Text, TouchableOpacity, GestureResponderEvent, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, GestureResponderEvent, StyleSheet, Dimensions } from 'react-native';
 
 interface GoalCardPropsType {
   text: string;
@@ -21,6 +21,7 @@ export default ({ text, onPress, theme, isGroup = false }: GoalCardPropsType) =>
 
 const Style = StyleSheet.create({
   card: {
+    width: Dimensions.get('window').width / 2 - 22,
     padding: 8,
     height: 120,
     alignItems: 'center',

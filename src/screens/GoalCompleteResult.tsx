@@ -14,7 +14,7 @@ const GoalCompleteResult = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [weekData, setWeekData] = useState<boolean[]>([false, false, false, false, false, false, false]);
   const [continueDays, setContinueDays] = useState<number>(0)
-  
+
   const GetGraphCount = async () => {
     await graph().then((res) => {
       const arrayData = res.data.map((data) => data.date);
@@ -71,30 +71,33 @@ const GoalCompleteResult = () => {
           <View style={styles.mandalBox}>
             <MandalArt />
           </View>
-          <FlatList
-            data={weekData}
-            extraData={weekData}
-            renderItem={({ item }) => {
-              if (item) {
-                return (
-                  <View style={[styles.recordBox, styles.enabled]}>
-                    <Check size={20} color="#FFFFFF" />
-                  </View>
-                )
-              }
-              else {
-                return (
-                  <View style={[styles.recordBox, styles.disabled]} />
-                )
-              }
-            }}
-            keyExtractor={(_, index) => `${index}`}
-            horizontal
-          />
+          <View style={styles.flatBox}>
+            <FlatList
+              data={weekData}
+              extraData={weekData}
+              renderItem={({ item }) => {
+                if (item) {
+                  return (
+                    <View style={[styles.recordBox, styles.enabled]}>
+                      <Check size={20} color="#FFFFFF" />
+                    </View>
+                  )
+                }
+                else {
+                  return (
+                    <View style={[styles.recordBox, styles.disabled]} />
+                  )
+                }
+              }}
+              keyExtractor={(_, index) => `${index}`}
+              horizontal
+              scrollEnabled={false}
+            />
+          </View>
           <Text style={styles.text}>{continueDays}일째 목표를 기록하고 있어요</Text>
         </View>
         <View style={styles.button}>
-          <CustomButton title="→ 다음" onPress={() => navigation.reset({ routes: [{ name: 'Main' }] })}/>
+          <CustomButton title="완료" onPress={() => navigation.reset({ routes: [{ name: 'Main' }] })} />
         </View>
       </View>
     </SafeAreaView>
@@ -117,11 +120,15 @@ const styles = StyleSheet.create({
   centerBox: {
     flex: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: 20
   },
   mandalBox: {
     width: 156,
     height: 156
+  },
+  flatBox: {
+    height: 32
   },
   text: {
     fontSize: 20,
