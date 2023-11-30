@@ -9,6 +9,7 @@ import GoalGroupBoard from '@/screens/GoalGroupBoard';
 import GoalJoinRequest from '@/screens/GoalJoinRequest';
 import GoalCompleteCheck from '@/screens/GoalCompleteCheck';
 import GoalCompleteResult from '@/screens/GoalCompleteResult';
+import GoalCreateCycle from '@/screens/GoalCreateCycle';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function Goal() {
       <Stack.Screen name="GoalCreateDetail" component={GoalCreateDetail} />
       <Stack.Screen name="GoalCreateResult" component={GoalCreateResult} />
       <Stack.Screen name="GoalCreateTheme" component={GoalCreateTheme} />
+      <Stack.Screen name="GoalCreateCycle" component={GoalCreateCycle} />
       <Stack.Screen name="GoalCompleteCheck" component={GoalCompleteCheck} />
       <Stack.Screen name="GoalCompleteResult" component={GoalCompleteResult} />
     </Stack.Navigator>

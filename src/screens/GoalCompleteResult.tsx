@@ -94,7 +94,7 @@ const GoalCompleteResult = () => {
           <Text style={styles.text}>{continueDays}일째 목표를 기록하고 있어요</Text>
         </View>
         <View style={styles.button}>
-          <CustomButton title="완료" onPress={() => navigation.reset({ routes: [{ name: 'Main' }] })}/>
+          <CustomButton title="→ 다음" onPress={() => navigation.reset({ routes: [{ name: 'Main' }] })}/>
         </View>
       </View>
     </SafeAreaView>

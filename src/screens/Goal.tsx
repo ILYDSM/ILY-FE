@@ -2,6 +2,7 @@ import { getTarget } from '@/apis/target';
 import GoalCard from '@/components/GoalCard';
 import PageTitle from '@/components/PageTitle';
 import CustomButton from '@/components/common/CustomButton';
+import { getItem, removeItem } from '@/utils/AsyncStorage';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
@@ -45,6 +46,15 @@ const Goal = () => {
       });
   };
 
+  const onCreateMandalArt = async () => {
+    const mandalData = await getItem('mandalArtCreate');
+    if(mandalData) {
+      await removeItem('mandalArtCreate');
+    }
+
+    navigation.navigate('Goal', { screen: 'GoalCreateMain' })
+  }
+
   useEffect(() => {
     const getFn = navigation.addListener('focus', getGoals);
     return getFn;
@@ -54,7 +64,7 @@ const Goal = () => {
     <>
       <PageTitle title="모든 목표" />
       <View style={{ paddingHorizontal: 16, gap: 16 }}>
-        <CustomButton title="+  새 목표 만들기" size="M" onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateMain' })}/>
+        <CustomButton title="+  새 목표 만들기" size="M" onPress={onCreateMandalArt}/>
           <FlatList
             data={goalData}
             extraData={goalData}

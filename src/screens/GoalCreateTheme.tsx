@@ -10,7 +10,7 @@ import MandalArtThemeCard from "@/components/common/MandalArt/MandalArtThemeCard
 import { useEffect, useState } from "react";
 import ThemeSelector from "@/utils/ThemeSelector";
 import { createMandalArt } from "@/apis/target";
-import { getItem } from "@/utils/AsyncStorage";
+import { getItem, setItem } from "@/utils/AsyncStorage";
 import { profile } from "@/apis/user";
 
 const GoalCreateTheme = () => {
@@ -21,11 +21,19 @@ const GoalCreateTheme = () => {
 
   const getData = async () => {
     const stringData = await getItem('mandalArtCreate');
-    setMandalData(JSON.parse(stringData ?? "[]"));
+    const themeData = await getItem('mandalTheme');
+
+    if(stringData) {
+      setMandalData(JSON.parse(stringData));
+    }
+    if(themeData) {
+      setThemeColor(themeData)
+    }
 
     await profile().then((res) => {
       setPoint(Number(res.data.point));
-    })
+    });
+
     return;
   }
 
@@ -36,7 +44,12 @@ const GoalCreateTheme = () => {
     return dataFn;
   }, [navigation])
 
-  const onCreate = () => {
+  const selectTheme = async (theme: string) => {
+    setThemeColor(theme)
+    await setItem('mandalTheme', theme);
+  }
+
+  const onCreate = async () => {
     createMandalArt({
       target: mandalData[0],
       cycle_count: 0,
@@ -69,7 +82,7 @@ const GoalCreateTheme = () => {
         <FlatList
           data={ThemeSelector('All') as MandalaArtThemeType[]}
           renderItem={({ item }) =>
-            <MandalArtThemeCard theme={item} isCheck={themeColor === item.description.name} onPress={() => setThemeColor(item.description.name)} disabled={point < item.description.point}/>
+            <MandalArtThemeCard theme={item} isCheck={themeColor === item.description.name} onPress={() => selectTheme(item.description.name)} disabled={point < item.description.point}/>
           }
           numColumns={2}
           keyExtractor={(_, index) => `${index}`}
@@ -77,7 +90,7 @@ const GoalCreateTheme = () => {
           contentContainerStyle={{ gap: 16 }}
           style={{ flexGrow: 1 }}
         />
-        <CustomButton title="✔ 완료" onPress={onCreate} />
+        <CustomButton title="→ 다음" onPress={() => navigation.navigate('Goal', { screen: 'GoalCreateCycle' })} />
       </View>
     </SafeAreaView>
   )
