@@ -32,7 +32,7 @@ export const detailBoard = async (board_id: string) => {
 
 export const viewDetailBoard = async (meet_id: string) => {
   const accessToken = await getItem('access_token');
-  return await instance.get(`${router}/${meet_id}`, {
+  return await instance.get<viewDetailBoardResponse[]>(`${router}/${meet_id}`, {
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }

@@ -16,16 +16,10 @@ import { profile } from "@/apis/user";
 const GoalCreateTheme = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [themeColor, setThemeColor] = useState<string>('Gray')
-  const [mandalData, setMandalData] = useState<string[]>([]);
   const [point, setPoint] = useState<number>(0);
 
   const getData = async () => {
-    const stringData = await getItem('mandalArtCreate');
     const themeData = await getItem('mandalTheme');
-
-    if(stringData) {
-      setMandalData(JSON.parse(stringData));
-    }
     if(themeData) {
       setThemeColor(themeData)
     }
@@ -42,28 +36,11 @@ const GoalCreateTheme = () => {
       getData();
     });
     return dataFn;
-  }, [navigation])
+  }, [navigation]);
 
   const selectTheme = async (theme: string) => {
     setThemeColor(theme)
     await setItem('mandalTheme', theme);
-  }
-
-  const onCreate = async () => {
-    createMandalArt({
-      target: mandalData[0],
-      cycle_count: 0,
-      cycle_term: 7,
-      cycle_date: new Date().toLocaleDateString().replace(/[.]/g,'').split(' ').join('-'),
-      sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
-      detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
-      theme: themeColor,
-      theme_price: (ThemeSelector(themeColor) as MandalaArtThemeType).description.point
-    }).then(() => {
-      navigation.reset({ routes: [{ name: 'Main' }]});
-    }).catch((err) => {
-      console.log('만다라트를 생성할 수 없음:\n', err);
-    })
   }
 
   return (

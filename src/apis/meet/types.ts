@@ -14,8 +14,10 @@ interface ViewAllResponse {
 }
 
 interface ViewDetailResponse {
+  meetId: number;
+  target_id: number;
   title: string;
-  content: string;
+  explain: string;
   division: InterestEnglishType[];
   personnel: string;
   user_count: string;

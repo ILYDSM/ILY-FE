@@ -46,8 +46,9 @@ const GoalCreateCycle = () => {
   const onCreate = async () => {
     const type = await getItem('mandalType');
     const id = await getItem('mandalType');
-    const info = await getItem('MandalInfo');
-    if(type === 'edit' && id && info) {
+    const infoJSON = await getItem('MandalInfo');
+    if(type === 'edit' && id && infoJSON) {
+      const info = JSON.parse(infoJSON);
       await editMandalArt(id, {
         target: mandalData[0],
         cycle_count: Number(info[0]),

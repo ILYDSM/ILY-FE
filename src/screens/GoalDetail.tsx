@@ -1,4 +1,5 @@
-import { viewDetailGroup } from '@/apis/meet';
+import { viewDetailBoard } from '@/apis/board';
+import { deleteGroup, exitGroup, viewDetailGroup } from '@/apis/meet';
 import { getDetailMandalArt, getMandalArt, getMeetMandalArt } from '@/apis/target';
 import ViewAll from '@/components/ViewAll';
 import Category from '@/components/common/Category';
@@ -52,7 +53,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
         }
       })
     }
-    }))
+  }))
   const [mandalData, setMandalData] = useState<GetMandalArtResponse>({
     id: 0,
     content: '',
@@ -72,7 +73,8 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   const [modalState, setModalState] = useState<string>('');
   const [idList, setIdList] = useState<number[]>([0, 0]);
   const [detailMandalNumber, setDetailMandalNumber] = useState<number>(0)
-  const [personCount, setPersonCount] = useState<number[]>([0, 0])
+  const [boardData, setBoardData] = useState<viewDetailBoardResponse[]>([])
+  const [meetData, setMeedData] = useState<ViewDetailResponse>();
 
   const openDetailMandal = (index: number) => {
     setModalState('DetailMandal');
@@ -94,79 +96,107 @@ export default function GoalDetailScreen({ route }: { route: any }) {
     navigation.navigate('Goal', { screen: 'GoalCreateMain' });
   }
 
+  const onExit = () => {
+    exitGroup(idList[1].toString())
+    .then(() => navigation.reset({ routes: [{ name: 'Main' }]}))
+    .catch((err) => console.log('모임을 나갈 수 없음:\n', err));
+  }
+
+  const onDelete = () => {
+    deleteGroup(idList[1].toString())
+    .then(() => navigation.reset({ routes: [{ name: 'Main' }]}))
+    .catch((err) => console.log('모임을 나갈 수 없음:\n', err));
+  }
+
+  const onEditGroup = async () => {
+    await setItem('groupType', 'edit');
+    await setItem('groupData', JSON.stringify(meetData));
+    navigation.navigate('Group', { screen: 'CreateGroup' });
+    setModalState('');
+  }
+
   useEffect(() => {
     setIdList([route.params.id, route.params.meet_id]);
   }, [route]);
 
   useEffect(() => {
-    if(idList[1] === null) {
+    if (idList[1] === null) {
       getMandalArt({ targetId: idList[0] })
         .then((res) => {
           setMandalData(res.data);
-          for(let i = 0; i < 8; i++) {
+          for (let i = 0; i < 8; i++) {
             const data = res.data.sub_target_response_list[i];
-            if(data.content) {
+            if (data.content) {
               getDetailMandalArt({ targetId: data.id }).then((res) => {
                 setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
               })
-              .catch((err) => console.log(err));
+                .catch((err) => console.log(err));
             }
           }
         })
-        .catch((err) => console.log('만다라트를 불러올 수 없음\n',err));
+        .catch((err) => console.log('만다라트를 불러올 수 없음\n', err));
     } else {
       getMeetMandalArt({ targetId: idList[1] })
-      .then((res) => {
-        setMandalData(res.data);
-        for(let i = 0; i < 8; i++) {
-          const data = res.data.sub_target_response_list[i];
-          if(data.content) {
-            getDetailMandalArt({ targetId: data.id }).then((res) => {
-              setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
-            })
-            .catch((err) => console.log(err));
+        .then((res) => {
+          setMandalData(res.data);
+          for (let i = 0; i < 8; i++) {
+            const data = res.data.sub_target_response_list[i];
+            if (data.content) {
+              getDetailMandalArt({ targetId: data.id }).then((res) => {
+                setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
+              })
+                .catch((err) => console.log(err));
+            }
           }
-        }
-      })
-      .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
+        })
+        .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
       viewDetailGroup(idList[1].toString()).then((res) => {
-        setPersonCount([Number(res.data.user_count), Number(res.data.personnel)]);
+        setMeedData(res.data);
       })
-      .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));
+        .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));
+      viewDetailBoard(idList[1].toString()).then((res) => {
+        setBoardData(res.data);
+      })
+        .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
     }
   }, [idList]);
 
-  if (idList[1] !== null) {
+  if (meetData) {
     return (
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={Styles.mainContainer}>
-          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal}/>
+          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal} />
           <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center' }}>
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
-              {personCount[0]}명이 함께하는 중{' '}
-              {personCount[1] < 99999 && `(최대 ${personCount}명 중)`}
+              {meetData.user_count}명이 함께하는 중{' '}
+              {Number(meetData.personnel) < 99999 && `(최대 ${meetData.personnel}명 중)`}
             </Text>
           </View>
           <ViewAll title="게시판" onPress={() => navigation.navigate('Goal', { screen: 'GoalGroupBoard' })}>
-            {DemoData.board.map((d) => (
-              <Comment {...d} key={d.nickname + d.content} />
+            {boardData.slice(0, 3).map((d) => (
+              <Comment {...d} key={d.writerName + d.content} />
             ))}
           </ViewAll>
-          <CustomButton title="목표 달성 기록" />
+          <CustomButton title="목표 달성 기록" onPress={completeMandalArt} />
           <CustomButton title="모임 관리" color="Gray" onPress={() => setModalState('ManageGroup')} />
         </View>
         <ManageGroupModal
-          groupInfo={DemoData.groupInfo}
+          groupInfo={{
+            title: meetData.title,
+            descripton: meetData.explain,
+            tags: meetData.division,
+          }}
           setState={setModalState}
           state={modalState}
           isGroupOwner={DemoData.isGroupOwner}
-          onEdit={onMandalEdit}
+          onEditMandal={onMandalEdit}
+          onEditGroup={onEditGroup}
         />
-        <ExitGroupModal setState={setModalState} state={modalState} />
-        <DeleteGroup setState={setModalState} state={modalState} />
-        <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]}/>
+        <ExitGroupModal setState={setModalState} state={modalState} onExit={onExit}/>
+        <DeleteGroup setState={setModalState} state={modalState} onDelete={onDelete}/>
+        <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]} />
       </SafeAreaView>
     );
   } else {
@@ -174,29 +204,45 @@ export default function GoalDetailScreen({ route }: { route: any }) {
       <SafeAreaView style={{ paddingVertical: 16 }}>
         <TitleBar title={mandalData.content} onPress={() => navigation.goBack()} />
         <View style={{ display: 'flex', paddingHorizontal: 16, gap: 16 }}>
-          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal}/>
+          <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal} />
           <CustomButton title="목표 달성 기록" onPress={completeMandalArt} />
-          <CustomButton title="목표 편집" color="Gray" onPress={onMandalEdit}/>
+          <CustomButton title="목표 편집" color="Gray" onPress={onMandalEdit} />
         </View>
-        <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]}/>
+        <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]} />
       </SafeAreaView>
     );
   }
 }
 
 interface commentType {
-  nickname: string;
+  writerName: string;
   content: string;
-  date: string;
+  createDate: string;
 }
 
-function Comment({ nickname, content, date }: commentType) {
+function Comment({ writerName, content, createDate }: commentType) {
+  const date = () => {
+    const today = new Date();
+    const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+    const writeDate = new Date(createDate);
+    if (today.getTime() === writeDate.getTime()) {
+      return '오늘';
+    }
+    else if (yesterday.getTime() === writeDate.getTime()) {
+      return '어제';
+    }
+    else if (today.getFullYear() !== writeDate.getFullYear()) {
+      return `${today.getFullYear}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+    }
+    return `${today.getMonth() + 1}월 ${today.getDate()}일`;
+  }
+
   return (
     <View style={Styles.boardCommentContainer}>
       <Image source={require('@/../assets/icon.png')} style={Styles.boardProfileImage} />
-      <Text style={Styles.boardSub}>{nickname}</Text>
+      <Text style={Styles.boardSub}>{writerName}</Text>
       <Text style={Styles.boardContent}>{content}</Text>
-      <Text style={Styles.boardSub}>{date}</Text>
+      <Text style={Styles.boardSub}>{date()}</Text>
     </View>
   );
 }
@@ -213,10 +259,11 @@ interface ManageGroupModalType extends ModalType {
     tags: string[];
   };
   isGroupOwner: boolean;
-  onEdit: () => void
+  onEditMandal: () => void;
+  onEditGroup: () => void
 }
 
-function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEdit }: ManageGroupModalType) {
+function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMandal, onEditGroup }: ManageGroupModalType) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
 
   function nav(v: 'GoalGroupBoard' | 'GoalDetail' | 'GoalJoinRequest') {
@@ -240,17 +287,8 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEdit }: 
             navigation.navigate('Goal', { screen: 'GoalJoinRequest' });
           }}
         />
-        <CustomButton
-          title="목표 수정"
-          onPress={onEdit}
-        />
-        <CustomButton
-          title="모임 수정"
-          onPress={() => {
-            navigation.navigate('Group', { screen: 'CreateGroup' });
-            setState('');
-          }}
-        />
+        <CustomButton title="목표 수정" onPress={onEditMandal} />
+        <CustomButton title="모임 수정" onPress={onEditGroup} />
         <CustomButton title="모임 삭제" onPress={() => setState('DeleteGroup')} />
         <CustomButton title="즐겨찾기에 추가" />
       </CustomModal>
@@ -272,22 +310,29 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEdit }: 
   }
 }
 
+interface ExitGroupModalType extends ModalType {
+  onExit: () => void;
+}
 
-function ExitGroupModal({ state, setState }: ModalType) {
+function ExitGroupModal({ state, setState, onExit }: ExitGroupModalType) {
   return (
     <CustomModal IsOpen={state === 'ExitGroup'} setIsOpen={() => setState('')}>
       <Text style={{ fontSize: 28, fontFamily: '700' }}>모임에서 나갈까요?</Text>
-      <CustomButton title="나가기" />
+      <CustomButton title="나가기" onPress={onExit}/>
     </CustomModal>
   );
 }
 
-function DeleteGroup({ state, setState }: ModalType) {
+interface DeleteGroupType extends ModalType {
+  onDelete: () => void;
+}
+
+function DeleteGroup({ state, setState, onDelete }: DeleteGroupType) {
   return (
     <CustomModal IsOpen={state === 'DeleteGroup'} setIsOpen={() => setState('')}>
       <Text style={{ fontSize: 28, fontFamily: '700' }}>모임을 정말 삭제할까요?</Text>
       <Text style={{ fontSize: 16 }}>참가한 인원, 게시판 글, 만든 목표는 되돌릴 수 없어요</Text>
-      <CustomButton title="삭제" />
+      <CustomButton title="삭제" onPress={onDelete}/>
     </CustomModal>
   );
 }
