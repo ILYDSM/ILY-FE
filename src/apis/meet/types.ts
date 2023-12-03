@@ -14,27 +14,13 @@ interface ViewAllResponse {
 }
 
 interface ViewDetailResponse {
-  meetId: number;
+  meet_id: number;
   target_id: number;
   title: string;
-  explain: string;
-  division: InterestEnglishType[];
-  personnel: string;
-  user_count: string;
-  target: {
-    theme: string;
-    content: string;
-    cycle: string;
-    achived: boolean;
-  };
-  subTarget: {
-    content: string;
-    achived: boolean;
-    detailTarget: {
-      content: string;
-      achived: boolean;
-    }[];
-  }[];
+  content: string;
+  type: InterestEnglishType[];
+  personnel: number;
+  participant: number;
 }
 
 interface ViewCategorySearchGroup {

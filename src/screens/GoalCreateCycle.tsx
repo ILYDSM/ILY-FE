@@ -45,13 +45,14 @@ const GoalCreateCycle = () => {
 
   const onCreate = async () => {
     const type = await getItem('mandalType');
-    const id = await getItem('mandalType');
+    const id = await getItem('mandalId');
     const infoJSON = await getItem('MandalInfo');
+
     if(type === 'edit' && id && infoJSON) {
       const info = JSON.parse(infoJSON);
       await editMandalArt(id, {
         target: mandalData[0],
-        cycle_count: Number(info[0]),
+        cycle_count: Number(info[0]) + 1,
         cycle_term: mandalCycle,
         cycle_date: info[1],
         sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
@@ -64,11 +65,17 @@ const GoalCreateCycle = () => {
         console.log('만다라트를 수정할 수 없음:\n', err);
       })
     } else {
+      const today = () => {
+        const date = new Date();
+        const twoWord = (num: number) => `0${num}`.slice(-2);
+        return `${date.getFullYear()}-${twoWord(date.getMonth() + 1)}-${twoWord(date.getDate())}`;
+      }
+
       await createMandalArt({
         target: mandalData[0],
         cycle_count: 0,
         cycle_term: mandalCycle,
-        cycle_date: new Date().toLocaleDateString().replace(/[.]/g, '').split(' ').join('-'),
+        cycle_date: today(),
         sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
         detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
         theme: themeColor,

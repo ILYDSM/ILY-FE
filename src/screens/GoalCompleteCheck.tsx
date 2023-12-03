@@ -12,9 +12,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native"
 
-
 const GoalCompleteCheck = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [detailMandalNumber, setDetailMandalNumber] = useState<number>(0)
   const [detailMandalData, setDetailMandalData] = useState<GetDetailMandalArtResponse[]>(Array.from({ length: 8 }, () => {
     return {
@@ -48,10 +48,12 @@ const GoalCompleteCheck = () => {
   })
 
   const GetMandalData = async () => {
-    const data = await getItem('completeMandalData');
-    if (data) {
-      setMandalData(JSON.parse(data[0]))
-      setDetailMandalData(JSON.parse(data[1]))
+    const dataJSON = await getItem('completeMandalData');
+    if (dataJSON) {
+      const data = JSON.parse(dataJSON);
+      console.log('데이터 확인좀 하겠습니다.\n', dataJSON)
+      setMandalData(data[0])
+      setDetailMandalData(data[1])
     }
   }
 
@@ -63,6 +65,11 @@ const GoalCompleteCheck = () => {
     })
   }
 
+  const openDetailMandal = (num: number) => {
+    setDetailMandalNumber(num);
+    setOpenModal(true);
+  }
+
   useEffect(() => {
     const getFn = navigation.addListener('focus', GetMandalData);
     return getFn;
@@ -72,10 +79,10 @@ const GoalCompleteCheck = () => {
     <SafeAreaView style={styles.container}>
       <TitleBar title='목표 달성 기록' onPress={() => navigation.goBack()} />
       <View style={styles.contentBox}>
-        <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={setDetailMandalNumber} />
+        <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal} />
         <Text style={styles.text}>보조 목표 칸을 클릭해 상세 목표를 입력하세요</Text>
       </View>
-      <DetailMandalArt setState={setDetailMandalNumber} state={detailMandalNumber} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]} onComplete={onComplete}/>
+      <DetailMandalArt setState={setOpenModal} state={isOpenModal} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]} onComplete={onComplete}/>
     </SafeAreaView>
   )
 }
@@ -83,16 +90,16 @@ const GoalCompleteCheck = () => {
 export default GoalCompleteCheck;
 
 interface MandalArtModalType {
-  state: number;
-  setState: React.Dispatch<React.SetStateAction<number>>;
+  state: boolean;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
   theme: string;
   data: GetDetailMandalArtResponse;
   onComplete: () => void;
 }
 
-const DetailMandalArt = ({ state, setState, theme, data,  onComplete }: MandalArtModalType) => {
+const DetailMandalArt = ({ state, setState, theme, data, onComplete }: MandalArtModalType) => {
   return (
-    <CustomModal title="목표 달성을 기록할까요?" IsOpen={state !== 0} setIsOpen={() => setState(0)}>
+    <CustomModal title="목표 달성을 기록할까요?" IsOpen={state} setIsOpen={setState}>
       <MandalArt title={data.content} data={data.detail_target_responses.map(value => value.content)} theme={ThemeSelector(theme)} />
       <CustomButton title="기록" onPress={onComplete} />
     </CustomModal>

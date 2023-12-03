@@ -39,7 +39,11 @@ const Goal = () => {
   };
 
   const onCreateMandalArt = async () => {
-    await setItem('mandalType', 'create');
+    await setItem('mandalType', JSON.stringify('create'));
+    const data = await getItem('mandalArtCreate');
+    if(data) {
+      await removeItem('mandalArtCreate');
+    }
     navigation.navigate('Goal', { screen: 'GoalCreateMain' })
   }
 

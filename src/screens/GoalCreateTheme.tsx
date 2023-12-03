@@ -59,7 +59,11 @@ const GoalCreateTheme = () => {
         <FlatList
           data={ThemeSelector('All') as MandalaArtThemeType[]}
           renderItem={({ item }) =>
-            <MandalArtThemeCard theme={item} isCheck={themeColor === item.description.name} onPress={() => selectTheme(item.description.name)} disabled={point < item.description.point}/>
+            <MandalArtThemeCard
+              theme={item}
+              isCheck={themeColor === item.description.name}
+              onPress={() => selectTheme(item.description.name)}
+              disabled={point < item.description.point}/>
           }
           numColumns={2}
           keyExtractor={(_, index) => `${index}`}

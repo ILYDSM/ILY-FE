@@ -126,44 +126,48 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   }, [route]);
 
   useEffect(() => {
-    if (idList[1] === null) {
-      getMandalArt({ targetId: idList[0] })
-        .then((res) => {
-          setMandalData(res.data);
-          for (let i = 0; i < 8; i++) {
-            const data = res.data.sub_target_response_list[i];
-            if (data.content) {
-              getDetailMandalArt({ targetId: data.id }).then((res) => {
-                setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
-              })
-                .catch((err) => console.log(err));
+    if(idList[0] !== 0 && idList[1] !== 0) {
+      if (idList[1] === null) {
+        getMandalArt({ targetId: idList[0] })
+          .then((res) => {
+            setMandalData(res.data);
+            for (let i = 0; i < 8; i++) {
+              const data = res.data.sub_target_response_list[i];
+              if (data.content) {
+                getDetailMandalArt({ targetId: data.id }).then((res) => {
+                  setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
+                })
+                  .catch((err) => console.log(err));
+              }
             }
-          }
-        })
-        .catch((err) => console.log('만다라트를 불러올 수 없음\n', err));
-    } else {
-      getMeetMandalArt({ targetId: idList[1] })
-        .then((res) => {
-          setMandalData(res.data);
-          for (let i = 0; i < 8; i++) {
-            const data = res.data.sub_target_response_list[i];
-            if (data.content) {
-              getDetailMandalArt({ targetId: data.id }).then((res) => {
-                setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
-              })
-                .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log('만다라트를 불러올 수 없음\n', err));
+      } else {
+        getMeetMandalArt({ targetId: idList[1] })
+          .then((res) => {
+            setMandalData(res.data);
+            for (let i = 0; i < 8; i++) {
+              const data = res.data.sub_target_response_list[i];
+              if (data.content) {
+                getDetailMandalArt({ targetId: data.id }).then((res) => {
+                  setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
+                })
+                  .catch((err) => console.log(err));
+              }
             }
-          }
+          })
+          .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
+        viewDetailGroup(idList[1].toString()).then((res) => {
+          console.log('모임 정보', res.data)
+          setMeedData(res.data);
         })
-        .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
-      viewDetailGroup(idList[1].toString()).then((res) => {
-        setMeedData(res.data);
-      })
-        .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));
-      viewDetailBoard(idList[1].toString()).then((res) => {
-        setBoardData(res.data);
-      })
-        .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
+          .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));
+        viewDetailBoard(idList[1].toString()).then((res) => {
+          console.log('모임 게시', res.data)
+          setBoardData(res.data);
+        })
+          .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
+      }
     }
   }, [idList]);
 
@@ -176,8 +180,8 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center' }}>
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
-              {meetData.user_count}명이 함께하는 중{' '}
-              {Number(meetData.personnel) < 99999 && `(최대 ${meetData.personnel}명 중)`}
+              {meetData.participant}명이 함께하는 중{' '}
+              {meetData.personnel < 99999 && `(최대 ${meetData.personnel}명 중)`}
             </Text>
           </View>
           <ViewAll title="게시판" onPress={() => navigation.navigate('Goal', { screen: 'GoalGroupBoard', params: { meet_id: idList[1] } })}>
@@ -191,8 +195,8 @@ export default function GoalDetailScreen({ route }: { route: any }) {
         <ManageGroupModal
           groupInfo={{
             title: meetData.title,
-            descripton: meetData.explain,
-            tags: meetData.division,
+            descripton: meetData.content,
+            tags: meetData.type,
           }}
           setState={setModalState}
           state={modalState}

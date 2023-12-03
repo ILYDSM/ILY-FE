@@ -1,4 +1,4 @@
-import { detailBoard, editBoard, viewDetailBoard } from "@/apis/board";
+import { createBoard, detailBoard, editBoard, viewDetailBoard } from "@/apis/board";
 import CustomButton from "@/components/common/CustomButton";
 import CustomInput from "@/components/common/CustomInput";
 import CustomModal from "@/components/common/CustomModal";
@@ -26,15 +26,24 @@ export default function GoalGroupBoard({ route }: { route: any }){
     navigation.reset({ routes: [{ name: 'Main' }]});
   }
 
+  const onComment = async () => {
+    await createBoard({ content: commentValue }, meetId)
+    .then(() => getBoard());
+  }
+
+  const getBoard = async () => {
+    await viewDetailBoard(meetId).then((res) => {
+      setBoardData(res.data);
+    })
+      .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
+  }
+
   useEffect(() => {
     setMeedId(route.params.meet_id?.toString());
   }, [route]);
 
   useEffect(() => {
-    viewDetailBoard(meetId).then((res) => {
-      setBoardData(res.data);
-    })
-      .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
+    getBoard();
   }, [])
 
   return(
@@ -53,7 +62,7 @@ export default function GoalGroupBoard({ route }: { route: any }){
         <View style={{flex: 1}}>
           <CustomInput text="댓글" value={commentValue} onChangeText={setCommentValue}/>
         </View>
-        <CustomButton title="작성" size="M"/>
+        <CustomButton title="작성" size="M" onPress={onComment}/>
       </View>
     </SafeAreaView>
   )
