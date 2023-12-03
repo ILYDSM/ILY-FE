@@ -12,6 +12,15 @@ export const createMandalArt = async (body: CreateMandalArtRequest) => {
   });
 };
 
+export const editMandalArt = async (targetId: string, body: CreateMandalArtRequest) => {
+  const accessToken = await getItem('access_token');
+  return await instance.patch(`${router}/${targetId}`, body, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+};
+
 export const getTarget = async () => {
   const accessToken = await getItem('access_token');
   return await instance.get<GetTargetResponse[]>(`${router}`, {
@@ -24,6 +33,15 @@ export const getTarget = async () => {
 export const getMandalArt = async (body: GetMandalArtRequest) => {
   const accessToken = await getItem('access_token');
   return await instance.get<GetMandalArtResponse>(`${router}/${body.targetId}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+}
+
+export const getMeetMandalArt = async (body: GetMandalArtRequest) => {
+  const accessToken = await getItem('access_token');
+  return await instance.get<GetMandalArtResponse>(`${router}/meet/${body.targetId}`, {
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }

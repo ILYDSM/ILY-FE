@@ -1,4 +1,5 @@
-import { getDetailMandalArt, getMandalArt } from '@/apis/target';
+import { viewDetailGroup } from '@/apis/meet';
+import { getDetailMandalArt, getMandalArt, getMeetMandalArt } from '@/apis/target';
 import ViewAll from '@/components/ViewAll';
 import Category from '@/components/common/Category';
 import CustomButton from '@/components/common/CustomButton';
@@ -71,6 +72,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   const [modalState, setModalState] = useState<string>('');
   const [idList, setIdList] = useState<number[]>([0, 0]);
   const [detailMandalNumber, setDetailMandalNumber] = useState<number>(0)
+  const [personCount, setPersonCount] = useState<number[]>([0, 0])
 
   const openDetailMandal = (index: number) => {
     setModalState('DetailMandal');
@@ -80,6 +82,16 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   const completeMandalArt = async () => {
     await setItem('completeMandalData', JSON.stringify([mandalData, detailMandalData]));
     navigation.navigate('Goal', { screen: 'GoalCompleteCheck' });
+  }
+
+  const onMandalEdit = async () => {
+    await setItem('mandalType', 'edit');
+    await setItem('mandalId', mandalData.id.toString());
+    await setItem('mandalArtCreate', JSON.stringify([mandalData.content, ...mandalData.sub_target_response_list.map((value) => value.content), ...detailMandalData.map((data) => data.detail_target_responses.map((value) => value.content)).flat()]));
+    await setItem('mandalTheme', mandalData.theme)
+    await setItem('mandalCycle', mandalData.cycle_term.toString());
+    await setItem('MandalInfo', JSON.stringify([mandalData.cycle_count, mandalData.cycle_date]));
+    navigation.navigate('Goal', { screen: 'GoalCreateMain' });
   }
 
   useEffect(() => {
@@ -101,9 +113,26 @@ export default function GoalDetailScreen({ route }: { route: any }) {
             }
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('만다라트를 불러올 수 없음\n',err));
     } else {
-
+      getMeetMandalArt({ targetId: idList[1] })
+      .then((res) => {
+        setMandalData(res.data);
+        for(let i = 0; i < 8; i++) {
+          const data = res.data.sub_target_response_list[i];
+          if(data.content) {
+            getDetailMandalArt({ targetId: data.id }).then((res) => {
+              setDetailMandalData(data => [...data.slice(0, i), res.data, ...data.slice(i + 1)]);
+            })
+            .catch((err) => console.log(err));
+          }
+        }
+      })
+      .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
+      viewDetailGroup(idList[1].toString()).then((res) => {
+        setPersonCount([Number(res.data.user_count), Number(res.data.personnel)]);
+      })
+      .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));
     }
   }, [idList]);
 
@@ -116,8 +145,8 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignContent: 'center' }}>
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
-              {DemoData.numberOfPeople}명이 함께하는 중{' '}
-              {DemoData.maxNumberOfPeople < 99999 && `(최대 ${DemoData.maxNumberOfPeople}명 중)`}
+              {personCount[0]}명이 함께하는 중{' '}
+              {personCount[1] < 99999 && `(최대 ${personCount}명 중)`}
             </Text>
           </View>
           <ViewAll title="게시판" onPress={() => navigation.navigate('Goal', { screen: 'GoalGroupBoard' })}>
@@ -133,6 +162,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           setState={setModalState}
           state={modalState}
           isGroupOwner={DemoData.isGroupOwner}
+          onEdit={onMandalEdit}
         />
         <ExitGroupModal setState={setModalState} state={modalState} />
         <DeleteGroup setState={setModalState} state={modalState} />
@@ -146,7 +176,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
         <View style={{ display: 'flex', paddingHorizontal: 16, gap: 16 }}>
           <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal}/>
           <CustomButton title="목표 달성 기록" onPress={completeMandalArt} />
-          <CustomButton title="목표 편집" color="Gray" />
+          <CustomButton title="목표 편집" color="Gray" onPress={onMandalEdit}/>
         </View>
         <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]}/>
       </SafeAreaView>
@@ -183,9 +213,10 @@ interface ManageGroupModalType extends ModalType {
     tags: string[];
   };
   isGroupOwner: boolean;
+  onEdit: () => void
 }
 
-function ManageGroupModal({ state, setState, groupInfo, isGroupOwner }: ManageGroupModalType) {
+function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEdit }: ManageGroupModalType) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
 
   function nav(v: 'GoalGroupBoard' | 'GoalDetail' | 'GoalJoinRequest') {
@@ -208,6 +239,10 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner }: ManageGr
           onPress={() => {
             navigation.navigate('Goal', { screen: 'GoalJoinRequest' });
           }}
+        />
+        <CustomButton
+          title="목표 수정"
+          onPress={onEdit}
         />
         <CustomButton
           title="모임 수정"

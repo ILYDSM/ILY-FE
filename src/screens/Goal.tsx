@@ -2,7 +2,7 @@ import { getTarget } from '@/apis/target';
 import GoalCard from '@/components/GoalCard';
 import PageTitle from '@/components/PageTitle';
 import CustomButton from '@/components/common/CustomButton';
-import { getItem, removeItem } from '@/utils/AsyncStorage';
+import { getItem, removeItem, setItem } from '@/utils/AsyncStorage';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';
 import { useNavigation } from '@react-navigation/native';
@@ -12,24 +12,16 @@ import { FlatList, View } from 'react-native';
 
 const DemoData = [
   {
-		"target":"관광통역안내사 취득",
-    "isGroup": true,
-    "theme": 'HighContrast'
+    id: 1,
+		"content":"관광통역안내사 취득",
+    "theme": 'HighContrast',
+    "meet_id": null
 	},
   {
-		"target":"adsaf 취득2",
-    "isGroup": true,
-    "theme": 'LightPurple'
-	},
-  {
-		"target":"sdafgs 취득3",
-    "isGroup": false,
-    "theme": 'Gray'
-	},
-  {
-		"target":"asd 취득4",
-    "isGroup": false,
-    "theme": 'Teal'
+    id: 1,
+		"content":"관광통역안내사 취득",
+    "theme": 'HighContrast',
+    "meet_id": null
 	},
 ]
 
@@ -47,11 +39,7 @@ const Goal = () => {
   };
 
   const onCreateMandalArt = async () => {
-    const mandalData = await getItem('mandalArtCreate');
-    if(mandalData) {
-      await removeItem('mandalArtCreate');
-    }
-
+    await setItem('mandalType', 'create');
     navigation.navigate('Goal', { screen: 'GoalCreateMain' })
   }
 

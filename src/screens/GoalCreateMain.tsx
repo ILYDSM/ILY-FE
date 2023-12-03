@@ -21,15 +21,20 @@ const GoalCreateMain = () => {
   }
 
   const getData = async () => {
-    const data = await getItem('mandalArtCreate');
-    if(data) {
-      setMandalData(JSON.parse(data));
-    } else {
+    const type = await getItem('manadlType');
+    if(type === 'create') {
       const newData = new Array(73).fill('')
       setItem('mandalArtCreate', JSON.stringify(newData));
       setItem('mandalTheme', 'Gray')
       setItem('mandalCycle', '0')
       setMandalData(newData);
+    } else {
+      const data = await getItem('mandalArtCreate');
+      if(data) {
+        setMandalData(JSON.parse(data));
+      } else {
+        setMandalData(new Array(73).fill(''));
+      }
     }
     return;
   }

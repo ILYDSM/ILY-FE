@@ -7,7 +7,7 @@ import { platte } from "@/styles/platte";
 import CustomButton from "@/components/common/CustomButton";
 import { useEffect, useState } from "react";
 import ThemeSelector from "@/utils/ThemeSelector";
-import { createMandalArt } from "@/apis/target";
+import { createMandalArt, editMandalArt } from "@/apis/target";
 import { getItem } from "@/utils/AsyncStorage";
 import CustomInput from "@/components/common/CustomInput";
 
@@ -43,21 +43,41 @@ const GoalCreateCycle = () => {
     return dataFn;
   }, [navigation])
 
-  const onCreate = () => {
-    createMandalArt({
-      target: mandalData[0],
-      cycle_count: 0,
-      cycle_term: mandalCycle,
-      cycle_date: new Date().toLocaleDateString().replace(/[.]/g, '').split(' ').join('-'),
-      sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
-      detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
-      theme: themeColor,
-      theme_price: (ThemeSelector(themeColor) as MandalaArtThemeType).description.point
-    }).then(() => {
-      navigation.reset({ routes: [{ name: 'Main' }] });
-    }).catch((err) => {
-      console.log('만다라트를 생성할 수 없음:\n', err);
-    })
+  const onCreate = async () => {
+    const type = await getItem('mandalType');
+    const id = await getItem('mandalType');
+    const info = await getItem('MandalInfo');
+    if(type === 'edit' && id && info) {
+      await editMandalArt(id, {
+        target: mandalData[0],
+        cycle_count: Number(info[0]),
+        cycle_term: mandalCycle,
+        cycle_date: info[1],
+        sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
+        detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
+        theme: themeColor,
+        theme_price: (ThemeSelector(themeColor) as MandalaArtThemeType).description.point
+      }).then(() => {
+        navigation.reset({ routes: [{ name: 'Main' }] });
+      }).catch((err) => {
+        console.log('만다라트를 수정할 수 없음:\n', err);
+      })
+    } else {
+      await createMandalArt({
+        target: mandalData[0],
+        cycle_count: 0,
+        cycle_term: mandalCycle,
+        cycle_date: new Date().toLocaleDateString().replace(/[.]/g, '').split(' ').join('-'),
+        sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
+        detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
+        theme: themeColor,
+        theme_price: (ThemeSelector(themeColor) as MandalaArtThemeType).description.point
+      }).then(() => {
+        navigation.reset({ routes: [{ name: 'Main' }] });
+      }).catch((err) => {
+        console.log('만다라트를 생성할 수 없음:\n', err);
+      })
+    }
   }
 
   useEffect(() => {
