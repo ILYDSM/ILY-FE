@@ -180,7 +180,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
               {Number(meetData.personnel) < 99999 && `(최대 ${meetData.personnel}명 중)`}
             </Text>
           </View>
-          <ViewAll title="게시판" onPress={() => navigation.navigate('Goal', { screen: 'GoalGroupBoard' })}>
+          <ViewAll title="게시판" onPress={() => navigation.navigate('Goal', { screen: 'GoalGroupBoard', params: { meet_id: idList[1] } })}>
             {boardData.slice(0, 3).map((d) => (
               <Comment {...d} key={d.writerName + d.content} />
             ))}
@@ -298,7 +298,7 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMand
         <CustomButton title="목표 수정" onPress={onEditMandal} />
         <CustomButton title="모임 수정" onPress={onEditGroup} />
         <CustomButton title="모임 삭제" onPress={() => setState('DeleteGroup')} />
-        <CustomButton title="즐겨찾기에 추가" />
+        <CustomButton title="즐겨찾기에 추가" onPress={onCreateBookMark}/>
       </CustomModal>
     );
   } else {

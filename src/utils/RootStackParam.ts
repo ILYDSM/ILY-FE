@@ -38,6 +38,6 @@ export type RootStackParam = {
       | 'GoalCreateCycle'
       | 'GoalCompleteCheck'
       | 'GoalCompleteResult';
-      params?: { id: number, meet_id: number | null };
+      params?: { id?: number, meet_id: number | null };
   };
 };
