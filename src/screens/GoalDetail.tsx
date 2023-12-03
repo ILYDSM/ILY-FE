@@ -1,4 +1,5 @@
 import { viewDetailBoard } from '@/apis/board';
+import { createBookMark } from '@/apis/bookmark';
 import { deleteGroup, exitGroup, viewDetailGroup } from '@/apis/meet';
 import { getDetailMandalArt, getMandalArt, getMeetMandalArt } from '@/apis/target';
 import ViewAll from '@/components/ViewAll';
@@ -115,6 +116,11 @@ export default function GoalDetailScreen({ route }: { route: any }) {
     setModalState('');
   }
 
+  const onCreateBookMark = async () => {
+    await createBookMark(idList[1].toString());
+    setModalState('')
+  }
+
   useEffect(() => {
     setIdList([route.params.id, route.params.meet_id]);
   }, [route]);
@@ -193,6 +199,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           isGroupOwner={DemoData.isGroupOwner}
           onEditMandal={onMandalEdit}
           onEditGroup={onEditGroup}
+          onCreateBookMark={onCreateBookMark}
         />
         <ExitGroupModal setState={setModalState} state={modalState} onExit={onExit}/>
         <DeleteGroup setState={setModalState} state={modalState} onDelete={onDelete}/>
@@ -260,10 +267,11 @@ interface ManageGroupModalType extends ModalType {
   };
   isGroupOwner: boolean;
   onEditMandal: () => void;
-  onEditGroup: () => void
+  onEditGroup: () => void;
+  onCreateBookMark: () => void;
 }
 
-function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMandal, onEditGroup }: ManageGroupModalType) {
+function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMandal, onEditGroup, onCreateBookMark }: ManageGroupModalType) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
 
   function nav(v: 'GoalGroupBoard' | 'GoalDetail' | 'GoalJoinRequest') {
@@ -303,7 +311,7 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMand
             <Category text={d} key={d + d} />
           ))}
         </View>
-        <CustomButton title="즐겨찾기에 추가" />
+        <CustomButton title="즐겨찾기에 추가" onPress={onCreateBookMark}/>
         <CustomButton title="모임 나가기" onPress={() => setState('ExitGroup')} />
       </CustomModal>
     );
