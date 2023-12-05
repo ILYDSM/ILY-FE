@@ -1,4 +1,12 @@
-import { GestureResponderEvent, SafeAreaView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import {
+  GestureResponderEvent,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Users } from 'lucide-react-native';
 import { platte } from '@/styles/platte';
 
@@ -12,7 +20,7 @@ interface PropsTypes {
 const MeetCard = ({ title = '모임이름', description = '모임의 설명', headCount = 0, onPress }: PropsTypes) => {
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableHighlight style={styles.button} underlayColor={platte.gray05} onPress={onPress}>
+      <TouchableOpacity style={styles.button} onPress={onPress}>
         <View style={styles.contentBox}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.text}>{description}</Text>
@@ -21,7 +29,7 @@ const MeetCard = ({ title = '모임이름', description = '모임의 설명', he
             <Text style={[styles.text, styles.Gray]}>{headCount}명이 함께하는 중</Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

@@ -14,6 +14,6 @@ export const detailReview = async (review_id: string) => {
   return await instance.delete(`${router}/${review_id}`);
 };
 
-export const viewReview = async (meet_id: string) => {
+export const viewReview = async (meet_id: number) => {
   return await instance.get(`${router}/${meet_id}`);
 };

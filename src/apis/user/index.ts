@@ -15,21 +15,25 @@ export const profile = async () => {
 };
 
 export const interest = async (body: InterestRequest) => {
-  return await instance.post(`${router}/interest`, body);
-}
+  return await instance.patch(`${router}/interest`, body);
+};
 
 export const passwordChange = async (body: PasswordChangeRequest) => {
   return await instance.patch(`${router}/password`, body);
-}
+};
 
 export const profileChange = async (body: ProfileChangeRequest) => {
   return await instance.patch(`${router}/profile`, body);
-}
+};
 
 export const deleteAccount = async () => {
   return await instance.delete(`${router}`);
-}
+};
 
 export const logout = async () => {
   return await instance.delete(`${router}/logout`);
-}
+};
+
+export const viewInterest = async () => {
+  return await instance.get(`${router}/interest`);
+};

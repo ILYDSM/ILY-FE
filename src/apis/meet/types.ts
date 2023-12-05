@@ -11,27 +11,26 @@ interface ViewAllResponse {
   title: string;
   content: string;
   participant: number;
+  meet_id: number;
 }
 
 interface ViewDetailResponse {
   title: string;
-  content: string;
-  division: InterestEnglishType[];
+  meet_content: string;
+  type: InterestEnglishType[];
   personnel: string;
-  user_count: string;
-  target: {
-    theme: string;
+  participant: string;
+  target_id: number;
+  target_content: string;
+  cycle_count: null | number;
+  cycle_term: null | number;
+  cycle_date: null | string;
+  is_achieved: boolean;
+  theme: string;
+  sub_target_response_list: {
+    id: number;
     content: string;
-    cycle: string;
-    achived: boolean;
-  };
-  subTarget: {
-    content: string;
-    achived: boolean;
-    detailTarget: {
-      content: string;
-      achived: boolean;
-    }[];
+    is_achieved: boolean;
   }[];
 }
 

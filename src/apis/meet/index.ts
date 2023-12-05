@@ -18,7 +18,7 @@ export const viewAllGroup = async () => {
   return await instance.get<ViewAllResponse[]>(`${router}`);
 };
 
-export const viewDetailGroup = async (meet_id: string) => {
+export const viewDetailGroup = async (meet_id: number) => {
   return await instance.get<ViewDetailResponse>(`${router}/${meet_id}`);
 };
 
