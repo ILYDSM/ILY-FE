@@ -56,10 +56,6 @@ const GoalCheck = ({ isTitle }: PropsType) => {
       })
   }
 
-  const todayCheck = () => {
-    return;
-  }
-
   useEffect(() => {
     const getFn = navigation.addListener('focus', () => {
       GetGraphData();
@@ -93,7 +89,7 @@ const GoalCheck = ({ isTitle }: PropsType) => {
       />
       <Text style={styles.title}>{continueDays}일째 연속으로 기록함</Text>
       <View style={[styles.boxCover]}>
-        <CustomButton title='오늘 달성 기록하기' size='M' color='Gray' onPress={() => todayCheck()} />
+        <CustomButton title='오늘 달성 기록하기' size='M' color='Gray' onPress={() => navigation.navigate('목표')} />
         <CustomButton title='자세히 보기' size='M' color='Transparent' onPress={() => navigation.navigate('Menu', { screen: 'GoalCalendar' })} />
       </View>
     </View>

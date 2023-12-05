@@ -1,35 +1,68 @@
+import { getItem } from '@/utils/AsyncStorage';
 import { instance } from '../axios';
 
 const router = '/meet';
 
 export const createGroup = async (body: CreateGroupRequest) => {
-  return await instance.post(`${router}`, body);
+  const accessToken = await getItem('access_token');
+  return await instance.post(`${router}`, body, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const editGroup = async (body: EditGroupRequest, meet_id: string) => {
-  return await instance.patch(`${router}/${meet_id}`, body);
+  const accessToken = await getItem('access_token');
+  return await instance.patch(`${router}/${meet_id}`, body, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const deleteGroup = async (meet_id: string) => {
-  return await instance.delete(`${router}/${meet_id}`);
+  const accessToken = await getItem('access_token');
+  return await instance.delete(`${router}/${meet_id}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const viewAllGroup = async () => {
-  return await instance.get<ViewAllResponse[]>(`${router}`);
+  const accessToken = await getItem('access_token');
+  return await instance.get<ViewAllResponse[]>(`${router}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const viewDetailGroup = async (meet_id: number) => {
-  return await instance.get<ViewDetailResponse>(`${router}/${meet_id}`);
+  const accessToken = await getItem('access_token');
+  return await instance.get<ViewDetailResponse>(`${router}/${meet_id}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const viewCategoryGroup = async (type: InterestEnglishType) => {
-  return await instance({ url: `${router}/category`, params: { type } });
+  const accessToken = await getItem('access_token');
+  return await instance({ url: `${router}/category`, params: { type }, headers: { 'Authorization': `Bearer ${accessToken}` } });
 };
 
 export const viewCategorySearchGroup = async (body: ViewCategorySearchGroup) => {
-  return await instance({ url: `${router}/category/search`, params: { type: body.type, keyword: body.keyword } });
+  const accessToken = await getItem('access_token');
+  return await instance({ url: `${router}/category/search`, params: { type: body.type, keyword: body.keyword }, headers: { 'Authorization': `Bearer ${accessToken}` } });
 };
 
 export const exitGroup = async (meet_id: string) => {
-  return await instance.patch(`${router}/withdraw${meet_id}`);
+  const accessToken = await getItem('access_token');
+  return await instance.patch(`${router}/withdraw${meet_id}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };

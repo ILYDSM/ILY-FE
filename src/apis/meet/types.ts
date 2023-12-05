@@ -15,6 +15,8 @@ interface ViewAllResponse {
 }
 
 interface ViewDetailResponse {
+  meet_id: number;
+  target_id: number;
   title: string;
   meet_content: string;
   type: InterestEnglishType[];
