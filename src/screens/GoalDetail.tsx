@@ -13,11 +13,12 @@ import { platte } from '@/styles/platte';
 import { setItem } from '@/utils/AsyncStorage';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';
+import { interestType } from '@/utils/Translates';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Users } from 'lucide-react-native';
 import React, { useState, useEffect } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 
 const DemoData = {
@@ -99,14 +100,14 @@ export default function GoalDetailScreen({ route }: { route: any }) {
 
   const onExit = () => {
     exitGroup(idList[1].toString())
-    .then(() => navigation.reset({ routes: [{ name: 'Main' }]}))
-    .catch((err) => console.log('모임을 나갈 수 없음:\n', err));
+      .then(() => navigation.reset({ routes: [{ name: 'Main' }] }))
+      .catch((err) => console.log('모임을 나갈 수 없음:\n', err));
   }
 
   const onDelete = () => {
     deleteGroup(idList[1].toString())
-    .then(() => navigation.reset({ routes: [{ name: 'Main' }]}))
-    .catch((err) => console.log('모임을 나갈 수 없음:\n', err));
+      .then(() => navigation.reset({ routes: [{ name: 'Main' }] }))
+      .catch((err) => console.log('모임을 나갈 수 없음:\n', err));
   }
 
   const onEditGroup = async () => {
@@ -126,7 +127,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
   }, [route]);
 
   useEffect(() => {
-    if(idList[0] !== 0 && idList[1] !== 0) {
+    if (idList[0] !== 0 && idList[1] !== 0) {
       if (idList[1] === null) {
         getMandalArt({ targetId: idList[0] })
           .then((res) => {
@@ -205,8 +206,8 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           onEditGroup={onEditGroup}
           onCreateBookMark={onCreateBookMark}
         />
-        <ExitGroupModal setState={setModalState} state={modalState} onExit={onExit}/>
-        <DeleteGroup setState={setModalState} state={modalState} onDelete={onDelete}/>
+        <ExitGroupModal setState={setModalState} state={modalState} onExit={onExit} />
+        <DeleteGroup setState={setModalState} state={modalState} onDelete={onDelete} />
         <DetailMandalArt setState={setModalState} state={modalState} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]} />
       </SafeAreaView>
     );
@@ -288,11 +289,11 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMand
       <CustomModal IsOpen={state === 'ManageGroup'} setIsOpen={() => setState('')}>
         <Text style={{ fontSize: 28, fontFamily: '700' }}>{groupInfo.title}</Text>
         <Text style={{ fontSize: 16 }}>{groupInfo.descripton}</Text>
-        <View style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
-          {groupInfo.tags.map((d) => (
-            <Category text={d} key={d + d} />
+        <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
+          {Object.entries(interestType).filter((interest) => groupInfo.tags.includes(interest[1])).map((interest, index) => (
+            <Category key={index} text={interest[0]} />
           ))}
-        </View>
+        </ScrollView>
         <CustomButton
           title="참가 신청 목록"
           onPress={() => {
@@ -302,7 +303,7 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMand
         <CustomButton title="목표 수정" onPress={onEditMandal} />
         <CustomButton title="모임 수정" onPress={onEditGroup} />
         <CustomButton title="모임 삭제" onPress={() => setState('DeleteGroup')} />
-        <CustomButton title="즐겨찾기에 추가" onPress={onCreateBookMark}/>
+        <CustomButton title="즐겨찾기에 추가" onPress={onCreateBookMark} />
       </CustomModal>
     );
   } else {
@@ -315,7 +316,7 @@ function ManageGroupModal({ state, setState, groupInfo, isGroupOwner, onEditMand
             <Category text={d} key={d + d} />
           ))}
         </View>
-        <CustomButton title="즐겨찾기에 추가" onPress={onCreateBookMark}/>
+        <CustomButton title="즐겨찾기에 추가" onPress={onCreateBookMark} />
         <CustomButton title="모임 나가기" onPress={() => setState('ExitGroup')} />
       </CustomModal>
     );
@@ -330,7 +331,7 @@ function ExitGroupModal({ state, setState, onExit }: ExitGroupModalType) {
   return (
     <CustomModal IsOpen={state === 'ExitGroup'} setIsOpen={() => setState('')}>
       <Text style={{ fontSize: 28, fontFamily: '700' }}>모임에서 나갈까요?</Text>
-      <CustomButton title="나가기" onPress={onExit}/>
+      <CustomButton title="나가기" onPress={onExit} />
     </CustomModal>
   );
 }
@@ -344,7 +345,7 @@ function DeleteGroup({ state, setState, onDelete }: DeleteGroupType) {
     <CustomModal IsOpen={state === 'DeleteGroup'} setIsOpen={() => setState('')}>
       <Text style={{ fontSize: 28, fontFamily: '700' }}>모임을 정말 삭제할까요?</Text>
       <Text style={{ fontSize: 16 }}>참가한 인원, 게시판 글, 만든 목표는 되돌릴 수 없어요</Text>
-      <CustomButton title="삭제" onPress={onDelete}/>
+      <CustomButton title="삭제" onPress={onDelete} />
     </CustomModal>
   );
 }

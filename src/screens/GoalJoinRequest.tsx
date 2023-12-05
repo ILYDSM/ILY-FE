@@ -11,7 +11,7 @@ import { Image, SafeAreaView, StyleSheet, View, Text, FlatList } from "react-nat
 
 export default function GoalJoinRequest({ route }: { route: any }){
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
-  const [meetId, setMeedId] = useState<string>('');
+  const [meetId, setMeedId] = useState<number>(0);
   const [applicantData, setApplicantData] = useState<applicantMeetResponse[]>([]);
   
   const onApprove = async (userID: number, approve: boolean) => {
@@ -21,15 +21,17 @@ export default function GoalJoinRequest({ route }: { route: any }){
   }
 
   useEffect(() => {
-    setMeedId(route.params.meet_id?.toString());
+    setMeedId(route.params.meet_id);
   }, [route]);
 
   useEffect(() => {
-    applicantMeet(meetId).then((res) => {
-      setApplicantData(res.data);
-    })
-      .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
-  }, [])
+    if(meetId !== 0) {
+      applicantMeet(meetId).then((res) => {
+        setApplicantData(res.data);
+      })
+        .catch((err) => console.log('모임 게시판을 불러올 수 없음\n', err));
+    }
+  }, [meetId])
 
   return(
     <SafeAreaView style={{ paddingVertical: 16 }}>

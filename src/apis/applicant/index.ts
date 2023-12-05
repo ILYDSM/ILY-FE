@@ -3,7 +3,7 @@ import { instance } from '../axios';
 
 const router = '/applicant';
 
-export const applicantMeet = async (meet_id: string) => {
+export const applicantMeet = async (meet_id: number) => {
   const accessToken = await getItem('access_token');
   return await instance.get<applicantMeetResponse[]>(`${router}/${meet_id}`, {
     headers: {
@@ -21,7 +21,7 @@ export const requestApplicantMeet = async (meet_id: string) => {
   });
 };
 
-export const approveApplicantMeet = async (meet_id: string, user_id: number, approve: boolean) => {
+export const approveApplicantMeet = async (meet_id: number, user_id: number, approve: boolean) => {
   const accessToken = await getItem('access_token');
   return await instance({
     url: `${router}/${meet_id}/${user_id}`,

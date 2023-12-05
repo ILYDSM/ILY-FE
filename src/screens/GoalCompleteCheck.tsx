@@ -51,7 +51,6 @@ const GoalCompleteCheck = () => {
     const dataJSON = await getItem('completeMandalData');
     if (dataJSON) {
       const data = JSON.parse(dataJSON);
-      console.log('데이터 확인좀 하겠습니다.\n', dataJSON)
       setMandalData(data[0])
       setDetailMandalData(data[1])
     }
