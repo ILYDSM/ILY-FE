@@ -1,3 +1,4 @@
+import { getItem } from '@/utils/AsyncStorage';
 import { instance } from '../axios';
 
 const router = '/user';
@@ -11,25 +12,55 @@ export const signUp = async (body: SignUpRequest) => {
 };
 
 export const profile = async () => {
-  return await instance.get<ProfileResponse>(`${router}/profile`);
+  const accessToken = await getItem('access_token');
+  return await instance.get<ProfileResponse>(`${router}/profile`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 };
 
 export const interest = async (body: InterestRequest) => {
-  return await instance.post(`${router}/interest`, body);
+  const accessToken = await getItem('access_token');
+  return await instance.post(`${router}/interest`, body, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 }
 
 export const passwordChange = async (body: PasswordChangeRequest) => {
-  return await instance.patch(`${router}/password`, body);
+  const accessToken = await getItem('access_token');
+  return await instance.patch(`${router}/password`, body, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 }
 
 export const profileChange = async (body: ProfileChangeRequest) => {
-  return await instance.patch(`${router}/profile`, body);
+  const accessToken = await getItem('access_token');
+  return await instance.patch(`${router}/profile`, body, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 }
 
 export const deleteAccount = async () => {
-  return await instance.delete(`${router}`);
+  const accessToken = await getItem('access_token');
+  return await instance.delete(`${router}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 }
 
 export const logout = async () => {
-  return await instance.delete(`${router}/logout`);
+  const accessToken = await getItem('access_token');
+  return await instance.delete(`${router}/logout`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
 }

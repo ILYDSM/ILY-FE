@@ -3,3 +3,10 @@ interface CreateBoardRequest {
 }
 
 interface EditBoardRequest extends CreateBoardRequest {}
+
+interface viewDetailBoardResponse {
+  content: string;
+  createDate: string;
+  writerName: string;
+  id: number;
+}

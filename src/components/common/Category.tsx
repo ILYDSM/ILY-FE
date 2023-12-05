@@ -11,7 +11,7 @@ interface CategoryPropsType {
 
 export default ({ clicked, text, onPress }: CategoryPropsType) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={!onPress}>
       <View style={[styles.container, clicked && { backgroundColor: platte.gray80 }]}>
         {clicked && <Check size={16} color={platte.gray00} />}
         <Text style={[styles.text, clicked && { color: platte.gray00 }]}>{text}</Text>

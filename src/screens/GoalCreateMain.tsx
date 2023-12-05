@@ -21,8 +21,22 @@ const GoalCreateMain = () => {
   }
 
   const getData = async () => {
-    const data = await getItem('mandalArtCreate');
-    setMandalData(JSON.parse(data ?? "[]"));
+    const type = await getItem('mandalType');
+    if(type === 'create') {
+      const newData = new Array(73).fill('')
+      setItem('mandalArtCreate', JSON.stringify(newData));
+      setItem('mandalTheme', 'Gray')
+      setItem('mandalCycle', '0')
+      setItem('mandalType', 'creating')
+      setMandalData(newData);
+    } else {
+      const data = await getItem('mandalArtCreate');
+      if(data) {
+        setMandalData(JSON.parse(data));
+      } else {
+        setMandalData(new Array(73).fill(''));
+      }
+    }
     return;
   }
 
@@ -34,8 +48,6 @@ const GoalCreateMain = () => {
   }, [navigation])
 
   useEffect(() => {
-    setItem('mandalArtCreate', JSON.stringify(new Array(73).fill('')));
-
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
       setKeyboardStatus(true);
     });
