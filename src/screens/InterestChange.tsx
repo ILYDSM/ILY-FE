@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { View, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 import CustomButton from '@/components/common/CustomButton';
-import { interest, profile, viewInterest } from '@/apis/user';
+import { interest, profile } from '@/apis/user';
 
 const InterestChange = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();

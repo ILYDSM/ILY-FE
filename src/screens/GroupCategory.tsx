@@ -12,6 +12,7 @@ import TitleBar from '@/components/common/TitleBar';
 import { DATA } from '@/constants/mock';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
+import ThemeSelector from '@/utils/ThemeSelector';
 import { interestType, interestTypeToKorean } from '@/utils/Translates';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -103,6 +104,7 @@ const GroupCategory = () => {
             <MandalArt
               title={mandalData[detailNumber + 1]}
               data={mandalData.slice(9 + detailNumber * 8, 17 + detailNumber * 8)}
+              theme={ThemeSelector(detailData?.theme as string)}
             />
             <Text style={{ fontSize: 16, fontWeight: '500' }}>{detailData?.meet_content}</Text>
             <ScrollView

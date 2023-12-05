@@ -12,6 +12,7 @@ import Margin from '@/components/common/Margin';
 import MeetCard from '@/components/common/MeetCard';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
+import ThemeSelector from '@/utils/ThemeSelector';
 import { interestType, interestTypeToKorean } from '@/utils/Translates';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -136,6 +137,7 @@ const Group = () => {
               <MandalArt
                 title={detailData?.title}
                 data={detailData?.sub_target_response_list.map((res) => res.content)}
+                theme={ThemeSelector(detailData?.theme as string)}
               />
               <Text style={{ fontSize: 16, fontWeight: '500' }}>{detailData?.meet_content}</Text>
               <ScrollView

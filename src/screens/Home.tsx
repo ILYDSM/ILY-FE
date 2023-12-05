@@ -109,6 +109,7 @@ const Home = () => {
             <MandalArt
               title={detailData?.title}
               data={detailData?.sub_target_response_list.map((res) => res.content)}
+              theme={ThemeSelector(detailData?.theme as string)}
             />
             <Text style={{ fontSize: 16, fontWeight: '500' }}>{detailData?.meet_content}</Text>
             <ScrollView

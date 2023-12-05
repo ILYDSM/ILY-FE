@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, GestureResponderEvent, StyleSheet, Dimens
 interface GoalCardPropsType {
   text: string;
   onPress?: (event: GestureResponderEvent) => void;
-  theme: MandalaArtThemeType;
+  theme: MandalaArtThemeType | MandalaArtThemeType[];
   isGroup?: boolean;
 }
 

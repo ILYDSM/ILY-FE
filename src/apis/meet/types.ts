@@ -22,7 +22,6 @@ interface ViewDetailResponse {
   type: InterestEnglishType[];
   personnel: string;
   participant: string;
-  target_id: number;
   target_content: string;
   cycle_count: null | number;
   cycle_term: null | number;

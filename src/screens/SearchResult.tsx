@@ -19,6 +19,7 @@ import { ReviewComponent } from '@/components/ReviewComponent';
 import CustomButton from '@/components/common/CustomButton';
 import { viewReview } from '@/apis/review';
 import { applyGroup } from '@/apis/applicant';
+import ThemeSelector from '@/utils/ThemeSelector';
 
 const SearchResult = ({ route }: { route: any }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
@@ -123,6 +124,7 @@ const SearchResult = ({ route }: { route: any }) => {
               <MandalArt
                 title={mandalData[detailNumber + 1]}
                 data={mandalData.slice(9 + detailNumber * 8, 17 + detailNumber * 8)}
+                theme={ThemeSelector(detailData?.theme as string)}
               />
               <Text style={{ fontSize: 16, fontWeight: '500' }}>{detailData?.meet_content}</Text>
               <ScrollView
