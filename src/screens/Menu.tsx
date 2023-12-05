@@ -9,7 +9,7 @@ import { removeItem } from '@/utils/AsyncStorage';
 import { useState, useEffect } from 'react';
 import CustomModal from '@/components/common/CustomModal';
 import GoalCheck from '@/components/common/GoalCheck';
-import { deleteAccount, logout, profile, profileChange } from '@/apis/user';
+import { deleteAccount, profile, profileChange } from '@/apis/user';
 import { Controller, useForm } from 'react-hook-form';
 import { emailRule, nicknameRule } from '@/utils/Rules';
 import CustomInput from '@/components/common/CustomInput';
@@ -22,7 +22,7 @@ const Menu = () => {
     nickname: '',
     email: '',
     point: '0',
-    interests: []
+    interests: [],
   });
 
   const {
@@ -41,11 +41,12 @@ const Menu = () => {
   const { nickname, email } = watch();
 
   const getUserProfile = () => {
-    profile().then((res) => {
-      setProfileData(res.data);
-      setValue('nickname', res.data.nickname);
-      setValue('email', res.data.email);
-    })
+    profile()
+      .then((res) => {
+        setProfileData(res.data);
+        setValue('nickname', res.data.nickname);
+        setValue('email', res.data.email);
+      })
       .catch((err) => {
         console.log('유저 프로필을 가져올 수 없음:\n', err);
       });
@@ -54,43 +55,42 @@ const Menu = () => {
   const openModal = (status: string) => {
     setModalOpen(true);
     setModalStatus(status);
-  }
+  };
 
   const onProfileChange = (data: ProfileChangeRequest) => {
-    profileChange(data).then(() => {
-      setModalOpen(false);
-      getUserProfile();
-    })
+    console.log(data);
+    profileChange(data)
+      .then(() => {
+        setModalOpen(false);
+        getUserProfile();
+      })
       .catch((err) => {
         console.log('유저 프로필을 변경할 수 없음:\n', err);
-      })
-  }
+      });
+  };
 
   const logOut = () => {
-    logout().then(() => {
-      removeItem('userAccessToken');
-      navigation.reset({ routes: [{ name: 'Auth' }] });
-      navigation.navigate('Rending');
-    })
-      .catch((err) => {
-        console.log('로그아웃 할 수 없음:\n', err);
-      })
+    removeItem('userAccessToken');
+    navigation.reset({ routes: [{ name: 'Auth' }] });
+    navigation.navigate('Rending');
   };
 
   const onDeleteAccount = () => {
-    deleteAccount().then(() => {
-      removeItem('userAccessToken');
-      navigation.reset({ routes: [{ name: 'Auth' }] });
-      navigation.navigate('Rending');
-    }).catch((err) => {
-      console.log('계정을 삭제할 수 없음:\n', err);
-    })
-  }
+    deleteAccount()
+      .then(() => {
+        removeItem('userAccessToken');
+        navigation.reset({ routes: [{ name: 'Auth' }] });
+        navigation.navigate('Rending');
+      })
+      .catch((err) => {
+        console.log('계정을 삭제할 수 없음:\n', err);
+      });
+  };
 
   useEffect(() => {
     const getFn = navigation.addListener('focus', getUserProfile);
     return getFn;
-  }, [navigation])
+  }, [navigation]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -129,44 +129,46 @@ const Menu = () => {
             <CardList title="계정 삭제" onPress={() => openModal('deleteAccount')} />
           </View>
         </View>
-        <CustomModal IsOpen={isModalOpen} setIsOpen={setModalOpen} title={modalStatus === 'logOut' ? "로그아웃할까요?" : modalStatus === 'profileChange' ? "내 정보 수정" : "정말 계정을 삭제할까요?"}>
-          {
-            modalStatus === 'logOut' ?
-              <CustomButton title="로그아웃" onPress={logOut} />
-              : modalStatus === 'profileChange' ?
-                <View style={styles.gap12}>
-                  <Controller
-                    control={control}
-                    name='nickname'
-                    rules={nicknameRule}
-                    render={({ field: { onChange, value } }) => (
-                      <CustomInput
-                        text="닉네임"
-                        onChangeText={onChange}
-                        value={value}
-                        isError={!!errors.nickname}
-                      />
-                    )}
-                  />
-                  <Controller
-                    control={control}
-                    name='email'
-                    rules={emailRule}
-                    render={({ field: { onChange, value } }) => (
-                      <CustomInput
-                        text="이메일"
-                        onChangeText={onChange}
-                        value={value}
-                        isError={!!errors.email}
-                      />
-                    )}
-                  />
-                  <CustomButton title="수정" onPress={() => handleSubmit(onProfileChange)} disabled={!email.match(emailRule.pattern.value) || nickname.length === 0} />
-                </View>
-                :
-                modalStatus === "deleteAccount" &&
-                <CustomButton title="삭제" onPress={onDeleteAccount} />
+        <CustomModal
+          IsOpen={isModalOpen}
+          setIsOpen={setModalOpen}
+          title={
+            modalStatus === 'logOut'
+              ? '로그아웃할까요?'
+              : modalStatus === 'profileChange'
+              ? '내 정보 수정'
+              : '정말 계정을 삭제할까요?'
           }
+        >
+          {modalStatus === 'logOut' ? (
+            <CustomButton title="로그아웃" onPress={logOut} />
+          ) : modalStatus === 'profileChange' ? (
+            <View style={styles.gap12}>
+              <Controller
+                control={control}
+                name="nickname"
+                rules={nicknameRule}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput text="닉네임" onChangeText={onChange} value={value} isError={!!errors.nickname} />
+                )}
+              />
+              <Controller
+                control={control}
+                name="email"
+                rules={emailRule}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput text="이메일" onChangeText={onChange} value={value} isError={!!errors.email} />
+                )}
+              />
+              <CustomButton
+                title="수정"
+                onPress={() => handleSubmit(onProfileChange)}
+                disabled={!email.match(emailRule.pattern.value) || nickname.length === 0}
+              />
+            </View>
+          ) : (
+            modalStatus === 'deleteAccount' && <CustomButton title="삭제" onPress={onDeleteAccount} />
+          )}
         </CustomModal>
       </SafeAreaView>
     </ScrollView>
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   gap12: {
-    gap: 12
+    gap: 12,
   },
   boxCover: {
     gap: 4,

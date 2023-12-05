@@ -11,16 +11,29 @@ interface ViewAllResponse {
   title: string;
   content: string;
   participant: number;
+  meet_id: number;
 }
 
 interface ViewDetailResponse {
   meet_id: number;
   target_id: number;
   title: string;
-  content: string;
+  meet_content: string;
   type: InterestEnglishType[];
-  personnel: number;
-  participant: number;
+  personnel: string;
+  participant: string;
+  target_id: number;
+  target_content: string;
+  cycle_count: null | number;
+  cycle_term: null | number;
+  cycle_date: null | string;
+  is_achieved: boolean;
+  theme: string;
+  sub_target_response_list: {
+    id: number;
+    content: string;
+    is_achieved: boolean;
+  }[];
 }
 
 interface ViewCategorySearchGroup {

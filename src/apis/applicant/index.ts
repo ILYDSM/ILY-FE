@@ -3,18 +3,13 @@ import { instance } from '../axios';
 
 const router = '/applicant';
 
+export const applyGroup = async (meet_id: number) => {
+  return await instance.post(`${router}/${meet_id}`);
+};
+
 export const applicantMeet = async (meet_id: number) => {
   const accessToken = await getItem('access_token');
   return await instance.get<applicantMeetResponse[]>(`${router}/${meet_id}`, {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  });
-};
-
-export const requestApplicantMeet = async (meet_id: string) => {
-  const accessToken = await getItem('access_token');
-  return await instance.post(`${router}/${meet_id}`, {
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }

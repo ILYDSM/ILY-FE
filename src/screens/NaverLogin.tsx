@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParam } from '@/utils/RootStackParam';
 import { setItem } from '@/utils/AsyncStorage';
+import TitleBar from '@/components/common/TitleBar';
 
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
@@ -68,6 +69,12 @@ export default () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <TitleBar
+        title=""
+        onPress={() => {
+          navigation.navigate('Login');
+        }}
+      />
       <WebView
         style={{ flex: 1 }}
         source={{

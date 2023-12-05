@@ -146,7 +146,7 @@ const CreateGroup = () => {
               control={control}
               rules={{
                 required: { value: true, message: '내용은 필수입니다' },
-                maxLength: { value: 14, message: '최대 14자 입니다' },
+                maxLength: { value: 32, message: '최대 32자 입니다' },
               }}
               render={({ field: { onChange, value } }) => (
                 <CustomInput
@@ -157,7 +157,7 @@ const CreateGroup = () => {
                   description={
                     !!errors.content
                       ? errors.content.message
-                      : `모임을 설명할 수 있는 간단한 소갯말을 작성해 주세요\n14자까지 작성할 수 있어요`
+                      : `모임을 설명할 수 있는 간단한 소갯말을 작성해 주세요\n32자까지 작성할 수 있어요`
                   }
                 />
               )}

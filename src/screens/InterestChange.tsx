@@ -1,22 +1,23 @@
-import Category from "@/components/common/Category";
-import TitleBar from "@/components/common/TitleBar";
-import { RootStackParam } from "@/utils/RootStackParam";
-import { interestType } from "@/utils/Translates";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { View, SafeAreaView, StyleSheet, Text } from "react-native";
-import { useEffect, useState } from "react"
-import CustomButton from "@/components/common/CustomButton";
-import { interest, profile } from '@/apis/user';
+import Category from '@/components/common/Category';
+import TitleBar from '@/components/common/TitleBar';
+import { RootStackParam } from '@/utils/RootStackParam';
+import { interestType } from '@/utils/Translates';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { View, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { useEffect, useState } from 'react';
+import CustomButton from '@/components/common/CustomButton';
+import { interest, profile, viewInterest } from '@/apis/user';
 
 const InterestChange = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [categories, setCategories] = useState<InterestEnglishType[]>([]);
 
   const getUserProfile = () => {
-    profile().then((res) => {
-      setCategories(res.data.interests || []);
-    })
+    profile()
+      .then((res) => {
+        setCategories(res.data.interests || []);
+      })
       .catch((err) => {
         console.log('유저 프로필을 가져올 수 없음:\n', err);
       });
@@ -25,13 +26,13 @@ const InterestChange = () => {
   const onInterestChange = () => {
     interest({ interests: categories }).then(() => {
       navigation.navigate('Main');
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     const getFn = navigation.addListener('focus', getUserProfile);
     return getFn;
-  }, [navigation])
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,8 +62,8 @@ const InterestChange = () => {
         <CustomButton title="완료" onPress={onInterestChange} />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 export default InterestChange;
 
@@ -70,23 +71,23 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
     paddingBottom: 16,
-    flex: 1
+    flex: 1,
   },
   contentCover: {
     paddingHorizontal: 16,
-    flex: 1
+    flex: 1,
   },
   gap20: {
     gap: 20,
-    flex: 1
+    flex: 1,
   },
   text: {
     fontSize: 16,
-    fontFamily: '500'
+    fontFamily: '500',
   },
   contentBox: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8
-  }
-})
+    gap: 8,
+  },
+});

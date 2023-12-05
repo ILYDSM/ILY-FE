@@ -131,7 +131,7 @@ const Login = () => {
               >
                 <KakaoButton />
                 <NaverButton />
-                <GoogleButton />
+                {/* <GoogleButton /> */}
               </View>
             </View>
           </View>

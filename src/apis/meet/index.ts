@@ -39,7 +39,7 @@ export const viewAllGroup = async () => {
   });
 };
 
-export const viewDetailGroup = async (meet_id: string) => {
+export const viewDetailGroup = async (meet_id: number) => {
   const accessToken = await getItem('access_token');
   return await instance.get<ViewDetailResponse>(`${router}/${meet_id}`, {
     headers: {
