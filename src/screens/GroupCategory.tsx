@@ -9,7 +9,6 @@ import MandalArt from '@/components/common/MandalArt/MandalArt';
 import Margin from '@/components/common/Margin';
 import MeetCard from '@/components/common/MeetCard';
 import TitleBar from '@/components/common/TitleBar';
-import { DATA } from '@/constants/mock';
 import { platte } from '@/styles/platte';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';

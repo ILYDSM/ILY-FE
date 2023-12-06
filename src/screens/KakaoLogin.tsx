@@ -1,11 +1,12 @@
 import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParam } from '@/utils/RootStackParam';
 import { setItem } from '@/utils/AsyncStorage';
 import TitleBar from '@/components/common/TitleBar';
+import { login } from '@/apis/user';
 
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
@@ -42,7 +43,6 @@ export default () => {
       .catch((error) => {
         console.log('error', error);
       });
-    navigation.navigate('Main');
   };
 
   const requestUserInfo = (AccessToken: string) => {
@@ -52,11 +52,23 @@ export default () => {
       headers: {
         Authorization: `Bearer ${AccessToken}`,
       },
-    }).then((res) => {
-      const { email, profile } = res.data.kakao_account;
-      console.log(email);
-      console.log(profile.nickname);
-    });
+    })
+      .then((res) => {
+        const { email, profile } = res.data.kakao_account;
+        login({ email, password: '@ilydsm123' })
+          .then(() => {
+            navigation.navigate('Main');
+          })
+          .catch((err: AxiosError<AxiosError>) => {
+            switch (err.response?.data.status) {
+              case 403:
+                return navigation.navigate('SignUp', { email, password: '@ilydsm123' });
+              default:
+                return navigation.navigate('Login');
+            }
+          });
+      })
+      .catch(() => console.log('에러'));
   };
 
   const storeData = async (returnValue: string) => {

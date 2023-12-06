@@ -4,7 +4,7 @@ export type RootStackParam = {
   모임: undefined;
   메뉴: undefined;
   Login: undefined;
-  SignUp: undefined;
+  SignUp: { email: string; password: string };
   Rending: undefined;
   Main: undefined;
   Auth: undefined;
@@ -38,6 +38,6 @@ export type RootStackParam = {
       | 'GoalCreateCycle'
       | 'GoalCompleteCheck'
       | 'GoalCompleteResult';
-      params?: { id?: number, meet_id: number | null };
+    params?: { id?: number; meet_id: number | null };
   };
 };

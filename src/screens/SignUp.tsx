@@ -12,13 +12,14 @@ import { platte } from '@/styles/platte';
 import { Controller, useForm } from 'react-hook-form';
 import { emailRule, nicknameRule, passwordRule } from '@/utils/Rules';
 
-const SignUp = () => {
+const SignUp = ({ route }: { route: any }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const [keyboardStatus, setKeyboardStatus] = useState<boolean>(false);
 
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -30,13 +31,14 @@ const SignUp = () => {
   });
 
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [isOauth, setIsOauth] = useState(false);
 
   const handlePasswordEye = () => {
     setIsPasswordOpen((prev) => !prev);
   };
 
   const onSubmit = async (data: any) => {
-    // console.log(data);
+    console.log(data);
     navigation.navigate('SelectInterest', data);
   };
 
@@ -52,6 +54,19 @@ const SignUp = () => {
       hideSubscription.remove();
     };
   }, []);
+
+  useEffect(() => {
+    console.log(route.params);
+    if (route.params?.email) {
+      setValue('email', route.params.email);
+    }
+    if (route.params?.password === '@ilydsm123') {
+      setValue('password', route.params.password);
+      setIsOauth(true);
+    } else {
+      setIsOauth(false);
+    }
+  }, [route]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -78,34 +93,36 @@ const SignUp = () => {
             )}
             name="email"
           />
-          <Controller
-            control={control}
-            rules={passwordRule}
-            render={({ field: { onChange, value } }) => (
-              <CustomInput
-                text="비밀번호"
-                description={
-                  !!errors.password?.message
-                    ? errors.password?.message
-                    : '8~20자 이내, 알파벳 대소문자, 숫자를 포함해야 해요'
-                }
-                icon={
-                  <TouchableOpacity onPress={handlePasswordEye}>
-                    {isPasswordOpen ? (
-                      <Eye color={platte.gray100} size={20} />
-                    ) : (
-                      <EyeOff color={platte.gray100} size={20} />
-                    )}
-                  </TouchableOpacity>
-                }
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry={!isPasswordOpen}
-                isError={!!errors.password}
-              />
-            )}
-            name="password"
-          />
+          {!isOauth && (
+            <Controller
+              control={control}
+              rules={passwordRule}
+              render={({ field: { onChange, value } }) => (
+                <CustomInput
+                  text="비밀번호"
+                  description={
+                    !!errors.password?.message
+                      ? errors.password?.message
+                      : '8~20자 이내, 알파벳 대소문자, 숫자를 포함해야 해요'
+                  }
+                  icon={
+                    <TouchableOpacity onPress={handlePasswordEye}>
+                      {isPasswordOpen ? (
+                        <Eye color={platte.gray100} size={20} />
+                      ) : (
+                        <EyeOff color={platte.gray100} size={20} />
+                      )}
+                    </TouchableOpacity>
+                  }
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={!isPasswordOpen}
+                  isError={!!errors.password}
+                />
+              )}
+              name="password"
+            />
+          )}
           <Controller
             control={control}
             rules={nicknameRule}
