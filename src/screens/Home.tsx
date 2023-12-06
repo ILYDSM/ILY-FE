@@ -1,4 +1,5 @@
 import { applyGroup } from '@/apis/applicant';
+import { getBookMark } from '@/apis/bookmark';
 import { viewAllGroup, viewDetailGroup } from '@/apis/meet';
 import { viewReview } from '@/apis/review';
 import GoalCard from '@/components/GoalCard';
@@ -30,6 +31,7 @@ const Home = () => {
   const [detailNumber, setDetailNumber] = useState<number>(0);
   const [detailData, setDetailData] = useState<ViewDetailResponse>();
   const [reviewList, setReviewList] = useState<GetReviewResponse[]>();
+  const [bookmarkList, setBookMarkList] = useState<BookMarkResponse[]>([]);
 
   useEffect(() => {
     viewAllGroup().then((res) => {
@@ -52,6 +54,14 @@ const Home = () => {
       })
       .catch(() => {});
   }, [detailNumber]);
+
+  useEffect(() => {
+    getBookMark()
+      .then((res) => {
+        setBookMarkList(res.data);
+      })
+      .catch(() => {});
+  }, [navigation]);
 
   return (
     <>
@@ -82,18 +92,12 @@ const Home = () => {
             <FlatList
               style={{ width: '100%', gap: 20 }}
               scrollEnabled={false}
-              data={[
-                {
-                  target: 'asd 취득4',
-                  isGroup: false,
-                  theme: 'Teal',
-                },
-              ]}
+              data={bookmarkList}
               renderItem={({ item, index }) => {
                 const themeObject = ThemeSelector(item.theme);
                 return (
-                  <View key={index} style={{ width: '46%', margin: '2%' }}>
-                    <GoalCard isGroup={false} text={item.target} theme={themeObject} />
+                  <View key={item.meet_id} style={{ width: '46%', margin: '2%' }}>
+                    <GoalCard isGroup={false} text={item.title} theme={themeObject} />
                   </View>
                 );
               }}
@@ -162,9 +166,18 @@ const Home = () => {
               })
             ) : (
               <View
-                style={{ padding: 8, gap: 4, borderRadius: 8, backgroundColor: platte.gray05, alignItems: 'center' }}
+                style={{
+                  padding: 8,
+                  gap: 4,
+                  borderRadius: 8,
+                  backgroundColor: platte.gray00,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  marginTop: 10,
+                }}
               >
-                <Text style={{ fontSize: 16, fontWeight: '500' }}>리뷰가 없습니다</Text>
+                <Text style={{ fontSize: 16, fontWeight: '500', width: '100%' }}>리뷰가 없습니다</Text>
               </View>
             )}
           </View>

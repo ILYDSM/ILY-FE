@@ -122,8 +122,8 @@ const SearchResult = ({ route }: { route: any }) => {
             <View style={{ gap: 12 }}>
               <Text style={{ fontSize: 26, fontFamily: '700' }}>{mandalData[detailNumber + 1]}</Text>
               <MandalArt
-                title={mandalData[detailNumber + 1]}
-                data={mandalData.slice(9 + detailNumber * 8, 17 + detailNumber * 8)}
+                title={detailData?.target_content}
+                data={detailData?.sub_target_response_list.map((res) => res.content)}
                 theme={ThemeSelector(detailData?.theme as string)}
               />
               <Text style={{ fontSize: 16, fontWeight: '500' }}>{detailData?.meet_content}</Text>
@@ -182,9 +182,18 @@ const SearchResult = ({ route }: { route: any }) => {
                 })
               ) : (
                 <View
-                  style={{ padding: 8, gap: 4, borderRadius: 8, backgroundColor: platte.gray05, alignItems: 'center' }}
+                  style={{
+                    padding: 8,
+                    gap: 4,
+                    borderRadius: 8,
+                    backgroundColor: platte.gray00,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    marginTop: 10,
+                  }}
                 >
-                  <Text style={{ fontSize: 16, fontWeight: '500' }}>리뷰가 없습니다</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '500', width: '100%' }}>리뷰가 없습니다</Text>
                 </View>
               )}
             </View>

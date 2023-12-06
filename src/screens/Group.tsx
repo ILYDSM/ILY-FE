@@ -202,7 +202,16 @@ const Group = () => {
                 })
               ) : (
                 <View
-                  style={{ padding: 8, gap: 4, borderRadius: 8, backgroundColor: platte.gray05, alignItems: 'center' }}
+                  style={{
+                    padding: 8,
+                    gap: 4,
+                    borderRadius: 8,
+                    backgroundColor: platte.gray00,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    marginTop: 10,
+                  }}
                 >
                   <Text style={{ fontSize: 16, fontWeight: '500' }}>리뷰가 없습니다</Text>
                 </View>

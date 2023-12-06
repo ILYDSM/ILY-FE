@@ -9,9 +9,9 @@ export const createBookMark = async (meet_id: string) => {
     url: `${router}/${meet_id}`,
     method: 'patch',
     headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  })
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 };
 
 export const deleteBookMark = async (meet_id: string) => {
@@ -20,7 +20,16 @@ export const deleteBookMark = async (meet_id: string) => {
     url: `${router}/clear/${meet_id}`,
     method: 'patch',
     headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  })
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export const getBookMark = async () => {
+  const accessToken = await getItem('access_token');
+  return await instance.get<BookMarkResponse[]>(`${router}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 };
