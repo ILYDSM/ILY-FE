@@ -60,8 +60,10 @@ export default () => {
         const { email, name } = res.data.response;
         console.log(email, name);
         login({ email, password: '@ilydsm123' })
-          .then(() => {
-            navigation.navigate('Main');
+          .then((res) => {
+            setItem('access_token', res.data.access_token);
+            setItem('refresh_token', res.data.refresh_token);
+            navigation.reset({ routes: [{ name: 'Main' }]});
           })
           .catch((err: AxiosError<AxiosError>) => {
             switch (err.response?.data.status) {

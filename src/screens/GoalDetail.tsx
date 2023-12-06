@@ -170,7 +170,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
         viewDetailGroup(idList[1])
           .then((res) => {
-            console.log('모임 정보', res.data.personnel);
+            console.log('모임 정보', res.data);
             setMeedData(res.data);
           })
           .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));

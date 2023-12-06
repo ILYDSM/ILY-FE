@@ -22,7 +22,10 @@ export const profile = async () => {
 
 export const interest = async (body: InterestRequest) => {
   const accessToken = await getItem('access_token');
-  return await instance.post(`${router}/interest`, body, {
+  return await instance({
+    url: `${router}/interest`,
+    method: 'patch',
+    data: body,
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }
@@ -31,7 +34,10 @@ export const interest = async (body: InterestRequest) => {
 
 export const passwordChange = async (body: PasswordChangeRequest) => {
   const accessToken = await getItem('access_token');
-  return await instance.patch(`${router}/password`, body, {
+  return await instance({
+    url: `${router}/password`,
+    method: 'patch',
+    data: body,
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }
@@ -40,7 +46,10 @@ export const passwordChange = async (body: PasswordChangeRequest) => {
 
 export const profileChange = async (body: ProfileChangeRequest) => {
   const accessToken = await getItem('access_token');
-  return await instance.patch(`${router}/profile`, body, {
+  return await instance({
+    url: `${router}/profile`,
+    method: 'patch',
+    data: body,
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }

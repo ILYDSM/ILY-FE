@@ -56,8 +56,10 @@ export default () => {
       .then((res) => {
         const { email, profile } = res.data.kakao_account;
         login({ email, password: '@ilydsm123' })
-          .then(() => {
-            navigation.navigate('Main');
+          .then((res) => {
+            setItem('access_token', res.data.access_token);
+            setItem('refresh_token', res.data.refresh_token);
+            navigation.reset({ routes: [{ name: 'Main' }]});
           })
           .catch((err: AxiosError<AxiosError>) => {
             switch (err.response?.data.status) {

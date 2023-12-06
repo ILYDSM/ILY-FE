@@ -58,7 +58,7 @@ const GoalCheck = ({ isTitle }: PropsType) => {
 
   useEffect(() => {
     const getFn = navigation.addListener('focus', () => {
-      GetGraphData();
+      // GetGraphData();
       GetGraphCount();
     });
     return getFn;

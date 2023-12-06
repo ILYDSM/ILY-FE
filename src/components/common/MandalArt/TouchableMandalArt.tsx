@@ -6,7 +6,7 @@ import { GrayTheme } from './theme';
 interface MandalArtPropsType {
   data?: string[];
   title?: string;
-  theme: MandalaArtThemeType | MandalaArtThemeType[];
+  theme?: MandalaArtThemeType | MandalaArtThemeType[];
   onTouchFn: (index: number) => void;
 }
 

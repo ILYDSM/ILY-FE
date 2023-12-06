@@ -71,7 +71,7 @@ const Menu = () => {
 
   const logOut = () => {
     removeItem('userAccessToken');
-    navigation.reset({ routes: [{ name: 'Auth' }] });
+    navigation.reset({ routes: [{ name: 'Rending' }] });
     navigation.navigate('Rending');
   };
 
@@ -79,7 +79,7 @@ const Menu = () => {
     deleteAccount()
       .then(() => {
         removeItem('userAccessToken');
-        navigation.reset({ routes: [{ name: 'Auth' }] });
+        navigation.reset({ routes: [{ name: 'Rending' }] });
         navigation.navigate('Rending');
       })
       .catch((err) => {

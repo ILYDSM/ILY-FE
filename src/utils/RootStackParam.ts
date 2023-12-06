@@ -4,7 +4,7 @@ export type RootStackParam = {
   모임: undefined;
   메뉴: undefined;
   Login: undefined;
-  SignUp: { email: string; password: string };
+  SignUp: { email: string; password: string } | undefined;
   Rending: undefined;
   Main: undefined;
   Auth: undefined;
