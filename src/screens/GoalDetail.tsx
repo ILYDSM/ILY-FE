@@ -91,7 +91,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
 
   const onMandalEdit = async () => {
     await setItem('mandalType', 'edit');
-    await setItem('mandalId', mandalData.id.toString());
+    await setItem('mandalId', JSON.stringify(mandalData.id));
     await setItem(
       'mandalArtCreate',
       JSON.stringify([
@@ -101,7 +101,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
       ]),
     );
     await setItem('mandalTheme', mandalData.theme);
-    await setItem('mandalCycle', mandalData.cycle_term.toString());
+    await setItem('mandalCycle', JSON.stringify(mandalData.cycle_term));
     await setItem('MandalInfo', JSON.stringify([mandalData.cycle_count, mandalData.cycle_date]));
     navigation.navigate('Goal', { screen: 'GoalCreateMain' });
   };

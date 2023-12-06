@@ -57,7 +57,7 @@ const GoalCompleteCheck = () => {
   }
 
   const onComplete = () => {
-    completeMandalArt({ detailTargetId: detailMandalNumber }).then(() => {
+    completeMandalArt({ detailTargetId: detailMandalData[detailMandalNumber].detail_target_responses[0].id }).then(() => {
       navigation.navigate('Goal', { screen: 'GoalCompleteResult' })
     }).catch((err) => {
       console.log('세부목표 달성하는데 실패했습니다.\n', err);
@@ -79,7 +79,7 @@ const GoalCompleteCheck = () => {
       <TitleBar title='목표 달성 기록' onPress={() => navigation.goBack()} />
       <View style={styles.contentBox}>
         <TouchableMandalArt title={mandalData.content} data={mandalData.sub_target_response_list.map((value) => value.content)} theme={ThemeSelector(mandalData.theme)} onTouchFn={openDetailMandal} />
-        <Text style={styles.text}>보조 목표 칸을 클릭해 상세 목표를 입력하세요</Text>
+        <Text style={styles.text}>달성을 기록할 보조 목표를 선택하세요</Text>
       </View>
       <DetailMandalArt setState={setOpenModal} state={isOpenModal} theme={mandalData.theme} data={detailMandalData[detailMandalNumber]} onComplete={onComplete}/>
     </SafeAreaView>
@@ -100,7 +100,7 @@ const DetailMandalArt = ({ state, setState, theme, data, onComplete }: MandalArt
   return (
     <CustomModal title="목표 달성을 기록할까요?" IsOpen={state} setIsOpen={setState}>
       <MandalArt title={data.content} data={data.detail_target_responses.map(value => value.content)} theme={ThemeSelector(theme)} />
-      <CustomButton title="기록" onPress={onComplete} />
+      <CustomButton title="기록" onPress={onComplete} disabled={data.detail_target_responses[0].is_achieved}/>
     </CustomModal>
   );
 }

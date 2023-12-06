@@ -30,7 +30,7 @@ const GoalCreateCycle = () => {
       setThemeColor(themeData)
     }
     if (cycleData) {
-      setMandalCycle(Number(cycleData));
+      setMandalCycle(Number(JSON.parse(cycleData)));
     }
 
     return;
@@ -48,13 +48,19 @@ const GoalCreateCycle = () => {
     const id = await getItem('mandalId');
     const infoJSON = await getItem('MandalInfo');
 
+    const today = () => {
+      const date = new Date();
+      const twoWord = (num: number) => `0${num}`.slice(-2);
+      return `${date.getFullYear()}-${twoWord(date.getMonth() + 1)}-${twoWord(date.getDate())}`;
+    }
+
     if(type === 'edit' && id && infoJSON) {
       const info = JSON.parse(infoJSON);
       await editMandalArt(id, {
         target: mandalData[0],
         cycle_count: Number(info[0]) + 1,
         cycle_term: mandalCycle,
-        cycle_date: info[1],
+        cycle_date: info[1]  || today(),
         sub_targets: mandalData.slice(1, 9).map((value) => value.trim()),
         detail_targets: mandalData.slice(9, 73).map((value) => value.trim()),
         theme: themeColor,
@@ -65,12 +71,6 @@ const GoalCreateCycle = () => {
         console.log('만다라트를 수정할 수 없음:\n', err);
       })
     } else {
-      const today = () => {
-        const date = new Date();
-        const twoWord = (num: number) => `0${num}`.slice(-2);
-        return `${date.getFullYear()}-${twoWord(date.getMonth() + 1)}-${twoWord(date.getDate())}`;
-      }
-
       await createMandalArt({
         target: mandalData[0],
         cycle_count: 0,
