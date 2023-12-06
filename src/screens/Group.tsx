@@ -11,6 +11,7 @@ import MandalArt from '@/components/common/MandalArt/MandalArt';
 import Margin from '@/components/common/Margin';
 import MeetCard from '@/components/common/MeetCard';
 import { platte } from '@/styles/platte';
+import { getItem, removeItem } from '@/utils/AsyncStorage';
 import { RootStackParam } from '@/utils/RootStackParam';
 import ThemeSelector from '@/utils/ThemeSelector';
 import { interestType, interestTypeToKorean } from '@/utils/Translates';
@@ -52,7 +53,7 @@ const Group = () => {
       .then((res) => {
         setResult(res.data);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const Group = () => {
       .then((res) => {
         setDetailData(res.data);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [detailNumber]);
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const Group = () => {
       .then((res) => {
         setReviewList(res.data);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [detailNumber]);
 
   const onSubmit = (data: any) => {
@@ -107,7 +108,13 @@ const Group = () => {
             title="+ 새 모임 만들기"
             size="M"
             color="Black"
-            onPress={() => navigation.navigate('Group', { screen: 'CreateGroup' })}
+            onPress={async () => {
+              const type = await getItem('groupType');
+              const dataJSON = await getItem('groupData');
+              if (type) removeItem('groupType');
+              if (dataJSON) removeItem('groupData');
+              navigation.navigate('Group', { screen: 'CreateGroup' });
+            }}
           />
           <Text style={styles.recommendText}>추천 모임</Text>
           <FlatList

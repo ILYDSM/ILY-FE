@@ -71,11 +71,11 @@ const CreateGroup = () => {
     if(dataJSON) {
       const data: ViewDetailResponse = JSON.parse(dataJSON);
       setValue('title', data.title);
-      setValue('content', data.explain);
-      setCategories(data.division);
-      setMeetId(data.meetId.toString())
+      setValue('content', data.meet_content);
+      setCategories(data.type);
+      setMeetId(data.meet_id.toString())
       if(Number(data.personnel) < 9999) {
-        setValue('personnel', data.personnel);
+        setValue('personnel', `${data.personnel || 0}`);
         setIsLimit(true);
       }
     }

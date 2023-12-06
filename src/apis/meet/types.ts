@@ -20,7 +20,7 @@ interface ViewDetailResponse {
   title: string;
   meet_content: string;
   type: InterestEnglishType[];
-  personnel: string;
+  personnel: null | string;
   participant: string;
   target_content: string;
   cycle_count: null | number;

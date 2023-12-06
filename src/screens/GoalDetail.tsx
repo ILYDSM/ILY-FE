@@ -170,7 +170,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
           .catch((err) => console.log('모임 만다라트를 불러올 수 없음:\n', err));
         viewDetailGroup(idList[1])
           .then((res) => {
-            console.log('모임 정보', res.data);
+            console.log('모임 정보', res.data.personnel);
             setMeedData(res.data);
           })
           .catch((err) => console.log('모임 정보을 불러올 수 없음\n', err));
@@ -199,7 +199,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
             <Users size={20} color={platte.gray80} />
             <Text style={{ color: platte.gray80 }}>
               {meetData.participant}명이 함께하는 중{' '}
-              {+meetData.personnel < 99999 && `(최대 ${meetData.personnel}명 중)`}
+              {meetData.personnel && `(최대 ${meetData.personnel}명 중)`}
             </Text>
           </View>
           <ViewAll
@@ -215,6 +215,7 @@ export default function GoalDetailScreen({ route }: { route: any }) {
         </View>
         <ManageGroupModal
           groupInfo={{
+            meetId: meetData.meet_id,
             title: meetData.title,
             descripton: meetData.meet_content,
             tags: meetData.type,
@@ -299,6 +300,7 @@ interface ModalType {
 
 interface ManageGroupModalType extends ModalType {
   groupInfo: {
+    meetId: number;
     title: string;
     descripton: string;
     tags: string[];
@@ -340,7 +342,7 @@ function ManageGroupModal({
         <CustomButton
           title="참가 신청 목록"
           onPress={() => {
-            navigation.navigate('Goal', { screen: 'GoalJoinRequest' });
+            navigation.navigate('Goal', { screen: 'GoalJoinRequest', params: { meet_id: groupInfo.meetId } });
           }}
         />
         <CustomButton title="목표 수정" onPress={onEditMandal} />
